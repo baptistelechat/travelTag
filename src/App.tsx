@@ -1,5 +1,6 @@
 import { TravelForm } from "@/components/TravelForm";
 import { QRCodeCard } from "./components/QRCodeCard";
+import { QRCodeGrid } from "./components/QRCodeGrid";
 
 function App() {
   return (
@@ -16,6 +17,22 @@ function App() {
         <div className="flex flex-col md:flex-row gap-6 justify-center mb-8">
           <TravelForm />
           <QRCodeCard />
+        </div>
+        {/* Conteneur de la grille de QR codes pour l'impression */}
+        <div
+          id="print-grid-container"
+          className="hidden print-grid-container"
+          style={{
+            visibility: "hidden",
+            display: "none",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <QRCodeGrid />
         </div>
       </main>
 

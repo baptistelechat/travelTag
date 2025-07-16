@@ -26,9 +26,8 @@ export function TravelForm() {
 
   // Mise à jour du store à chaque changement validé
   const handleFieldChange = (field: keyof TravelInfo, value: string) => {
-    if (value.trim() !== "") {
-      updateTravelInfo({ [field]: value });
-    }
+    // Mettre à jour le store même lorsque la valeur est vide
+    updateTravelInfo({ [field]: value });
   };
 
   return (

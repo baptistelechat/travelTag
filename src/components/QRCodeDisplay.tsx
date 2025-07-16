@@ -32,7 +32,14 @@ export function QRCodeDisplay() {
           </div>
         )}
 
-        <QRCode value={qrCodeData} size={200} level="M" className="mx-auto" />
+        <QRCode
+          value={qrCodeData}
+          size={300}
+          level="M"
+          className="mx-auto"
+          bgColor="#FFFFFF"
+          fgColor="#000000"
+        />
 
         <div className="text-xs text-gray-500 mt-4 text-center">
           https://traveltag.vercel.app/
