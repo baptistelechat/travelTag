@@ -25,7 +25,7 @@ export function QRCodeDisplay() {
       id="qrcode-display"
       className="bg-white p-4 rounded-lg border border-gray-200"
     >
-      <div className="border border-dashed border-gray-300 p-6 flex flex-col items-center">
+      <div className="p-6 flex flex-col items-center">
         {(travelInfo.firstName || travelInfo.lastName) && (
           <div className="text-center mb-4 font-medium">
             {travelInfo.firstName} {travelInfo.lastName}

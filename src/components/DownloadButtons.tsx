@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useTravelTagStore } from "@/lib/store";
 import { toPng } from "html-to-image";
-import { Download } from "lucide-react";
-
-
+import { Download, Printer } from "lucide-react";
 
 export function DownloadButtons() {
   const { travelInfo } = useTravelTagStore();
@@ -46,13 +44,21 @@ export function DownloadButtons() {
     }
   };
 
-
+  // Fonction pour imprimer le QR code
+  const printQRCode = () => {
+    window.print();
+  };
 
   return (
-    <div className="flex">
-      <Button onClick={downloadAsPNG} className="w-full">
+    <div className="flex flex-col sm:flex-row gap-2">
+      <Button onClick={downloadAsPNG} className="flex-1">
         <Download className="mr-2 h-4 w-4" />
         Télécharger PNG
+      </Button>
+
+      <Button onClick={printQRCode} className="flex-1" variant="outline">
+        <Printer className="mr-2 h-4 w-4" />
+        Imprimer
       </Button>
     </div>
   );

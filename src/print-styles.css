@@ -1,0 +1,56 @@
+/* Styles spécifiques pour l'impression */
+@media print {
+  /* Masquer tous les éléments par défaut */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Configuration de la page A4 */
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  /* Rendre visible uniquement le QR code et ses conteneurs parents */
+  #qrcode-display,
+  #qrcode-display * {
+    visibility: visible !important;
+  }
+
+  /* Centrer le QR code sur la page */
+  #qrcode-display {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  /* Styles pour le conteneur sans bordure en pointillés */
+  #qrcode-display .border-dashed {
+    border: none !important;
+    padding: 20px !important;
+  }
+
+  /* Assurer que le SVG du QR code a une taille fixe */
+  #qrcode-display svg {
+    width: 200px !important;
+    height: 200px !important;
+    display: block !important;
+    margin: 0 auto !important;
+  }
+
+  /* Styles pour le texte */
+  #qrcode-display .text-center,
+  #qrcode-display .text-xs,
+  #qrcode-display .text-gray-500,
+  #qrcode-display .font-medium {
+    color: black !important;
+    margin: 10px 0 !important;
+    text-align: center !important;
+  }
+}
