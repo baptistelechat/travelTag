@@ -4,7 +4,7 @@ import { toPng } from 'html-to-image';
 import { useTravelTagStore } from '@/lib/store';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
+import { Download, QrCode } from 'lucide-react';
 
 export function QRCodePreview() {
   const { travelInfo, qrCodeSize } = useTravelTagStore();
@@ -32,7 +32,10 @@ export function QRCodePreview() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle className="text-xl font-bold">Aperçu du QR Code</CardTitle>
+        <CardTitle className="text-xl font-bold flex items-center gap-2">
+          <QrCode className="h-5 w-5" />
+          Aperçu du QR Code
+        </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col items-center space-y-4">
         <div 

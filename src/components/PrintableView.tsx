@@ -1,9 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTravelTagStore } from "@/lib/store";
-import { Document, Page, PDFDownloadLink, StyleSheet, Text, View } from "@react-pdf/renderer";
+import {
+  Document,
+  Page,
+  PDFDownloadLink,
+  StyleSheet,
+  Text,
+  View,
+} from "@react-pdf/renderer";
 import { toPng } from "html-to-image";
-import { Download, Grid3X3, Printer } from "lucide-react";
+import { Download, FileOutput, Grid3X3, Printer } from "lucide-react";
 import { useRef } from "react";
 import QRCode from "react-qr-code";
 
@@ -119,7 +126,10 @@ export function PrintableView() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle className="text-xl font-bold">Version imprimable</CardTitle>
+        <CardTitle className="text-xl font-bold flex items-center gap-2">
+          <FileOutput className="h-5 w-5" />
+          Version imprimable
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Boutons de mode d'affichage */}

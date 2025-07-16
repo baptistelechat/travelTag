@@ -3,7 +3,6 @@ import { type TravelInfo, travelInfoSchema } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
@@ -15,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { User } from "lucide-react";
 
 export function TravelForm() {
   const { travelInfo, updateTravelInfo } = useTravelTagStore();
@@ -23,10 +23,6 @@ export function TravelForm() {
     resolver: zodResolver(travelInfoSchema),
     defaultValues: travelInfo,
   });
-
-  function onSubmit(data: TravelInfo) {
-    updateTravelInfo(data);
-  }
 
   // Mise à jour du store à chaque changement validé
   const handleFieldChange = (field: keyof TravelInfo, value: string) => {
@@ -38,13 +34,14 @@ export function TravelForm() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle className="text-xl font-bold">
+        <CardTitle className="text-xl font-bold flex items-center gap-2">
+          <User className="h-5 w-5" />
           Informations de voyage
         </CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -194,10 +191,6 @@ export function TravelForm() {
                 </FormItem>
               )}
             />
-
-            <Button type="submit" className="w-full">
-              Valider
-            </Button>
           </form>
         </Form>
       </CardContent>

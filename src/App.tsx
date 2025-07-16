@@ -2,7 +2,7 @@ import { PrintableView } from "@/components/PrintableView";
 import { QRCodePreview } from "@/components/QRCodePreview";
 import { TravelForm } from "@/components/TravelForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Luggage, Printer, QrCode } from "lucide-react";
+import { ClipboardList, Printer } from "lucide-react";
 
 function App() {
   return (
@@ -17,14 +17,10 @@ function App() {
 
       <main className="max-w-5xl mx-auto">
         <Tabs defaultValue="form" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
+          <TabsList className="grid w-full grid-cols-2 mb-8">
             <TabsTrigger value="form" className="flex items-center gap-2">
-              <Luggage className="h-4 w-4" />
-              Informations
-            </TabsTrigger>
-            <TabsTrigger value="preview" className="flex items-center gap-2">
-              <QrCode className="h-4 w-4" />
-              Aperçu QR Code
+              <ClipboardList className="h-4 w-4" />
+              Informations & Aperçu
             </TabsTrigger>
             <TabsTrigger value="print" className="flex items-center gap-2">
               <Printer className="h-4 w-4" />
@@ -32,11 +28,11 @@ function App() {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="form" className="flex justify-center">
+          <TabsContent
+            value="form"
+            className="flex flex-col md:flex-row gap-6 justify-center"
+          >
             <TravelForm />
-          </TabsContent>
-
-          <TabsContent value="preview" className="flex justify-center">
             <QRCodePreview />
           </TabsContent>
 
