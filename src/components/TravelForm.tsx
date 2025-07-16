@@ -108,17 +108,17 @@ export function TravelForm() {
 
             <FormField
               control={form.control}
-              name="departureAirport"
+              name="departureLocation"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Aéroport/gare de départ</FormLabel>
+                  <FormLabel>Lieu de départ</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Paris CDG"
+                      placeholder="Paris CDG, Gare de Lyon, etc."
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
-                        handleFieldChange("departureAirport", e.target.value);
+                        handleFieldChange("departureLocation", e.target.value);
                       }}
                     />
                   </FormControl>
@@ -129,17 +129,17 @@ export function TravelForm() {
 
             <FormField
               control={form.control}
-              name="arrivalAirport"
+              name="arrivalLocation"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Aéroport/gare d'arrivée</FormLabel>
+                  <FormLabel>Lieu d'arrivée</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="New York JFK"
+                      placeholder="New York JFK, Gare du Nord, etc."
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
-                        handleFieldChange("arrivalAirport", e.target.value);
+                        handleFieldChange("arrivalLocation", e.target.value);
                       }}
                     />
                   </FormControl>

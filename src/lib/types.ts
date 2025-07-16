@@ -12,12 +12,12 @@ export const travelInfoSchema = z.object({
     .regex(/^\+?[0-9\s]+$/, {
       message: "Format de téléphone invalide",
     }),
-  departureAirport: z
+  departureLocation: z
     .string()
-    .min(1, { message: "L'aéroport/gare de départ est requis" }),
-  arrivalAirport: z
+    .min(1, { message: "Le lieu de départ est requis" }),
+  arrivalLocation: z
     .string()
-    .min(1, { message: "L'aéroport/gare d'arrivée est requis" }),
+    .min(1, { message: "Le lieu d'arrivée est requis" }),
   healthInfo: z.string().optional(),
   additionalInfo: z.string().optional(),
 });
@@ -30,8 +30,8 @@ export const initialTravelInfo: TravelInfo = {
   firstName: "",
   lastName: "",
   phone: "",
-  departureAirport: "",
-  arrivalAirport: "",
+  departureLocation: "",
+  arrivalLocation: "",
   healthInfo: "",
   additionalInfo: "",
 };

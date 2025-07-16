@@ -5,20 +5,17 @@ interface TravelTagStore {
   // État
   travelInfo: TravelInfo;
   qrCodeSize: number;
-  downloadMode: "single" | "grid";
 
   // Actions
   updateTravelInfo: (info: Partial<TravelInfo>) => void;
   resetTravelInfo: () => void;
   setQrCodeSize: (size: number) => void;
-  setDownloadMode: (mode: "single" | "grid") => void;
 }
 
 export const useTravelTagStore = create<TravelTagStore>((set) => ({
   // État initial
   travelInfo: initialTravelInfo,
   qrCodeSize: 200,
-  downloadMode: "single",
 
   // Actions
   updateTravelInfo: (info) =>
@@ -34,10 +31,5 @@ export const useTravelTagStore = create<TravelTagStore>((set) => ({
   setQrCodeSize: (size) =>
     set({
       qrCodeSize: size,
-    }),
-
-  setDownloadMode: (mode) =>
-    set({
-      downloadMode: mode,
     }),
 }));

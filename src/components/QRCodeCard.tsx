@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { QrCode } from "lucide-react";
 import { DownloadButtons } from "./DownloadButtons";
 import { QRCodeDisplay } from "./QRCodeDisplay";
-import { ToggleButtons } from "./ToggleButtons";
 
 export function QRCodeCard() {
   return (
@@ -14,8 +13,7 @@ export function QRCodeCard() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <ToggleButtons />
-        <div className="mt-4">
+        <div>
           <QRCodeDisplay />
         </div>
         <div className="mt-4">
