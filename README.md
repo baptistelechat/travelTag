@@ -2,6 +2,8 @@
 
 TravelTag est une application web permettant de générer des QR codes contenant des informations personnelles à imprimer et coller sur des bagages, sacs à dos, affaires d'enfants, etc. Pensé pour un usage personnel, il vise à devenir un outil public simple, offline et rassurant.
 
+> **Note de développement** : L'export PDF a été temporairement désactivé en raison de problèmes de compatibilité avec la version actuelle de React. Il sera réactivé dans une prochaine mise à jour.
+
 ## 🚀 Fonctionnalités
 
 - Formulaire d'informations personnelles avec validation
