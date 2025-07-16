@@ -6,9 +6,9 @@ function App() {
     <div className="min-h-svh bg-gray-50 py-8 px-4">
       <header className="max-w-5xl mx-auto mb-8 text-center">
         <h1 className="text-3xl font-bold mb-2">🧳 TravelTag</h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
+        <p className="text-gray-600 mx-auto">
           Générez des QR codes pour vos bagages, sacs à dos, ou affaires
-          d'enfants. Simple, sécurisé et fonctionne hors ligne.
+          d'enfants. Simple, rapide et sécurisé.
         </p>
       </header>
 
@@ -21,8 +21,8 @@ function App() {
 
       <footer className="max-w-5xl mx-auto mt-12 text-center text-sm text-gray-500">
         <p>
-          © TravelTag.app - Fonctionne 100% en local, aucune donnée n'est
-          envoyée sur Internet.
+          © TravelTag - Fonctionne 100% en local, aucune donnée n'est envoyée
+          sur Internet.
         </p>
       </footer>
     </div>
