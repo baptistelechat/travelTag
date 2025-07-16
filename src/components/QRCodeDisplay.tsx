@@ -6,8 +6,18 @@ export function QRCodeDisplay() {
   const { travelInfo } = useTravelTagStore();
   const displayRef = useRef<HTMLDivElement>(null);
 
-  // Création du contenu JSON pour le QR code
-  const qrCodeData = JSON.stringify(travelInfo);
+  // Création du contenu formaté pour le QR code sans accents dans les libellés
+  const qrCodeData = [
+    `Nom: ${travelInfo.lastName || "-"}`,
+    `Prenom: ${travelInfo.firstName || "-"}`,
+    `Telephone: ${travelInfo.phone || "-"}`,
+    `Depart: ${travelInfo.departureLocation || "-"}`,
+    `Arrivee: ${travelInfo.arrivalLocation || "-"}`,
+    travelInfo.healthInfo ? `Sante: ${travelInfo.healthInfo}` : null,
+    travelInfo.additionalInfo ? `Infos: ${travelInfo.additionalInfo}` : null,
+  ]
+    .filter(Boolean)
+    .join("\n");
 
   return (
     <div
@@ -22,12 +32,7 @@ export function QRCodeDisplay() {
           </div>
         )}
 
-        <QRCode
-          value={qrCodeData}
-          size={200}
-          level="M"
-          className="mx-auto"
-        />
+        <QRCode value={qrCodeData} size={200} level="M" className="mx-auto" />
 
         <div className="text-xs text-gray-500 mt-4 text-center">
           TravelTag.app

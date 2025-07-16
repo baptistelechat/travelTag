@@ -41,21 +41,42 @@ const styles = StyleSheet.create({
 });
 
 // Composant PDF pour le QR code
-const QRCodePDF = ({ travelInfo }: { travelInfo: any }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.singleView}>
-        <Text style={styles.nameText}>
-          {travelInfo.firstName} {travelInfo.lastName}
-        </Text>
-        {/* Note: React-PDF ne peut pas rendre directement des composants React comme QRCode */}
-        {/* À la place, nous utilisons un placeholder et l'image sera ajoutée manuellement */}
-        <View style={{ width: 200, height: 200, backgroundColor: "#f0f0f0" }} />
-        <Text style={styles.footerText}>TravelTag.app</Text>
-      </View>
-    </Page>
-  </Document>
-);
+const QRCodePDF = ({ travelInfo }: { travelInfo: any }) => {
+  // Création du contenu formaté pour le QR code sans accents dans les libellés
+  const qrCodeData = [
+    `Nom: ${travelInfo.lastName || '-'}`,
+    `Prenom: ${travelInfo.firstName || '-'}`,
+    `Telephone: ${travelInfo.phone || '-'}`,
+    `Depart: ${travelInfo.departureLocation || '-'}`,
+    `Arrivee: ${travelInfo.arrivalLocation || '-'}`,
+    travelInfo.healthInfo ? `Sante: ${travelInfo.healthInfo}` : null,
+    travelInfo.additionalInfo ? `Infos: ${travelInfo.additionalInfo}` : null,
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.singleView}>
+          <Text style={styles.nameText}>
+            {travelInfo.firstName} {travelInfo.lastName}
+          </Text>
+          {/* Note: React-PDF ne peut pas rendre directement des composants React comme QRCode */}
+          {/* À la place, nous utilisons un placeholder et l'image sera ajoutée manuellement */}
+          <View style={{ width: 200, height: 200, backgroundColor: "#f0f0f0" }} />
+          
+          {/* Informations formatées sous le QR code */}
+          <View style={{ marginTop: 10, width: '100%' }}>
+            <Text style={{ fontSize: 8, marginBottom: 5 }}>{qrCodeData}</Text>
+          </View>
+          
+          <Text style={styles.footerText}>TravelTag.app</Text>
+        </View>
+      </Page>
+    </Document>
+  );
+};
 
 
 
