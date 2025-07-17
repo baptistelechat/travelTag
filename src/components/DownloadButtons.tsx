@@ -64,6 +64,12 @@ export function DownloadButtons() {
 
   // Fonction pour imprimer le QR code
   const printQRCode = () => {
+    // Afficher l'overlay avec effet de flou
+    const overlay = document.getElementById("print-overlay");
+    if (overlay && hasData(travelInfo)) {
+      overlay.classList.add("print-overlay-visible");
+    }
+
     // Nettoyer les classes d'impression précédentes
     document.body.classList.remove("print-single", "print-grid");
     document.documentElement.classList.remove("print-mode");
@@ -110,6 +116,12 @@ export function DownloadButtons() {
         // Supprimer les classes d'impression
         document.body.classList.remove("print-single", "print-grid");
         document.documentElement.classList.remove("print-mode");
+        
+        // Masquer l'overlay avec effet de flou
+        const overlay = document.getElementById("print-overlay");
+        if (overlay) {
+          overlay.classList.remove("print-overlay-visible");
+        }
       }, 500);
     }, 300);
   };

@@ -9,6 +9,8 @@ function App() {
   
   return (
     <div className="min-h-svh bg-gray-50 py-8 px-4">
+      {/* Overlay avec effet de flou pour l'impression */}
+      <div id="print-overlay" className="print-overlay"></div>
       <header className="max-w-5xl mx-auto mb-8 text-center">
         <h1 className="text-3xl font-bold mb-2">🧳 TravelTag</h1>
         <p className="text-gray-600 mx-auto">
