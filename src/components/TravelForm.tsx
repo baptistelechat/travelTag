@@ -149,7 +149,7 @@ export function TravelForm() {
                           <FormLabel>Téléphone</FormLabel>
                           <FormControl>
                             <PhoneInput
-                              placeholder="+33 6 12 34 56 78"
+                              placeholder="06 12 34 56 78"
                               defaultCountry="FR"
                               international={false}
                               value={field.value as PhoneInputValue}
@@ -159,6 +159,28 @@ export function TravelForm() {
                                   "phone",
                                   value?.toString() || ""
                                 );
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="email"
+                              placeholder="exemple@email.com"
+                              {...field}
+                              onChange={(e) => {
+                                field.onChange(e);
+                                handleFieldChange("email", e.target.value);
                               }}
                             />
                           </FormControl>

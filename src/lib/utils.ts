@@ -48,6 +48,7 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
         : "-"
     }`,
     `Telephone: ${travelInfo.phone || "-"}`,
+    `Email: ${travelInfo.email || "-"}`,
     `Depart: ${travelInfo.departureLocation || "-"}`,
     `Arrivee: ${travelInfo.arrivalLocation || "-"}`,
   ];
