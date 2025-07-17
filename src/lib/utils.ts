@@ -36,8 +36,8 @@ export function hasData(travelInfo: TravelInfo): boolean {
 export function formatQRCodeData(travelInfo: TravelInfo): string[] {
   // Création du contenu formaté pour le QR code sans accents dans les libellés
   const qrCodeData = [
-    `Nom: ${travelInfo.lastName || "-"}`,
     `Prenom: ${travelInfo.firstName || "-"}`,
+    `Nom: ${travelInfo.lastName || "-"}`,
     `Telephone: ${travelInfo.phone || "-"}`,
     `Depart: ${travelInfo.departureLocation || "-"}`,
     `Arrivee: ${travelInfo.arrivalLocation || "-"}`,

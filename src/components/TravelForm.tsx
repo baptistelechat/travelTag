@@ -13,8 +13,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { Textarea } from "@/components/ui/textarea";
 import { User } from "lucide-react";
+import type { Value as PhoneInputValue } from "react-phone-number-input";
 
 export function TravelForm() {
   const { travelInfo, updateTravelInfo } = useTravelTagStore();
@@ -91,12 +93,14 @@ export function TravelForm() {
                 <FormItem>
                   <FormLabel>Téléphone</FormLabel>
                   <FormControl>
-                    <Input
+                    <PhoneInput
                       placeholder="+33 6 12 34 56 78"
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        handleFieldChange("phone", e.target.value);
+                      defaultCountry="FR"
+                      international={false}
+                      value={field.value as PhoneInputValue}
+                      onChange={(value) => {
+                        field.onChange(value);
+                        handleFieldChange("phone", value?.toString() || "");
                       }}
                     />
                   </FormControl>
