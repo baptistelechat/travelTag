@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
+import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { FileText, Heart, Map, User } from "lucide-react";
 import { useState } from "react";
@@ -31,7 +32,9 @@ import type {
 
 export function TravelForm() {
   const { travelInfo, updateTravelInfo } = useTravelTagStore();
-  const [accordionValue, setAccordionValue] = useState<string[]>(["personal-info"]);
+  const [accordionValue, setAccordionValue] = useState<string[]>([
+    "personal-info",
+  ]);
 
   const form = useForm<TravelInfo>({
     resolver: zodResolver(travelInfoSchema),
@@ -140,6 +143,130 @@ export function TravelForm() {
                         </FormItem>
                       )}
                     />
+
+                    <Separator className="my-4" />
+
+                    {/* Adresse postale */}
+                    <div className="pt-2 pb-1">
+                      <h3 className="text-sm font-medium">Adresse postale</h3>
+                    </div>
+
+                    <FormField
+                      control={form.control}
+                      name="street"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Rue</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="123 rue de la Paix"
+                              {...field}
+                              onChange={(e) => {
+                                field.onChange(e);
+                                handleFieldChange("street", e.target.value);
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="addressDetails"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Compléments d'adresse</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Bâtiment A, Étage 3, Appartement 42"
+                              {...field}
+                              onChange={(e) => {
+                                field.onChange(e);
+                                handleFieldChange(
+                                  "addressDetails",
+                                  e.target.value
+                                );
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="postalCode"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Code postal</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="75000"
+                                {...field}
+                                onChange={(e) => {
+                                  field.onChange(e);
+                                  handleFieldChange(
+                                    "postalCode",
+                                    e.target.value
+                                  );
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="city"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Ville</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Paris"
+                                {...field}
+                                onChange={(e) => {
+                                  field.onChange(e);
+                                  handleFieldChange("city", e.target.value);
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <FormField
+                      control={form.control}
+                      name="country"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Pays</FormLabel>
+                          <FormControl>
+                            <CountrySelect
+                              defaultCountry="FR"
+                              value={field.value as Country}
+                              onChange={(value) => {
+                                field.onChange(value);
+                                handleFieldChange(
+                                  "country",
+                                  value?.toString() || "FR"
+                                );
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <Separator className="my-4" />
 
                     <FormField
                       control={form.control}

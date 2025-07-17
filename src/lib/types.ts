@@ -5,6 +5,11 @@ export const travelInfoSchema = z.object({
   firstName: z.string().min(1, { message: "Le prénom est requis" }),
   lastName: z.string().min(1, { message: "Le nom est requis" }),
   nationality: z.string().min(1, { message: "La nationalité est requise" }),
+  street: z.string().optional(),
+  addressDetails: z.string().optional(),
+  city: z.string().optional(),
+  postalCode: z.string().optional(),
+  country: z.string().optional(),
   phone: z
     .string()
     .min(10, {
@@ -13,10 +18,7 @@ export const travelInfoSchema = z.object({
     .regex(/^\+?[0-9\s]+$/, {
       message: "Format de téléphone invalide",
     }),
-  email: z
-    .string()
-    .email({ message: "Format d'email invalide" })
-    .optional(),
+  email: z.string().email({ message: "Format d'email invalide" }),
   departureLocation: z
     .string()
     .min(1, { message: "Le lieu de départ est requis" }),
@@ -35,6 +37,11 @@ export const initialTravelInfo: TravelInfo = {
   firstName: "",
   lastName: "",
   nationality: "FR",
+  street: "",
+  city: "",
+  postalCode: "",
+  country: "FR",
+  addressDetails: "",
   phone: "",
   email: "",
   departureLocation: "",

@@ -2,14 +2,10 @@ import * as React from "react";
 import * as RPNInput from "react-phone-number-input";
 import fr from "react-phone-number-input/locale/fr.json";
 
-import {
-  CountrySelector,
-  type CountryEntry,
-} from "@/components/ui/country/country-selector";
-import { FlagComponent } from "@/components/ui/country/flag-component";
-
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { type CountryEntry, CountrySelector } from "./country/country-selector";
+import { FlagComponent } from "./country/flag-component";
 
 type PhoneInputProps = Omit<
   React.ComponentProps<"input">,
@@ -83,7 +79,7 @@ const CountrySelect = ({
       options={countryList}
       onChange={onChange}
       buttonClassName="flex gap-1 rounded-e-none rounded-s-md border-r-0 px-3 focus:z-10"
-      showCallingCode={false}
+      showCallingCode={true}
     />
   );
 };

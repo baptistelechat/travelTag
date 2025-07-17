@@ -11,6 +11,25 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
+ * Normalise une chaîne de caractères en remplaçant les caractères accentués
+ * par leurs équivalents sans accent pour une meilleure compatibilité avec les lecteurs de QR code
+ */
+export function normalizeString(str: string): string {
+  if (!str) return str;
+  
+  // Utilisation de la normalisation Unicode pour décomposer les caractères accentués
+  // puis suppression des marques diacritiques (accents, cédilles, etc.)
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // Supprime les marques diacritiques
+    .replace(/[œŒ]/g, 'oe') // Remplace œ par oe
+    .replace(/[æÆ]/g, 'ae') // Remplace æ par ae
+    .replace(/[ÿŸ]/g, 'y') // Remplace ÿ par y
+    .replace(/[\u2018\u2019]/g, "'") // Remplace les guillemets courbes par des apostrophes droites
+    .replace(/[\u201C\u201D]/g, '"'); // Remplace les guillemets courbes par des guillemets droits
+}
+
+/**
  * Vérifie si au moins un champ de TravelInfo est rempli
  * Donne la priorité au nom et prénom
  */
@@ -38,29 +57,55 @@ export function hasData(travelInfo: TravelInfo): boolean {
 export function formatQRCodeData(travelInfo: TravelInfo): string[] {
   // Création du contenu formaté pour le QR code sans accents dans les libellés
   const qrCodeData = [
-    `Prenom: ${travelInfo.firstName || "-"}`,
-    `Nom: ${travelInfo.lastName || "-"}`,
+    `Prenom: ${normalizeString(travelInfo.firstName) || "-"}`,
+    `Nom: ${normalizeString(travelInfo.lastName) || "-"}`,
     `Nationalite: ${
       travelInfo.nationality
-        ? ` ${getCountryName(travelInfo.nationality as Country)} (${
+        ? ` ${normalizeString(getCountryName(travelInfo.nationality as Country))} (${
             travelInfo.nationality
           })`
         : "-"
     }`,
-    `Telephone: ${travelInfo.phone || "-"}`,
-    `Email: ${travelInfo.email || "-"}`,
-    `Depart: ${travelInfo.departureLocation || "-"}`,
-    `Arrivee: ${travelInfo.arrivalLocation || "-"}`,
   ];
+
+  // Ajouter l'adresse postale si au moins un champ est rempli
+  if (
+    travelInfo.street ||
+    travelInfo.addressDetails ||
+    travelInfo.city ||
+    travelInfo.postalCode ||
+    travelInfo.country
+  ) {
+    const addressParts = [];
+    if (travelInfo.street) addressParts.push(normalizeString(travelInfo.street));
+    if (travelInfo.addressDetails) addressParts.push(normalizeString(travelInfo.addressDetails));
+    if (travelInfo.postalCode || travelInfo.city) {
+      addressParts.push(
+        `${normalizeString(travelInfo.postalCode || "")} ${normalizeString(travelInfo.city || "")}`.trim()
+      );
+    }
+    if (travelInfo.country && travelInfo.country !== travelInfo.nationality) {
+      addressParts.push(normalizeString(getCountryName(travelInfo.country as Country)));
+    }
+    qrCodeData.push(`Adresse: ${addressParts.join(", ") || "-"}`);
+  }
+
+  // Ajouter les autres informations
+  qrCodeData.push(
+    `Telephone: ${normalizeString(travelInfo.phone) || "-"}`,
+    `Email: ${normalizeString(travelInfo.email) || "-"}`,
+    `Depart: ${normalizeString(travelInfo.departureLocation) || "-"}`,
+    `Arrivee: ${normalizeString(travelInfo.arrivalLocation) || "-"}`
+  );
 
   // Ajouter les informations optionnelles seulement si elles sont présentes
   // Utiliser la même logique que dans les composants originaux
   if (travelInfo.healthInfo) {
-    qrCodeData.push(`Sante: ${travelInfo.healthInfo}`);
+    qrCodeData.push(`Sante: ${normalizeString(travelInfo.healthInfo)}`);
   }
 
   if (travelInfo.additionalInfo) {
-    qrCodeData.push(`Infos: ${travelInfo.additionalInfo}`);
+    qrCodeData.push(`Infos: ${normalizeString(travelInfo.additionalInfo)}`);
   }
 
   return qrCodeData;
