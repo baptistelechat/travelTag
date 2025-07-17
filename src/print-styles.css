@@ -122,7 +122,9 @@
     left: 0;
     width: 210mm; /* Largeur A4 */
     height: 297mm; /* Hauteur A4 */
-    padding: 10mm; /* Marge intérieure */
+    padding: 5mm; /* Marge intérieure réduite pour donner plus d'espace à la grille */
+    padding-top: 3mm; /* Réduction du padding en haut pour donner plus d'espace à la grille */
+    padding-bottom: 3mm; /* Réduction du padding en bas pour donner plus d'espace à la grille */
     box-sizing: border-box;
     background-color: white !important;
     z-index: 9999 !important;
@@ -134,9 +136,8 @@
   /* Conteneur de la grille */
   body.print-grid .grid-container {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important; /* 2 colonnes */
-    grid-template-rows: repeat(3, 1fr) !important; /* 3 lignes */
-    gap: 5mm !important; /* Espacement entre les éléments */
+    /* Les colonnes et lignes sont définies dynamiquement par le style inline dans QRCodeGrid.tsx */
+    gap: 2mm !important; /* Espacement encore plus réduit entre les éléments pour éviter les coupures */
     width: 100% !important;
     height: 100% !important;
     background-color: white !important;
@@ -150,11 +151,16 @@
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 5mm !important;
+    padding: 2mm !important; /* Réduction du padding pour donner plus d'espace au contenu */
+    padding-top: 3mm !important; /* Padding supplémentaire en haut pour éviter que le nom ne soit coupé */
+    padding-bottom: 3mm !important; /* Padding supplémentaire en bas pour éviter que l'URL ne soit coupée */
     background-color: white !important;
     visibility: visible !important;
     page-break-inside: avoid !important;
     box-sizing: border-box !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
   }
 
   /* Contenu du QR code */
@@ -169,13 +175,16 @@
     visibility: visible !important;
   }
 
-  /* Nom au-dessus du QR code */
+  /* Nom au-dessus du QR code - taille adaptative selon la configuration de la grille */
   body.print-grid .qrcode-name {
     font-weight: 500 !important;
-    margin-bottom: 3mm !important;
+    /* Marges adaptatives basées sur la configuration de la grille */
+    margin-top: calc(1mm + (2mm - 1mm) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)) !important;
+    margin-bottom: calc(1mm + (3mm - 1mm) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)) !important;
     text-align: center !important;
     color: black !important;
-    font-size: 12pt !important;
+    /* Taille de police adaptative basée sur le nombre de colonnes et de lignes */
+    font-size: calc(10pt + (14pt - 10pt) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)) !important;
   }
 
   /* Conteneur du SVG du QR code */
@@ -194,8 +203,9 @@
   body.print-grid .qrcode-svg-container svg {
     width: 100% !important;
     height: auto !important;
-    max-width: 60mm !important; /* Taille maximale adaptée à l'espace disponible */
-    max-height: 60mm !important;
+    /* Ajuster la taille maximale en fonction du nombre de colonnes et de lignes */
+    max-width: calc((200mm / var(--grid-cols)) - 5mm) !important;
+    max-height: calc((287mm / var(--grid-rows)) - 10mm) !important;
     display: block !important;
     margin: 0 auto !important;
     background-color: white !important;
@@ -203,11 +213,14 @@
     visibility: visible !important;
   }
 
-  /* URL sous le QR code */
+  /* URL sous le QR code - taille adaptative selon la configuration de la grille */
   body.print-grid .qrcode-url {
-    font-size: 8pt !important;
+    /* Taille de police adaptative basée sur le nombre de colonnes et de lignes */
+    font-size: calc(7pt + (10pt - 7pt) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)) !important;
     color: black !important;
-    margin-top: 3mm !important;
+    /* Marge adaptative basée sur la configuration de la grille */
+    margin-top: calc(1mm + (3mm - 1mm) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)) !important;
+    margin-bottom: 1mm !important; /* Marge en bas pour éviter que le texte ne soit coupé */
     text-align: center !important;
   }
 

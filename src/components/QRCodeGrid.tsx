@@ -4,13 +4,14 @@ import QRCode from "react-qr-code";
 /**
  * Composant QRCodeGrid
  *
- * Ce composant génère une grille de 6 QR codes (2 colonnes x 3 lignes) pour l'impression.
+ * Ce composant génère une grille dynamique de QR codes pour l'impression.
+ * Le nombre de lignes et de colonnes est configurable via gridConfig dans le store.
  * Il n'est pas affiché dans l'interface utilisateur normale, mais uniquement lors de l'impression
  * en mode grille. Les QR codes sont générés à partir des informations de voyage saisies par
  * l'utilisateur et sont dimensionnés pour utiliser efficacement l'espace d'une page A4.
  */
 export function QRCodeGrid() {
-  const { travelInfo } = useTravelTagStore();
+  const { travelInfo, gridConfig } = useTravelTagStore();
 
   // Création du contenu formaté pour le QR code sans accents dans les libellés
   const qrCodeData = [
@@ -25,13 +26,22 @@ export function QRCodeGrid() {
     .filter(Boolean)
     .join("\n");
 
-  // Créer un tableau de 6 QR codes (2 colonnes x 3 lignes)
-  const qrCodes = Array(6).fill(null);
+  // Créer un tableau de QR codes basé sur la configuration de la grille
+  const totalQRCodes = gridConfig.rows * gridConfig.cols;
+  const qrCodes = Array(totalQRCodes).fill(null);
 
   return (
     <div id="qrcode-grid" className="qrcode-grid-container">
       
-        <div className="grid-container">
+        <div 
+          className="grid-container" 
+          style={{
+            gridTemplateColumns: `repeat(${gridConfig.cols}, 1fr)`,
+            gridTemplateRows: `repeat(${gridConfig.rows}, 1fr)`,
+            '--grid-cols': gridConfig.cols,
+            '--grid-rows': gridConfig.rows
+          } as React.CSSProperties}
+        >
           {qrCodes.map((_, index) => (
             <div key={index} className="qrcode-item">
               <div className="qrcode-content">

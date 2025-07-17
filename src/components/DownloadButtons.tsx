@@ -2,12 +2,27 @@ import { Button } from "@/components/ui/button";
 import { useTravelTagStore } from "@/lib/store";
 import { hasData } from "@/lib/utils";
 import { toPng } from "html-to-image";
-import { Download, Grid2X2, Printer } from "lucide-react";
+import { Download, Grid2X2, Printer, Plus, Minus } from "lucide-react";
 import { useState } from "react";
 
 export function DownloadButtons() {
-  const { travelInfo } = useTravelTagStore();
+  const { travelInfo, gridConfig, setGridConfig } = useTravelTagStore();
   const [printMode, setPrintMode] = useState<"single" | "grid">("single");
+  
+  // Fonction pour ajuster le nombre de lignes et colonnes
+  const adjustGridSize = (dimension: "rows" | "cols", increment: boolean) => {
+    const value = gridConfig[dimension];
+    const newValue = increment ? value + 1 : Math.max(1, value - 1);
+    
+    // Limiter à un maximum raisonnable pour une page A4
+    const maxRows = 6; // Maximum de lignes pour une page A4
+    const maxCols = 4; // Maximum de colonnes pour une page A4
+    
+    if ((dimension === "rows" && newValue <= maxRows) || 
+        (dimension === "cols" && newValue <= maxCols)) {
+      setGridConfig({ [dimension]: newValue });
+    }
+  };
 
   // Fonction pour télécharger l'aperçu en PNG
   const downloadAsPNG = () => {
@@ -166,18 +181,79 @@ export function DownloadButtons() {
         </Button>
       </div>
 
-      <div className="flex items-center justify-between mt-1">
-        <div className="text-sm text-gray-500">Mode d'impression:</div>
-        <Button
-          onClick={togglePrintMode}
-          variant="outline"
-          size="sm"
-          className="text-xs"
-          disabled={!hasDataValue}
-        >
-          <Grid2X2 className="mr-1 h-3 w-3" />
-          {printMode === "single" ? "Un QR code" : "2×3 QR codes"}
-        </Button>
+      <div className="flex flex-col gap-2 mt-1">
+        <div className="flex items-center justify-between">
+          <div className="text-sm text-gray-500">Mode d'impression:</div>
+          <Button
+            onClick={togglePrintMode}
+            variant="outline"
+            size="sm"
+            className="text-xs"
+            disabled={!hasDataValue}
+          >
+            <Grid2X2 className="mr-1 h-3 w-3" />
+            {printMode === "single" ? "Un QR code" : `${gridConfig.cols}×${gridConfig.rows} QR codes`}
+          </Button>
+        </div>
+        
+        {/* Contrôles de configuration de la grille - visible uniquement en mode grille */}
+        {printMode === "grid" && (
+          <div className="flex flex-col gap-2 p-2 border border-dashed rounded-md">
+            <div className="text-xs text-gray-500 mb-1">Configuration de la grille:</div>
+            
+            {/* Contrôle du nombre de colonnes */}
+            <div className="flex items-center justify-between">
+              <span className="text-xs">Colonnes:</span>
+              <div className="flex items-center gap-1">
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="h-6 w-6" 
+                  onClick={() => adjustGridSize("cols", false)}
+                  disabled={gridConfig.cols <= 1}
+                >
+                  <Minus className="h-3 w-3" />
+                </Button>
+                <span className="text-xs w-4 text-center">{gridConfig.cols}</span>
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="h-6 w-6" 
+                  onClick={() => adjustGridSize("cols", true)}
+                  disabled={gridConfig.cols >= 4}
+                >
+                  <Plus className="h-3 w-3" />
+                </Button>
+              </div>
+            </div>
+            
+            {/* Contrôle du nombre de lignes */}
+            <div className="flex items-center justify-between">
+              <span className="text-xs">Lignes:</span>
+              <div className="flex items-center gap-1">
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="h-6 w-6" 
+                  onClick={() => adjustGridSize("rows", false)}
+                  disabled={gridConfig.rows <= 1}
+                >
+                  <Minus className="h-3 w-3" />
+                </Button>
+                <span className="text-xs w-4 text-center">{gridConfig.rows}</span>
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="h-6 w-6" 
+                  onClick={() => adjustGridSize("rows", true)}
+                  disabled={gridConfig.rows >= 6}
+                >
+                  <Plus className="h-3 w-3" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
