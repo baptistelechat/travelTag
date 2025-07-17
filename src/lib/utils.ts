@@ -1,8 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
+import { useHotkeys } from "react-hotkeys-hook";
 import { twMerge } from "tailwind-merge";
-import { useHotkeys } from 'react-hotkeys-hook';
-import type { TravelInfo } from "./types";
 import { useTravelTagStore } from "./store";
+import type { TravelInfo } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -62,26 +62,30 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
  */
 export function usePrintHandler() {
   // Récupérer les données de voyage depuis le store
-  const travelInfo = useTravelTagStore(state => state.travelInfo);
-  
-  useHotkeys('ctrl+p', (event) => {
-    // Annuler l'événement d'impression par défaut
-    event.preventDefault();
-    
-    // Afficher l'overlay avec effet de flou
-    const overlay = document.getElementById("print-overlay");
-    if (overlay && hasData(travelInfo)) {
-      overlay.classList.add("print-overlay-visible");
-    }
-    
-    // Trouver le bouton d'impression et simuler un clic
-    const buttons = document.querySelectorAll('button');
-    for (const btn of Array.from(buttons)) {
-      if (btn.textContent?.includes('Imprimer')) {
-        // Simuler un clic sur le bouton d'impression
-        btn.click();
-        return;
+  const travelInfo = useTravelTagStore((state) => state.travelInfo);
+
+  useHotkeys(
+    "ctrl+p",
+    (event) => {
+      // Annuler l'événement d'impression par défaut
+      event.preventDefault();
+
+      // Afficher l'overlay avec effet de flou
+      const overlay = document.getElementById("print-overlay");
+      if (overlay && hasData(travelInfo)) {
+        overlay.classList.add("print-overlay-visible");
       }
-    }
-  }, { enableOnFormTags: true, preventDefault: true });
+
+      // Trouver le bouton d'impression et simuler un clic
+      const buttons = document.querySelectorAll("button");
+      for (const btn of Array.from(buttons)) {
+        if (btn.textContent?.includes("Imprimer")) {
+          // Simuler un clic sur le bouton d'impression
+          btn.click();
+          return;
+        }
+      }
+    },
+    { enableOnFormTags: true, preventDefault: true }
+  );
 }
