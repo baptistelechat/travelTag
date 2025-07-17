@@ -10,6 +10,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CountrySelect } from "@/components/ui/country/country-select";
 import {
   Form,
   FormControl,
@@ -23,7 +24,10 @@ import { PhoneInput } from "@/components/ui/phone-input";
 import { Textarea } from "@/components/ui/textarea";
 import { FileText, Heart, Map, User } from "lucide-react";
 import { useState } from "react";
-import type { Value as PhoneInputValue } from "react-phone-number-input";
+import type {
+  Country,
+  Value as PhoneInputValue,
+} from "react-phone-number-input";
 
 export function TravelForm() {
   const { travelInfo, updateTravelInfo } = useTravelTagStore();
@@ -113,6 +117,30 @@ export function TravelForm() {
                         )}
                       />
                     </div>
+
+                    <FormField
+                      control={form.control}
+                      name="nationality"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nationalité</FormLabel>
+                          <FormControl>
+                            <CountrySelect
+                              defaultCountry="FR"
+                              value={field.value as Country}
+                              onChange={(value) => {
+                                field.onChange(value);
+                                handleFieldChange(
+                                  "nationality",
+                                  value?.toString() || "FR"
+                                );
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
                     <FormField
                       control={form.control}

@@ -1,5 +1,7 @@
+import { getCountryName } from "@/components/ui/country/country-utils";
 import { clsx, type ClassValue } from "clsx";
 import { useHotkeys } from "react-hotkeys-hook";
+import type { Country } from "react-phone-number-input";
 import { twMerge } from "tailwind-merge";
 import { useTravelTagStore } from "./store";
 import type { TravelInfo } from "./types";
@@ -38,6 +40,13 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
   const qrCodeData = [
     `Prenom: ${travelInfo.firstName || "-"}`,
     `Nom: ${travelInfo.lastName || "-"}`,
+    `Nationalite: ${
+      travelInfo.nationality
+        ? ` ${getCountryName(travelInfo.nationality as Country)} (${
+            travelInfo.nationality
+          })`
+        : "-"
+    }`,
     `Telephone: ${travelInfo.phone || "-"}`,
     `Depart: ${travelInfo.departureLocation || "-"}`,
     `Arrivee: ${travelInfo.arrivalLocation || "-"}`,

@@ -4,6 +4,7 @@ import { z } from "zod";
 export const travelInfoSchema = z.object({
   firstName: z.string().min(1, { message: "Le prénom est requis" }),
   lastName: z.string().min(1, { message: "Le nom est requis" }),
+  nationality: z.string().min(1, { message: "La nationalité est requise" }),
   phone: z
     .string()
     .min(10, {
@@ -29,6 +30,7 @@ export type TravelInfo = z.infer<typeof travelInfoSchema>;
 export const initialTravelInfo: TravelInfo = {
   firstName: "",
   lastName: "",
+  nationality: "FR",
   phone: "",
   departureLocation: "",
   arrivalLocation: "",
