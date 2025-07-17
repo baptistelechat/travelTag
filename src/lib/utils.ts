@@ -57,11 +57,11 @@ export function hasData(travelInfo: TravelInfo): boolean {
 export function formatQRCodeData(travelInfo: TravelInfo): string[] {
   // Création du contenu formaté pour le QR code sans accents dans les libellés
   const qrCodeData = [
-    `Prenom: ${normalizeString(travelInfo.firstName) || "-"}`,
-    `Nom: ${normalizeString(travelInfo.lastName) || "-"}`,
-    `Nationalite: ${
+    `Prenom : ${normalizeString(travelInfo.firstName) || "-"}`,
+    `Nom : ${normalizeString(travelInfo.lastName) || "-"}`,
+    `Nationalite : ${
       travelInfo.nationality
-        ? ` ${normalizeString(getCountryName(travelInfo.nationality as Country))} (${
+        ? `${normalizeString(getCountryName(travelInfo.nationality as Country))} (${
             travelInfo.nationality
           })`
         : "-"
@@ -87,25 +87,25 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
     if (travelInfo.country && travelInfo.country !== travelInfo.nationality) {
       addressParts.push(normalizeString(getCountryName(travelInfo.country as Country)));
     }
-    qrCodeData.push(`Adresse: ${addressParts.join(", ") || "-"}`);
+    qrCodeData.push(`Adresse : ${addressParts.join(", ") || "-"}`);
   }
 
   // Ajouter les autres informations
   qrCodeData.push(
-    `Telephone: ${normalizeString(travelInfo.phone) || "-"}`,
-    `Email: ${normalizeString(travelInfo.email) || "-"}`,
-    `Depart: ${normalizeString(travelInfo.departureLocation) || "-"}`,
-    `Arrivee: ${normalizeString(travelInfo.arrivalLocation) || "-"}`
+    `Telephone : ${normalizeString(travelInfo.phone) || "-"}`,
+    `Email : ${normalizeString(travelInfo.email) || "-"}`,
+    `Depart : ${normalizeString(travelInfo.departureLocation) || "-"}`,
+    `Arrivee : ${normalizeString(travelInfo.arrivalLocation) || "-"}`
   );
 
   // Ajouter les informations optionnelles seulement si elles sont présentes
   // Utiliser la même logique que dans les composants originaux
   if (travelInfo.healthInfo) {
-    qrCodeData.push(`Sante: ${normalizeString(travelInfo.healthInfo)}`);
+    qrCodeData.push(`Sante : ${normalizeString(travelInfo.healthInfo)}`);
   }
 
   if (travelInfo.additionalInfo) {
-    qrCodeData.push(`Infos: ${normalizeString(travelInfo.additionalInfo)}`);
+    qrCodeData.push(`Infos : ${normalizeString(travelInfo.additionalInfo)}`);
   }
 
   return qrCodeData;
