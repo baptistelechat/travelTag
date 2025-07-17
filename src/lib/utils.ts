@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { useHotkeys } from 'react-hotkeys-hook';
 import type { TravelInfo } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
@@ -52,4 +53,25 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
   }
 
   return qrCodeData;
+}
+
+/**
+ * Hook personnalisé pour gérer l'impression via Ctrl+P
+ * Utilise react-hotkeys-hook pour intercepter Ctrl+P et déclencher le clic sur le bouton d'impression
+ */
+export function usePrintHandler() {
+  useHotkeys('ctrl+p', (event) => {
+    // Annuler l'événement d'impression par défaut
+    event.preventDefault();
+    
+    // Trouver le bouton d'impression et simuler un clic
+    const buttons = document.querySelectorAll('button');
+    for (const btn of Array.from(buttons)) {
+      if (btn.textContent?.includes('Imprimer')) {
+        // Simuler un clic sur le bouton d'impression
+        btn.click();
+        return;
+      }
+    }
+  }, { enableOnFormTags: true, preventDefault: true });
 }

@@ -1,8 +1,12 @@
 import { TravelForm } from "@/components/TravelForm";
 import { QRCodeCard } from "./components/QRCodeCard";
 import { QRCodeGrid } from "./components/QRCodeGrid";
+import { usePrintHandler } from "./lib/utils";
 
 function App() {
+  // Utiliser le hook pour gérer l'impression via Ctrl+P
+  usePrintHandler();
+  
   return (
     <div className="min-h-svh bg-gray-50 py-8 px-4">
       <header className="max-w-5xl mx-auto mb-8 text-center">
