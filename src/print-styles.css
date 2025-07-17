@@ -156,27 +156,12 @@
     font-size: calc(
       6pt + (9pt - 6pt) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)
     ) !important;
-    color: black !important;
+    color: var(--color-gray-500) !important;
     /* Marge adaptative basée sur la configuration de la grille */
     margin-top: calc(
       2mm + (4mm - 2mm) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)
     ) !important;
     margin-bottom: 2mm !important; /* Marge en bas augmentée pour éviter que le texte ne soit coupé */
     text-align: center !important;
-  }
-
-  /* Message quand aucune donnée n'est disponible */
-  body.print-grid .print-message {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 16px;
-    color: black !important;
-    text-align: center;
-    width: 80%;
-    padding: 20px;
-    border: 1px solid #ccc;
-    background-color: white;
   }
 }

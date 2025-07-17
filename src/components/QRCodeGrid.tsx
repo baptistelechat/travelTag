@@ -1,4 +1,5 @@
 import { useTravelTagStore } from "@/lib/store";
+import { formatQRCodeData } from "@/lib/utils";
 import QRCode from "react-qr-code";
 
 /**
@@ -13,18 +14,8 @@ import QRCode from "react-qr-code";
 export function QRCodeGrid() {
   const { travelInfo, gridConfig } = useTravelTagStore();
 
-  // Création du contenu formaté pour le QR code sans accents dans les libellés
-  const qrCodeData = [
-    `Nom: ${travelInfo.lastName || "-"}`,
-    `Prenom: ${travelInfo.firstName || "-"}`,
-    `Telephone: ${travelInfo.phone || "-"}`,
-    `Depart: ${travelInfo.departureLocation || "-"}`,
-    `Arrivee: ${travelInfo.arrivalLocation || "-"}`,
-    travelInfo.healthInfo ? `Sante: ${travelInfo.healthInfo}` : null,
-    travelInfo.additionalInfo ? `Infos: ${travelInfo.additionalInfo}` : null,
-  ]
-    .filter(Boolean)
-    .join("\n");
+  // Utilisation de la fonction utilitaire pour formater les données du QR code
+  const qrCodeData = formatQRCodeData(travelInfo).filter(Boolean).join("\n");
 
   // Créer un tableau de QR codes basé sur la configuration de la grille
   const totalQRCodes = gridConfig.rows * gridConfig.cols;
