@@ -31,7 +31,7 @@ import type {
 
 export function TravelForm() {
   const { travelInfo, updateTravelInfo } = useTravelTagStore();
-  const [accordionValue, setAccordionValue] = useState("personal-info");
+  const [accordionValue, setAccordionValue] = useState<string[]>(["personal-info"]);
 
   const form = useForm<TravelInfo>({
     resolver: zodResolver(travelInfoSchema),
@@ -56,8 +56,7 @@ export function TravelForm() {
         <Form {...form}>
           <form className="space-y-4">
             <Accordion
-              type="single"
-              collapsible
+              type="multiple"
               className="w-full"
               value={accordionValue}
               onValueChange={(value) => setAccordionValue(value)}
