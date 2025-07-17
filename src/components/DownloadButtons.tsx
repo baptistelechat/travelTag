@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useTravelTagStore } from "@/lib/store";
+import { hasData } from "@/lib/utils";
 import { toPng } from "html-to-image";
 import { Download, Grid2X2, Printer } from "lucide-react";
 import { useState } from "react";
@@ -143,15 +144,23 @@ export function DownloadButtons() {
     }
   };
 
+  // Utilise la fonction hasData importée depuis utils.ts
+  const hasDataValue = hasData(travelInfo);
+
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-row gap-2">
-        <Button onClick={downloadAsPNG} className="flex-1">
+        <Button onClick={downloadAsPNG} className="flex-1" disabled={!hasDataValue}>
           <Download className="mr-2 h-4 w-4" />
           Télécharger PNG
         </Button>
 
-        <Button onClick={printQRCode} className="flex-1" variant="outline">
+        <Button
+          onClick={printQRCode}
+          className="flex-1"
+          variant="outline"
+          disabled={!hasDataValue}
+        >
           <Printer className="mr-2 h-4 w-4" />
           Imprimer
         </Button>
@@ -161,9 +170,10 @@ export function DownloadButtons() {
         <div className="text-sm text-gray-500">Mode d'impression:</div>
         <Button
           onClick={togglePrintMode}
-          variant="ghost"
+          variant="outline"
           size="sm"
           className="text-xs"
+          disabled={!hasDataValue}
         >
           <Grid2X2 className="mr-1 h-3 w-3" />
           {printMode === "single" ? "Un QR code" : "2×3 QR codes"}

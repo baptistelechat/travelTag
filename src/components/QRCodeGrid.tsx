@@ -28,13 +28,9 @@ export function QRCodeGrid() {
   // Créer un tableau de 6 QR codes (2 colonnes x 3 lignes)
   const qrCodes = Array(6).fill(null);
 
-  // Vérifier si des données sont présentes
-  const hasData =
-    travelInfo.lastName || travelInfo.firstName || travelInfo.phone;
-
   return (
     <div id="qrcode-grid" className="qrcode-grid-container">
-      {hasData ? (
+      
         <div className="grid-container">
           {qrCodes.map((_, index) => (
             <div key={index} className="qrcode-item">
@@ -62,12 +58,7 @@ export function QRCodeGrid() {
             </div>
           ))}
         </div>
-      ) : (
-        <div className="print-message">
-          Veuillez remplir au moins un champ du formulaire pour générer des QR
-          codes.
-        </div>
-      )}
+  
     </div>
   );
 }
