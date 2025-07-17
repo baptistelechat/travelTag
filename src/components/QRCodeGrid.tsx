@@ -32,43 +32,43 @@ export function QRCodeGrid() {
 
   return (
     <div id="qrcode-grid" className="qrcode-grid-container">
-      
-        <div 
-          className="grid-container" 
-          style={{
+      <div
+        className="grid-container"
+        style={
+          {
             gridTemplateColumns: `repeat(${gridConfig.cols}, 1fr)`,
             gridTemplateRows: `repeat(${gridConfig.rows}, 1fr)`,
-            '--grid-cols': gridConfig.cols,
-            '--grid-rows': gridConfig.rows
-          } as React.CSSProperties}
-        >
-          {qrCodes.map((_, index) => (
-            <div key={index} className="qrcode-item">
-              <div className="qrcode-content">
-                {(travelInfo.firstName || travelInfo.lastName) && (
-                  <div className="qrcode-name">
-                    {travelInfo.firstName} {travelInfo.lastName}
-                  </div>
-                )}
-
-                {/* Conteneur du QR code qui s'adapte à l'espace disponible */}
-                <div className="qrcode-svg-container">
-                  <QRCode
-                    value={qrCodeData}
-                    size={100}
-                    level="M"
-                    bgColor="#FFFFFF"
-                    fgColor="#000000"
-                    style={{ width: "100%", height: "auto" }}
-                  />
+            "--grid-cols": gridConfig.cols,
+            "--grid-rows": gridConfig.rows,
+          } as React.CSSProperties
+        }
+      >
+        {qrCodes.map((_, index) => (
+          <div key={index} className="qrcode-item">
+            <div className="qrcode-content">
+              {(travelInfo.firstName || travelInfo.lastName) && (
+                <div className="qrcode-name">
+                  {travelInfo.firstName} {travelInfo.lastName}
                 </div>
+              )}
 
-                <div className="qrcode-url">https://traveltag.vercel.app/</div>
+              {/* Conteneur du QR code qui s'adapte à l'espace disponible */}
+              <div className="qrcode-svg-container">
+                <QRCode
+                  value={qrCodeData}
+                  size={100}
+                  level="M"
+                  bgColor="#FFFFFF"
+                  fgColor="#000000"
+                  style={{ width: "100%", height: "auto" }}
+                />
               </div>
+
+              <div className="qrcode-url">https://traveltag.vercel.app/</div>
             </div>
-          ))}
-        </div>
-  
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
