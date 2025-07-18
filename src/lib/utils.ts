@@ -5,6 +5,7 @@ import type { Country } from "react-phone-number-input";
 import { twMerge } from "tailwind-merge";
 import { useTravelTagStore } from "./store";
 import type { TravelInfo } from "./types";
+import { getAirportByIATA } from "./data/airports";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -93,10 +94,31 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
   // Ajouter les autres informations
   qrCodeData.push(
     `Telephone : ${normalizeString(travelInfo.phone) || "-"}`,
-    `Email : ${normalizeString(travelInfo.email) || "-"}`,
-    `Depart : ${normalizeString(travelInfo.departureLocation) || "-"}`,
-    `Arrivee : ${normalizeString(travelInfo.arrivalLocation) || "-"}`
+    `Email : ${normalizeString(travelInfo.email) || "-"}`
   );
+  
+  // Formater les aéroports de départ et d'arrivée avec le nom complet, la ville et le code IATA
+  if (travelInfo.departureLocation) {
+    const departureAirport = getAirportByIATA(travelInfo.departureLocation);
+    if (departureAirport) {
+      qrCodeData.push(`Depart : ${normalizeString(departureAirport.name)} (${departureAirport.iata})`);
+    } else {
+      qrCodeData.push(`Depart : ${normalizeString(travelInfo.departureLocation) || "-"}`);
+    }
+  } else {
+    qrCodeData.push(`Depart : -`);
+  }
+  
+  if (travelInfo.arrivalLocation) {
+    const arrivalAirport = getAirportByIATA(travelInfo.arrivalLocation);
+    if (arrivalAirport) {
+      qrCodeData.push(`Arrivee : ${normalizeString(arrivalAirport.name)} (${arrivalAirport.iata})`);
+    } else {
+      qrCodeData.push(`Arrivee : ${normalizeString(travelInfo.arrivalLocation) || "-"}`);
+    }
+  } else {
+    qrCodeData.push(`Arrivee : -`);
+  }
 
   // Ajouter les informations optionnelles seulement si elles sont présentes
   // Utiliser la même logique que dans les composants originaux

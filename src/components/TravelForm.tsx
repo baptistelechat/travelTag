@@ -29,11 +29,12 @@ import type {
   Country,
   Value as PhoneInputValue,
 } from "react-phone-number-input";
+import { AirportSelector } from "./ui/airport/airport-selector";
 
 export function TravelForm() {
   const { travelInfo, updateTravelInfo } = useTravelTagStore();
   const [accordionValue, setAccordionValue] = useState<string[]>([
-    "personal-info",
+    "location-info",
   ]);
 
   const form = useForm<TravelInfo>({
@@ -336,15 +337,12 @@ export function TravelForm() {
                         <FormItem>
                           <FormLabel>Lieu de départ</FormLabel>
                           <FormControl>
-                            <Input
-                              placeholder="Paris CDG, Gare de Lyon, etc."
-                              {...field}
-                              onChange={(e) => {
-                                field.onChange(e);
-                                handleFieldChange(
-                                  "departureLocation",
-                                  e.target.value
-                                );
+                            <AirportSelector
+                              placeholder="Rechercher un aéroport de départ..."
+                              value={field.value}
+                              onChange={(value) => {
+                                field.onChange(value);
+                                handleFieldChange("departureLocation", value);
                               }}
                             />
                           </FormControl>
@@ -360,15 +358,12 @@ export function TravelForm() {
                         <FormItem>
                           <FormLabel>Lieu d'arrivée</FormLabel>
                           <FormControl>
-                            <Input
-                              placeholder="New York JFK, Gare du Nord, etc."
-                              {...field}
-                              onChange={(e) => {
-                                field.onChange(e);
-                                handleFieldChange(
-                                  "arrivalLocation",
-                                  e.target.value
-                                );
+                            <AirportSelector
+                              placeholder="Rechercher un aéroport d'arrivée..."
+                              value={field.value}
+                              onChange={(value) => {
+                                field.onChange(value);
+                                handleFieldChange("arrivalLocation", value);
                               }}
                             />
                           </FormControl>
