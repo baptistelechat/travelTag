@@ -6,6 +6,8 @@ import { twMerge } from "tailwind-merge";
 import { useTravelTagStore } from "./store";
 import type { TravelInfo } from "./types";
 import { getAirportByIATA } from "./data/airports";
+import { getStationByCode } from "./data/stations";
+import { TransportModeEnum } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -97,24 +99,46 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
     `Email : ${normalizeString(travelInfo.email) || "-"}`
   );
   
-  // Formater les aéroports de départ et d'arrivée avec le nom complet, la ville et le code IATA
+  // Formater les lieux de départ et d'arrivée en fonction du mode de transport
   if (travelInfo.departureLocation) {
-    const departureAirport = getAirportByIATA(travelInfo.departureLocation);
-    if (departureAirport) {
-      qrCodeData.push(`Depart : ${normalizeString(departureAirport.name)} (${departureAirport.iata})`);
+    if (travelInfo.transportMode === TransportModeEnum.AIRPORT) {
+      // Mode aéroport
+      const departureAirport = getAirportByIATA(travelInfo.departureLocation);
+      if (departureAirport) {
+        qrCodeData.push(`Depart : ${normalizeString(departureAirport.name)} (${departureAirport.iata})`);
+      } else {
+        qrCodeData.push(`Depart : ${normalizeString(travelInfo.departureLocation) || "-"}`);
+      }
     } else {
-      qrCodeData.push(`Depart : ${normalizeString(travelInfo.departureLocation) || "-"}`);
+      // Mode train
+      const departureStation = getStationByCode(travelInfo.departureLocation);
+      if (departureStation) {
+        qrCodeData.push(`Depart : ${normalizeString(departureStation.name)} (${departureStation.code})`);
+      } else {
+        qrCodeData.push(`Depart : ${normalizeString(travelInfo.departureLocation) || "-"}`);
+      }
     }
   } else {
     qrCodeData.push(`Depart : -`);
   }
   
   if (travelInfo.arrivalLocation) {
-    const arrivalAirport = getAirportByIATA(travelInfo.arrivalLocation);
-    if (arrivalAirport) {
-      qrCodeData.push(`Arrivee : ${normalizeString(arrivalAirport.name)} (${arrivalAirport.iata})`);
+    if (travelInfo.transportMode === TransportModeEnum.AIRPORT) {
+      // Mode aéroport
+      const arrivalAirport = getAirportByIATA(travelInfo.arrivalLocation);
+      if (arrivalAirport) {
+        qrCodeData.push(`Arrivee : ${normalizeString(arrivalAirport.name)} (${arrivalAirport.iata})`);
+      } else {
+        qrCodeData.push(`Arrivee : ${normalizeString(travelInfo.arrivalLocation) || "-"}`);
+      }
     } else {
-      qrCodeData.push(`Arrivee : ${normalizeString(travelInfo.arrivalLocation) || "-"}`);
+      // Mode train
+      const arrivalStation = getStationByCode(travelInfo.arrivalLocation);
+      if (arrivalStation) {
+        qrCodeData.push(`Arrivee : ${normalizeString(arrivalStation.name)} (${arrivalStation.code})`);
+      } else {
+        qrCodeData.push(`Arrivee : ${normalizeString(travelInfo.arrivalLocation) || "-"}`);
+      }
     }
   } else {
     qrCodeData.push(`Arrivee : -`);
