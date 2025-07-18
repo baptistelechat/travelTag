@@ -1,6 +1,8 @@
 import { AirportQRInfo } from "@/components/ui/airport/airport-qr-info";
+import { StationQRInfo } from "@/components/ui/station/station-qr-info";
 import FlagComponent from "@/components/ui/flag-component";
 import { useTravelTagStore } from "@/lib/store";
+import { TransportModeEnum } from "@/lib/types";
 import { formatQRCodeData } from "@/lib/utils";
 import { type Country } from "react-phone-number-input";
 import QRCode from "react-qr-code";
@@ -61,12 +63,19 @@ export function QRCodeGrid() {
                 />
               </div>
 
-              {/* Informations d'aéroport avec drapeaux */}
+              {/* Informations de transport (aéroport ou gare) */}
               <div className="qrcode-airport-info text-xs mt-2">
-                <AirportQRInfo
-                  departureIataCode={travelInfo.departureLocation}
-                  arrivalIataCode={travelInfo.arrivalLocation}
-                />
+                {travelInfo.transportMode === TransportModeEnum.AIRPORT ? (
+                  <AirportQRInfo
+                    departureIataCode={travelInfo.departureLocation}
+                    arrivalIataCode={travelInfo.arrivalLocation}
+                  />
+                ) : (
+                  <StationQRInfo
+                    departureStationCode={travelInfo.departureLocation}
+                    arrivalStationCode={travelInfo.arrivalLocation}
+                  />
+                )}
               </div>
 
               <div className="qrcode-url">https://traveltag.vercel.app/</div>

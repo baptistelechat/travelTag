@@ -1,6 +1,8 @@
 import { AirportQRInfo } from "@/components/ui/airport/airport-qr-info";
 import FlagComponent from "@/components/ui/flag-component";
+import { StationQRInfo } from "@/components/ui/station/station-qr-info";
 import { useTravelTagStore } from "@/lib/store";
+import { TransportModeEnum } from "@/lib/types";
 import { formatQRCodeData } from "@/lib/utils";
 import { useRef } from "react";
 import { type Country } from "react-phone-number-input";
@@ -16,10 +18,17 @@ export function QRCodeDisplay() {
   // Informations pour l'affichage visuel (avec drapeaux)
   const qrCodeVisual = (
     <div className="text-sm">
-      <AirportQRInfo
-        departureIataCode={travelInfo.departureLocation}
-        arrivalIataCode={travelInfo.arrivalLocation}
-      />
+      {travelInfo.transportMode === TransportModeEnum.AIRPORT ? (
+        <AirportQRInfo
+          departureIataCode={travelInfo.departureLocation}
+          arrivalIataCode={travelInfo.arrivalLocation}
+        />
+      ) : (
+        <StationQRInfo
+          departureStationCode={travelInfo.departureLocation}
+          arrivalStationCode={travelInfo.arrivalLocation}
+        />
+      )}
     </div>
   );
 
@@ -35,7 +44,9 @@ export function QRCodeDisplay() {
             <div className="flex-shrink-0">
               <FlagComponent country={travelInfo.nationality as Country} />
             </div>
-            <span>{travelInfo.firstName} {travelInfo.lastName}</span>
+            <span>
+              {travelInfo.firstName} {travelInfo.lastName}
+            </span>
           </div>
         )}
 

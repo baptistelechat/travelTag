@@ -1,5 +1,5 @@
 import { useTravelTagStore } from "@/lib/store";
-import { type TravelInfo } from "@/lib/types";
+import { type TravelInfo, TransportModeEnum } from "@/lib/types";
 import { useForm } from "react-hook-form";
 
 import {
@@ -22,14 +22,16 @@ import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { FileText, Heart, Map, User } from "lucide-react";
+import { FileText, Heart, Map, Plane, Train, User } from "lucide-react";
 import { useState } from "react";
 import type {
   Country,
   Value as PhoneInputValue,
 } from "react-phone-number-input";
 import { AirportSelector } from "./ui/airport/airport-selector";
+import { StationSelector } from "./ui/station/station-selector";
 
 export function TravelForm() {
   const { travelInfo, updateTravelInfo } = useTravelTagStore();
@@ -331,19 +333,78 @@ export function TravelForm() {
                   <div className="space-y-4 pt-2">
                     <FormField
                       control={form.control}
+                      name="transportMode"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Mode de transport</FormLabel>
+                          <FormControl>
+                            <Tabs
+                              value={field.value}
+                              onValueChange={(value) => {
+                                field.onChange(value);
+                                updateTravelInfo({
+                                  transportMode: value as (typeof TransportModeEnum)[keyof typeof TransportModeEnum],
+                                });
+                                // Réinitialiser les lieux de départ et d'arrivée
+                                form.setValue("departureLocation", "");
+                                form.setValue("arrivalLocation", "");
+                                updateTravelInfo({
+                                  departureLocation: "",
+                                  arrivalLocation: "",
+                                });
+                              }}
+                              className="w-full"
+                            >
+                              <TabsList className="grid w-full grid-cols-2">
+                                <TabsTrigger
+                                  value={TransportModeEnum.AIRPORT}
+                                  className="flex items-center gap-2"
+                                >
+                                  <Plane className="h-4 w-4" />
+                                  Aéroport
+                                </TabsTrigger>
+                                <TabsTrigger
+                                  value={TransportModeEnum.TRAIN}
+                                  className="flex items-center gap-2"
+                                >
+                                  <Train className="h-4 w-4" />
+                                  Train
+                                </TabsTrigger>
+                              </TabsList>
+                            </Tabs>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
                       name="departureLocation"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Lieu de départ</FormLabel>
                           <FormControl>
-                            <AirportSelector
-                              placeholder="Rechercher un aéroport de départ..."
-                              value={field.value}
-                              onChange={(value) => {
-                                field.onChange(value);
-                                handleFieldChange("departureLocation", value);
-                              }}
-                            />
+                            {form.watch("transportMode") ===
+                            TransportModeEnum.AIRPORT ? (
+                              <AirportSelector
+                                placeholder="Rechercher un aéroport de départ..."
+                                value={field.value}
+                                onChange={(value) => {
+                                  field.onChange(value);
+                                  handleFieldChange("departureLocation", value);
+                                }}
+                              />
+                            ) : (
+                              <StationSelector
+                                placeholder="Rechercher une gare de départ..."
+                                value={field.value}
+                                onChange={(value) => {
+                                  field.onChange(value);
+                                  handleFieldChange("departureLocation", value);
+                                }}
+                              />
+                            )}
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -357,14 +418,26 @@ export function TravelForm() {
                         <FormItem>
                           <FormLabel>Lieu d'arrivée</FormLabel>
                           <FormControl>
-                            <AirportSelector
-                              placeholder="Rechercher un aéroport d'arrivée..."
-                              value={field.value}
-                              onChange={(value) => {
-                                field.onChange(value);
-                                handleFieldChange("arrivalLocation", value);
-                              }}
-                            />
+                            {form.watch("transportMode") ===
+                            TransportModeEnum.AIRPORT ? (
+                              <AirportSelector
+                                placeholder="Rechercher un aéroport d'arrivée..."
+                                value={field.value}
+                                onChange={(value) => {
+                                  field.onChange(value);
+                                  handleFieldChange("arrivalLocation", value);
+                                }}
+                              />
+                            ) : (
+                              <StationSelector
+                                placeholder="Rechercher une gare d'arrivée..."
+                                value={field.value}
+                                onChange={(value) => {
+                                  field.onChange(value);
+                                  handleFieldChange("arrivalLocation", value);
+                                }}
+                              />
+                            )}
                           </FormControl>
                           <FormMessage />
                         </FormItem>

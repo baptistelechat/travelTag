@@ -1,5 +1,14 @@
 import { z } from "zod";
 
+// Enum pour les modes de transport
+export const TransportModeEnum = {
+  AIRPORT: "airport",
+  TRAIN: "train",
+} as const;
+
+export type TransportMode =
+  (typeof TransportModeEnum)[keyof typeof TransportModeEnum];
+
 // Schéma de validation pour les informations de voyage
 export const travelInfoSchema = z.object({
   firstName: z.string().min(1, { message: "Le prénom est requis" }),
@@ -26,6 +35,9 @@ export const travelInfoSchema = z.object({
     .string()
     .min(1, { message: "Le lieu d'arrivée est requis" }),
   isRoundTrip: z.boolean().default(false),
+  transportMode: z
+    .enum([TransportModeEnum.AIRPORT, TransportModeEnum.TRAIN])
+    .default(TransportModeEnum.AIRPORT),
   healthInfo: z.string().optional(),
   additionalInfo: z.string().optional(),
 });
@@ -48,6 +60,7 @@ export const initialTravelInfo: TravelInfo = {
   departureLocation: "",
   arrivalLocation: "",
   isRoundTrip: false,
+  transportMode: TransportModeEnum.AIRPORT,
   healthInfo: "",
   additionalInfo: "",
 };
