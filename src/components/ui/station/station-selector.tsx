@@ -23,6 +23,7 @@ import {
   formatStation,
   searchStations,
   stations,
+  popularStations as importedPopularStations,
 } from "@/lib/data/stations";
 import { cn } from "@/lib/utils";
 
@@ -51,21 +52,21 @@ export function StationSelector({
 
   // Liste des gares populaires à afficher par défaut
   const popularStations = React.useMemo(() => {
-    // Codes des gares populaires (Paris et grandes villes)
-    const popularCodes = [
-      "FRPNO",
-      "FRPST",
-      "FRPLY",
-      "FRPMO",
-      "FRLPD",
-      "FRMSC",
-      "FRBSJ",
-    ];
-    return allStations
-      .filter((station) => popularCodes.includes(station.code))
-      .sort((a, b) => {
+    // Importer les gares populaires depuis le fichier stations.ts
+    // Si aucune gare populaire n'est trouvée, utiliser une liste de secours
+    if (allStations.length === 0) {
+      return [];
+    }
+    
+    // Utiliser la liste des gares populaires définie dans stations.ts
+    if (importedPopularStations && importedPopularStations.length > 0) {
+      return importedPopularStations.sort((a: Station, b: Station) => {
         return a.code.localeCompare(b.code);
       });
+    }
+    
+    // Retourner un tableau vide par défaut
+    return [];
   }, [allStations]);
 
   // Filtrer les gares en fonction de la recherche
