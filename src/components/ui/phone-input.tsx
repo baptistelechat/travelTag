@@ -5,7 +5,7 @@ import fr from "react-phone-number-input/locale/fr.json";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { type CountryEntry, CountrySelector } from "./country/country-selector";
-import { FlagComponent } from "./country/flag-component";
+import { FlagAdapter } from "./flag-component";
 
 type PhoneInputProps = Omit<
   React.ComponentProps<"input">,
@@ -22,7 +22,7 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
         <RPNInput.default
           ref={ref}
           className={cn("flex", className)}
-          flagComponent={FlagComponent}
+          flagComponent={FlagAdapter}
           countrySelectComponent={CountrySelect}
           inputComponent={InputComponent}
           smartCaret={false}
@@ -79,7 +79,7 @@ const CountrySelect = ({
       options={countryList}
       onChange={onChange}
       buttonClassName="flex gap-1 rounded-e-none rounded-s-md border-r-0 px-3 focus:z-10"
-      showCallingCode={true}
+      showCallingCode={false}
     />
   );
 };

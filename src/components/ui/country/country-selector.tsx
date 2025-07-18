@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/command";
 import { CountrySelectOption } from "@/components/ui/country/country-select-option";
 import { getCountryName } from "@/components/ui/country/country-utils";
-import { FlagComponent } from "@/components/ui/country/flag-component";
+import FlagComponent from "@/components/ui/flag-component";
 import {
   Popover,
   PopoverContent,

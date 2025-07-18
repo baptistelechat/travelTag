@@ -3,7 +3,7 @@ import * as RPNInput from "react-phone-number-input";
 import { type Country } from "react-phone-number-input";
 
 import { CommandItem } from "@/components/ui/command";
-import { FlagComponent } from "@/components/ui/country/flag-component";
+import FlagComponent from "@/components/ui/flag-component";
 
 interface CountrySelectOptionProps {
   country: Country;

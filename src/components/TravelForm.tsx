@@ -1,6 +1,5 @@
 import { useTravelTagStore } from "@/lib/store";
-import { type TravelInfo, travelInfoSchema } from "@/lib/types";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { type TravelInfo } from "@/lib/types";
 import { useForm } from "react-hook-form";
 
 import {
@@ -22,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { FileText, Heart, Map, User } from "lucide-react";
 import { useState } from "react";
@@ -38,7 +38,6 @@ export function TravelForm() {
   ]);
 
   const form = useForm<TravelInfo>({
-    resolver: zodResolver(travelInfoSchema),
     defaultValues: travelInfo,
   });
 
@@ -368,6 +367,27 @@ export function TravelForm() {
                             />
                           </FormControl>
                           <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="isRoundTrip"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                          <div>
+                            <FormLabel>Aller-retour ?</FormLabel>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={(value) => {
+                                field.onChange(value);
+                                updateTravelInfo({ isRoundTrip: value });
+                              }}
+                            />
+                          </FormControl>
                         </FormItem>
                       )}
                     />

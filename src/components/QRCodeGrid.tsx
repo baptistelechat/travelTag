@@ -1,3 +1,4 @@
+import { AirportQRInfo } from "@/components/ui/airport/airport-qr-info";
 import { useTravelTagStore } from "@/lib/store";
 import { formatQRCodeData } from "@/lib/utils";
 import QRCode from "react-qr-code";
@@ -52,6 +53,14 @@ export function QRCodeGrid() {
                   bgColor="#FFFFFF"
                   fgColor="#000000"
                   style={{ width: "100%", height: "auto" }}
+                />
+              </div>
+
+              {/* Informations d'aéroport avec drapeaux */}
+              <div className="qrcode-airport-info text-xs mt-2">
+                <AirportQRInfo
+                  departureIataCode={travelInfo.departureLocation}
+                  arrivalIataCode={travelInfo.arrivalLocation}
                 />
               </div>
 

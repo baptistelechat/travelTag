@@ -6,6 +6,7 @@ export const AirportSchema = z.object({
   name: z.string(),
   city: z.string(),
   country: z.string().optional(),
+  countryCode: z.string().optional(),
   iata: z.string(),
 });
 
@@ -17,6 +18,7 @@ export const airports: Airport[] = allAirportData().map((airport) => ({
   name: airport.name,
   city: airport.city || airport.municipality || "",
   country: airport.county || "",
+  countryCode: airport.country_id || "",
   iata: airport.iata_code,
 }));
 
@@ -39,6 +41,7 @@ export function searchAirports(query: string): Airport[] {
           name: airport.name,
           city: airport.city || airport.municipality || "",
           country: airport.county || "",
+          countryCode: airport.country_id || "",
           iata: airport.iata_code,
         }))
         .slice(0, 15);
@@ -76,6 +79,7 @@ export function getAirportByIATA(iata: string): Airport | undefined {
       name: directMatch[0].name,
       city: directMatch[0].city || directMatch[0].municipality || "",
       country: directMatch[0].county || "",
+      countryCode: directMatch[0].country_id || "",
       iata: directMatch[0].iata_code,
     };
   }
@@ -91,7 +95,7 @@ export function getAirportByIATA(iata: string): Airport | undefined {
  */
 export function formatAirport(
   airport: Airport,
-  maxLength: number = 32
+  maxLength: number = 26
 ): string {
   if (!airport) return "";
 

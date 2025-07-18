@@ -171,6 +171,23 @@
     visibility: visible !important;
   }
 
+  /* Informations d'aéroport avec drapeaux */
+  body.print-grid .qrcode-airport-info {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    /* Taille de police adaptative basée sur le nombre de colonnes et de lignes */
+    font-size: calc(
+      6pt + (8pt - 6pt) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)
+    ) !important;
+    margin-top: 2mm !important;
+    margin-bottom: 2mm !important;
+    text-align: center !important;
+    color: black !important;
+  }
+
   /* URL sous le QR code - taille adaptative selon la configuration de la grille */
   body.print-grid .qrcode-url {
     /* Taille de police adaptative basée sur le nombre de colonnes et de lignes */

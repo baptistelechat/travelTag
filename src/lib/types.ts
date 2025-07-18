@@ -25,6 +25,7 @@ export const travelInfoSchema = z.object({
   arrivalLocation: z
     .string()
     .min(1, { message: "Le lieu d'arrivée est requis" }),
+  isRoundTrip: z.boolean().default(false),
   healthInfo: z.string().optional(),
   additionalInfo: z.string().optional(),
 });
@@ -46,6 +47,7 @@ export const initialTravelInfo: TravelInfo = {
   email: "",
   departureLocation: "",
   arrivalLocation: "",
+  isRoundTrip: false,
   healthInfo: "",
   additionalInfo: "",
 };

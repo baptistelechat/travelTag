@@ -10,6 +10,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import FlagComponent from "@/components/ui/flag-component";
 import {
   Popover,
   PopoverContent,
@@ -17,10 +18,10 @@ import {
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
-  type Airport,
   airports,
   formatAirport,
   searchAirports,
+  type Airport,
 } from "@/lib/data/airports";
 import { cn } from "@/lib/utils";
 
@@ -140,9 +141,17 @@ export function AirportSelector({
           className="flex w-full justify-between gap-2 px-3 focus:z-10"
           disabled={disabled}
         >
-          <div className="flex items-center gap-2 overflow-hidden">
+          <div className="flex items-center gap-1.5 overflow-hidden">
             {selectedAirport ? (
               <>
+                {selectedAirport.countryCode && (
+                  <FlagComponent
+                    countryCode={selectedAirport.countryCode}
+                    countryName={
+                      selectedAirport.country || selectedAirport.countryCode
+                    }
+                  />
+                )}
                 <span className="font-semibold text-sm min-w-[40px] text-center">
                   {selectedAirport.iata}
                 </span>
@@ -193,14 +202,20 @@ export function AirportSelector({
                   return (
                     <CommandItem
                       key={airport.iata}
-                      className="gap-2"
-                      onSelect={() => handleSelect(airport)}
                       value={airport.iata}
+                      onSelect={() => handleSelect(airport)}
+                      className="flex items-center gap-1"
                     >
+                      {airport.countryCode && (
+                        <FlagComponent
+                          countryCode={airport.countryCode}
+                          countryName={airport.country || airport.countryCode}
+                        />
+                      )}
                       <span className="font-semibold text-sm min-w-[40px] text-center">
                         {airport.iata}
                       </span>
-                      <span className="flex-1 truncate text-sm">
+                      <span className="truncate text-sm">
                         {formatAirport(airport)}
                       </span>
                     </CommandItem>
