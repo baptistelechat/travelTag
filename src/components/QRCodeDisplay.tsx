@@ -5,13 +5,8 @@ import { useRef } from "react";
 import QRCode from "react-qr-code";
 
 export function QRCodeDisplay() {
-  const { travelInfo, updateTravelInfo } = useTravelTagStore();
+  const { travelInfo } = useTravelTagStore();
   const displayRef = useRef<HTMLDivElement>(null);
-  
-  // Fonction pour basculer le mode aller-retour lors du clic sur la carte
-  const toggleRoundTrip = () => {
-    updateTravelInfo({ isRoundTrip: !travelInfo.isRoundTrip });
-  };
 
   // Utilisation de la fonction utilitaire pour formater les données du QR code
   const qrCodeData = formatQRCodeData(travelInfo).filter(Boolean).join("\n");
@@ -30,9 +25,7 @@ export function QRCodeDisplay() {
     <div
       ref={displayRef}
       id="qrcode-display"
-      className="bg-white p-4 rounded-lg border border-gray-200 cursor-pointer hover:border-gray-300 transition-colors"
-      onClick={toggleRoundTrip}
-      title="Cliquer pour activer/désactiver le mode aller-retour"
+      className="bg-white p-4 rounded-lg border border-gray-200"
     >
       <div className="p-6 flex flex-col items-center">
         {(travelInfo.firstName || travelInfo.lastName) && (
