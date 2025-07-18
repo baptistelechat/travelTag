@@ -35,10 +35,10 @@ const AirportQRInfo = ({
     return (
       <div className="flex items-center gap-1.5">
         {airport.countryCode && (
-          <FlagComponent
-            countryCode={airport.countryCode}
-            countryName={airport.country || airport.countryCode}
-          />
+            <FlagComponent
+              countryCode={airport.countryCode}
+              countryName={airport.country || airport.countryCode}
+            />
         )}
         <span>{airport.iata}</span>
       </div>
