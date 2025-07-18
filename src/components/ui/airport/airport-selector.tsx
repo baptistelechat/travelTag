@@ -52,20 +52,27 @@ export function AirportSelector({
   const popularAirports = React.useMemo(() => {
     // Codes IATA des aéroports populaires
     const popularCodes = [
-      "CDG",
-      "ORY",
-      "LHR",
-      "JFK",
-      "LAX",
+      "ATL",
       "DXB",
+      "PEK",
+      "LHR",
+      "LAX",
+      "SIN",
       "HND",
+      "CDG",
+      "IST",
       "FRA",
+      "HKG",
+      "JFK",
+      "DOH",
+      "ICN",
       "AMS",
-      "MAD",
     ];
     return allAirports
       .filter((airport) => popularCodes.includes(airport.iata))
-      .slice(0, 10);
+      .sort((a, b) => {
+        return a.iata.localeCompare(b.iata);
+      });
   }, [allAirports]);
 
   // Filtrer les aéroports en fonction de la recherche
