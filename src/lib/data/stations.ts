@@ -5,6 +5,7 @@ import stationsFranceData from "@/assets/stations-france.json";
 export const StationSchema = z.object({
   name: z.string(),
   code: z.string(),
+  department: z.string(),
 });
 
 // Type dérivé du schéma
@@ -14,6 +15,7 @@ export type Station = z.infer<typeof StationSchema>;
 export const stations: Station[] = stationsFranceData.map((station: any) => ({
   name: station.nom,
   code: station.libellecourt,
+  department: station.codeinsee.substring(0, 2),
 }));
 
 // Cette fonction n'est plus nécessaire car nous n'utilisons plus le champ city
@@ -43,23 +45,23 @@ function findStationByName(name: string): Station | undefined {
 // Liste des gares populaires (pour l'affichage par défaut)
 export const popularStations: Station[] = [
   // Paris
-  findStationByName("Gare de Lyon") || { name: "Gare de Lyon", code: "PLY" },
-  findStationByName("Gare du Nord") || { name: "Gare du Nord", code: "PNO" },
-  findStationByName("Gare Montparnasse") || { name: "Gare Montparnasse", code: "PMO" },
-  findStationByName("Gare Saint-Lazare") || { name: "Gare Saint-Lazare", code: "PSL" },
-  findStationByName("Gare d'Austerlitz") || { name: "Gare d'Austerlitz", code: "PAZ" },
-  findStationByName("Gare de Bercy") || { name: "Gare de Bercy", code: "PBE" },
-  findStationByName("Gare de l'Est") || { name: "Gare de l'Est", code: "PES" },
+  findStationByName("Gare de Lyon") || { name: "Gare de Lyon", code: "PLY", department: "75" },
+  findStationByName("Gare du Nord") || { name: "Gare du Nord", code: "PNO", department: "75" },
+  findStationByName("Gare Montparnasse") || { name: "Gare Montparnasse", code: "PMO", department: "75" },
+  findStationByName("Gare Saint-Lazare") || { name: "Gare Saint-Lazare", code: "PSL", department: "75" },
+  findStationByName("Gare d'Austerlitz") || { name: "Gare d'Austerlitz", code: "PAZ", department: "75" },
+  findStationByName("Gare de Bercy") || { name: "Gare de Bercy", code: "PBE", department: "75" },
+  findStationByName("Gare de l'Est") || { name: "Gare de l'Est", code: "PES", department: "75" },
   
   // Grandes villes
-  findStationByName("Lyon Part-Dieu") || { name: "Lyon Part-Dieu", code: "LPD" },
-  findStationByName("Marseille Saint-Charles") || { name: "Marseille Saint-Charles", code: "MSC" },
-  findStationByName("Bordeaux Saint-Jean") || { name: "Bordeaux Saint-Jean", code: "BSJ" },
-  findStationByName("Lille Flandres") || { name: "Lille Flandres", code: "LFL" },
-  findStationByName("Nantes") || { name: "Nantes", code: "NTS" },
-  findStationByName("Rennes") || { name: "Rennes", code: "REN" },
-  findStationByName("Toulouse Matabiau") || { name: "Toulouse Matabiau", code: "TOU" },
-  findStationByName("Strasbourg") || { name: "Strasbourg", code: "STR" },
+  findStationByName("Lyon Part-Dieu") || { name: "Lyon Part-Dieu", code: "LPD", department: "69" },
+  findStationByName("Marseille Saint-Charles") || { name: "Marseille Saint-Charles", code: "MSC", department: "13" },
+  findStationByName("Bordeaux Saint-Jean") || { name: "Bordeaux Saint-Jean", code: "BSJ", department: "33" },
+  findStationByName("Lille Flandres") || { name: "Lille Flandres", code: "LFL", department: "59" },
+  findStationByName("Nantes") || { name: "Nantes", code: "NTS", department: "44" },
+  findStationByName("Rennes") || { name: "Rennes", code: "REN", department: "35" },
+  findStationByName("Toulouse Matabiau") || { name: "Toulouse Matabiau", code: "TOU", department: "31" },
+  findStationByName("Strasbourg") || { name: "Strasbourg", code: "STR", department: "67" },
 ];
 
 // Cette fonction a été remplacée par findStationByName
@@ -123,7 +125,7 @@ export function getStationByCode(code: string): Station | undefined {
  * Formate l'affichage d'une gare
  * @param station Gare à formater
  * @param maxLength Longueur maximale totale (défaut: 26)
- * @returns Chaîne formatée (ex: "Gare de Lyon")
+ * @returns Chaîne formatée (ex: "Gare de Lyon (75)")
  */
 export function formatStation(
   station: Station,
@@ -133,9 +135,13 @@ export function formatStation(
 
   // Simplifier le nom de la gare
   const nameDisplay = station.name || "";
+  
+  // Ajouter le département si disponible
+  const departmentDisplay = station.department ? ` (${station.department})` : "";
+  const fullDisplay = nameDisplay + departmentDisplay;
 
   // Raccourcir la chaîne si elle est trop longue
-  return nameDisplay.length > maxLength
-    ? `${nameDisplay.substring(0, maxLength)}...`
-    : nameDisplay;
+  return fullDisplay.length > maxLength
+    ? `${nameDisplay.substring(0, maxLength - departmentDisplay.length)}...${departmentDisplay}`
+    : fullDisplay;
 }

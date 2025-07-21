@@ -1,12 +1,13 @@
 import { getCountryName } from "@/components/ui/country/country-utils";
+
 import { clsx, type ClassValue } from "clsx";
 import { useHotkeys } from "react-hotkeys-hook";
 import type { Country } from "react-phone-number-input";
 import { twMerge } from "tailwind-merge";
-import { useTravelTagStore } from "./store";
-import type { TravelInfo } from "./types";
 import { getAirportByIATA } from "./data/airports";
 import { getStationByCode } from "./data/stations";
+import { useTravelTagStore } from "./store";
+import type { TravelInfo } from "./types";
 import { TransportModeEnum } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
@@ -19,15 +20,15 @@ export function cn(...inputs: ClassValue[]) {
  */
 export function normalizeString(str: string): string {
   if (!str) return str;
-  
+
   // Utilisation de la normalisation Unicode pour décomposer les caractères accentués
   // puis suppression des marques diacritiques (accents, cédilles, etc.)
   return str
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '') // Supprime les marques diacritiques
-    .replace(/[œŒ]/g, 'oe') // Remplace œ par oe
-    .replace(/[æÆ]/g, 'ae') // Remplace æ par ae
-    .replace(/[ÿŸ]/g, 'y') // Remplace ÿ par y
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Supprime les marques diacritiques
+    .replace(/[œŒ]/g, "oe") // Remplace œ par oe
+    .replace(/[æÆ]/g, "ae") // Remplace æ par ae
+    .replace(/[ÿŸ]/g, "y") // Remplace ÿ par y
     .replace(/[\u2018\u2019]/g, "'") // Remplace les guillemets courbes par des apostrophes droites
     .replace(/[\u201C\u201D]/g, '"'); // Remplace les guillemets courbes par des guillemets droits
 }
@@ -64,9 +65,9 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
     `Nom : ${normalizeString(travelInfo.lastName) || "-"}`,
     `Nationalite : ${
       travelInfo.nationality
-        ? `${normalizeString(getCountryName(travelInfo.nationality as Country))} (${
-            travelInfo.nationality
-          })`
+        ? `${normalizeString(
+            getCountryName(travelInfo.nationality as Country)
+          )} (${travelInfo.nationality})`
         : "-"
     }`,
   ];
@@ -80,15 +81,21 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
     travelInfo.country
   ) {
     const addressParts = [];
-    if (travelInfo.street) addressParts.push(normalizeString(travelInfo.street));
-    if (travelInfo.addressDetails) addressParts.push(normalizeString(travelInfo.addressDetails));
+    if (travelInfo.street)
+      addressParts.push(normalizeString(travelInfo.street));
+    if (travelInfo.addressDetails)
+      addressParts.push(normalizeString(travelInfo.addressDetails));
     if (travelInfo.postalCode || travelInfo.city) {
       addressParts.push(
-        `${normalizeString(travelInfo.postalCode || "")} ${normalizeString(travelInfo.city || "")}`.trim()
+        `${normalizeString(travelInfo.postalCode || "")} ${normalizeString(
+          travelInfo.city || ""
+        )}`.trim()
       );
     }
     if (travelInfo.country && travelInfo.country !== travelInfo.nationality) {
-      addressParts.push(normalizeString(getCountryName(travelInfo.country as Country)));
+      addressParts.push(
+        normalizeString(getCountryName(travelInfo.country as Country))
+      );
     }
     qrCodeData.push(`Adresse : ${addressParts.join(", ") || "-"}`);
   }
@@ -98,46 +105,77 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
     `Telephone : ${normalizeString(travelInfo.phone) || "-"}`,
     `Email : ${normalizeString(travelInfo.email) || "-"}`
   );
-  
+
   // Formater les lieux de départ et d'arrivée en fonction du mode de transport
   if (travelInfo.departureLocation) {
     if (travelInfo.transportMode === TransportModeEnum.AIRPORT) {
       // Mode aéroport
       const departureAirport = getAirportByIATA(travelInfo.departureLocation);
       if (departureAirport) {
-        qrCodeData.push(`Depart : ${normalizeString(departureAirport.name)} (${departureAirport.iata})`);
+        qrCodeData.push(
+          `Depart : ${normalizeString(departureAirport.name)} (${
+            departureAirport.iata
+          })`
+        );
       } else {
-        qrCodeData.push(`Depart : ${normalizeString(travelInfo.departureLocation) || "-"}`);
+        qrCodeData.push(
+          `Depart : ${normalizeString(travelInfo.departureLocation) || "-"}`
+        );
       }
     } else {
       // Mode train
       const departureStation = getStationByCode(travelInfo.departureLocation);
       if (departureStation) {
-        qrCodeData.push(`Depart : ${normalizeString(departureStation.name)} (${departureStation.code})`);
+        const departmentInfo = departureStation.department
+          ? departureStation.department
+          : "";
+
+        qrCodeData.push(
+          `Depart : ${normalizeString(
+            departureStation.name
+          )} - ${departmentInfo} (${departureStation.code})`
+        );
       } else {
-        qrCodeData.push(`Depart : ${normalizeString(travelInfo.departureLocation) || "-"}`);
+        qrCodeData.push(
+          `Depart : ${normalizeString(travelInfo.departureLocation) || "-"}`
+        );
       }
     }
   } else {
     qrCodeData.push(`Depart : -`);
   }
-  
+
   if (travelInfo.arrivalLocation) {
     if (travelInfo.transportMode === TransportModeEnum.AIRPORT) {
       // Mode aéroport
       const arrivalAirport = getAirportByIATA(travelInfo.arrivalLocation);
       if (arrivalAirport) {
-        qrCodeData.push(`Arrivee : ${normalizeString(arrivalAirport.name)} (${arrivalAirport.iata})`);
+        qrCodeData.push(
+          `Arrivee : ${normalizeString(arrivalAirport.name)} (${
+            arrivalAirport.iata
+          })`
+        );
       } else {
-        qrCodeData.push(`Arrivee : ${normalizeString(travelInfo.arrivalLocation) || "-"}`);
+        qrCodeData.push(
+          `Arrivee : ${normalizeString(travelInfo.arrivalLocation) || "-"}`
+        );
       }
     } else {
       // Mode train
       const arrivalStation = getStationByCode(travelInfo.arrivalLocation);
       if (arrivalStation) {
-        qrCodeData.push(`Arrivee : ${normalizeString(arrivalStation.name)} (${arrivalStation.code})`);
+        const departmentInfo = arrivalStation.department
+          ? arrivalStation.department
+          : "";
+        qrCodeData.push(
+          `Arrivee : ${normalizeString(
+            arrivalStation.name
+          )} - ${departmentInfo} (${arrivalStation.code})`
+        );
       } else {
-        qrCodeData.push(`Arrivee : ${normalizeString(travelInfo.arrivalLocation) || "-"}`);
+        qrCodeData.push(
+          `Arrivee : ${normalizeString(travelInfo.arrivalLocation) || "-"}`
+        );
       }
     }
   } else {
