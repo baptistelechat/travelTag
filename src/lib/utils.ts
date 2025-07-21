@@ -5,6 +5,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import type { Country } from "react-phone-number-input";
 import { twMerge } from "tailwind-merge";
 import { getAirportByIATA } from "./data/airports";
+import { getCityByPostalCode } from "./data/cities";
 import { getStationByCode } from "./data/stations";
 import { useTravelTagStore } from "./store";
 import type { TravelInfo } from "./types";
@@ -122,7 +123,7 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
           `Depart : ${normalizeString(travelInfo.departureLocation) || "-"}`
         );
       }
-    } else {
+    } else if (travelInfo.transportMode === TransportModeEnum.TRAIN) {
       // Mode train
       const departureStation = getStationByCode(travelInfo.departureLocation);
       if (departureStation) {
@@ -134,6 +135,20 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
           `Depart : ${normalizeString(
             departureStation.name
           )} - ${departmentInfo} (${departureStation.code})`
+        );
+      } else {
+        qrCodeData.push(
+          `Depart : ${normalizeString(travelInfo.departureLocation) || "-"}`
+        );
+      }
+    } else if (travelInfo.transportMode === TransportModeEnum.CAR) {
+      // Mode voiture/covoiturage
+      const departureCity = getCityByPostalCode(travelInfo.departureLocation);
+      if (departureCity) {
+        qrCodeData.push(
+          `Depart : ${normalizeString(departureCity.name)} - ${
+            departureCity.department
+          } (${departureCity.code_postal})`
         );
       } else {
         qrCodeData.push(
@@ -160,7 +175,7 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
           `Arrivee : ${normalizeString(travelInfo.arrivalLocation) || "-"}`
         );
       }
-    } else {
+    } else if (travelInfo.transportMode === TransportModeEnum.TRAIN) {
       // Mode train
       const arrivalStation = getStationByCode(travelInfo.arrivalLocation);
       if (arrivalStation) {
@@ -171,6 +186,20 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
           `Arrivee : ${normalizeString(
             arrivalStation.name
           )} - ${departmentInfo} (${arrivalStation.code})`
+        );
+      } else {
+        qrCodeData.push(
+          `Arrivee : ${normalizeString(travelInfo.arrivalLocation) || "-"}`
+        );
+      }
+    } else if (travelInfo.transportMode === TransportModeEnum.CAR) {
+      // Mode voiture/covoiturage
+      const arrivalCity = getCityByPostalCode(travelInfo.arrivalLocation);
+      if (arrivalCity) {
+        qrCodeData.push(
+          `Arrivee : ${normalizeString(arrivalCity.name)} - ${
+            arrivalCity.department
+          } (${arrivalCity.code_postal})`
         );
       } else {
         qrCodeData.push(

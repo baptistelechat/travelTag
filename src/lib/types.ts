@@ -4,6 +4,7 @@ import { z } from "zod";
 export const TransportModeEnum = {
   AIRPORT: "airport",
   TRAIN: "train",
+  CAR: "car"
 } as const;
 
 export type TransportMode =
@@ -36,7 +37,7 @@ export const travelInfoSchema = z.object({
     .min(1, { message: "Le lieu d'arrivée est requis" }),
   isRoundTrip: z.boolean().default(false),
   transportMode: z
-    .enum([TransportModeEnum.AIRPORT, TransportModeEnum.TRAIN])
+    .enum([TransportModeEnum.AIRPORT, TransportModeEnum.TRAIN, TransportModeEnum.CAR])
     .default(TransportModeEnum.AIRPORT),
   healthInfo: z.string().optional(),
   additionalInfo: z.string().optional(),

@@ -24,13 +24,14 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { FileText, Heart, Map, Plane, Train, User } from "lucide-react";
+import { Car, FileText, Heart, Map, Plane, Train, User } from "lucide-react";
 import { useState } from "react";
 import type {
   Country,
   Value as PhoneInputValue,
 } from "react-phone-number-input";
 import { AirportSelector } from "./ui/airport/airport-selector";
+import { CitySelector } from "./ui/city/city-selector";
 import { StationSelector } from "./ui/station/station-selector";
 
 export function TravelForm() {
@@ -343,7 +344,8 @@ export function TravelForm() {
                               onValueChange={(value) => {
                                 field.onChange(value);
                                 updateTravelInfo({
-                                  transportMode: value as (typeof TransportModeEnum)[keyof typeof TransportModeEnum],
+                                  transportMode:
+                                    value as (typeof TransportModeEnum)[keyof typeof TransportModeEnum],
                                 });
                                 // Réinitialiser les lieux de départ et d'arrivée
                                 form.setValue("departureLocation", "");
@@ -355,7 +357,7 @@ export function TravelForm() {
                               }}
                               className="w-full"
                             >
-                              <TabsList className="grid w-full grid-cols-2">
+                              <TabsList className="grid w-full grid-cols-3">
                                 <TabsTrigger
                                   value={TransportModeEnum.AIRPORT}
                                   className="flex items-center gap-2"
@@ -369,6 +371,13 @@ export function TravelForm() {
                                 >
                                   <Train className="h-4 w-4" />
                                   Train
+                                </TabsTrigger>
+                                <TabsTrigger
+                                  value={TransportModeEnum.CAR}
+                                  className="flex items-center gap-2"
+                                >
+                                  <Car className="h-4 w-4" />
+                                  Voiture / Bus
                                 </TabsTrigger>
                               </TabsList>
                             </Tabs>
@@ -395,9 +404,19 @@ export function TravelForm() {
                                   handleFieldChange("departureLocation", value);
                                 }}
                               />
-                            ) : (
+                            ) : form.watch("transportMode") ===
+                              TransportModeEnum.TRAIN ? (
                               <StationSelector
                                 placeholder="Rechercher une gare de départ..."
+                                value={field.value}
+                                onChange={(value) => {
+                                  field.onChange(value);
+                                  handleFieldChange("departureLocation", value);
+                                }}
+                              />
+                            ) : (
+                              <CitySelector
+                                placeholder="Rechercher une ville de départ..."
                                 value={field.value}
                                 onChange={(value) => {
                                   field.onChange(value);
@@ -428,9 +447,19 @@ export function TravelForm() {
                                   handleFieldChange("arrivalLocation", value);
                                 }}
                               />
-                            ) : (
+                            ) : form.watch("transportMode") ===
+                              TransportModeEnum.TRAIN ? (
                               <StationSelector
                                 placeholder="Rechercher une gare d'arrivée..."
+                                value={field.value}
+                                onChange={(value) => {
+                                  field.onChange(value);
+                                  handleFieldChange("arrivalLocation", value);
+                                }}
+                              />
+                            ) : (
+                              <CitySelector
+                                placeholder="Rechercher une ville d'arrivée..."
                                 value={field.value}
                                 onChange={(value) => {
                                   field.onChange(value);

@@ -124,7 +124,7 @@ export const popularStations: Station[] = [
     code: "STR",
     department: "67",
   },
-];
+].sort((a, b) => a.name.localeCompare(b.name));
 
 // Cette fonction a été remplacée par findStationByName
 
