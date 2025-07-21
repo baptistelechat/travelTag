@@ -1,4 +1,4 @@
-import { getStationByCode } from "@/lib/data/stations";
+import { formatStation, getStationByCode } from "@/lib/data/stations";
 import { useTravelTagStore } from "@/lib/store";
 import { normalizeString } from "@/lib/utils";
 import { ArrowLeftRight, ArrowRight } from "lucide-react";
@@ -31,11 +31,12 @@ const StationQRInfo = ({
       return <div>{normalizeString(code) || "-"}</div>;
     }
 
+    // Utiliser la fonction formatStation pour gérer la longueur et le département
+    const formattedStation = formatStation(station, 21);
+
     return (
       <div className="flex items-center gap-1.5">
-        <span>{station.code}</span>
-        <span>-</span>
-        <span>{station.name}</span>
+        <span className="text-sm">{formattedStation}</span>
       </div>
     );
   };

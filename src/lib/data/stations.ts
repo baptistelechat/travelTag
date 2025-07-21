@@ -1,5 +1,5 @@
-import { z } from "zod";
 import stationsFranceData from "@/assets/stations-france.json";
+import { z } from "zod";
 
 // Schéma pour valider la structure d'une gare SNCF
 export const StationSchema = z.object({
@@ -39,33 +39,94 @@ export const stations: Station[] = stationsFranceData.map((station: any) => ({
  * @returns La gare correspondante ou undefined si non trouvée
  */
 function findStationByName(name: string): Station | undefined {
-  return stations.find(s => s.name.toLowerCase().includes(name.toLowerCase()));
+  return stations.find((s) =>
+    s.name.toLowerCase().includes(name.toLowerCase())
+  );
 }
 
 // Liste des gares populaires (pour l'affichage par défaut)
 export const popularStations: Station[] = [
   // Paris
-  findStationByName("Gare de Lyon") || { name: "Gare de Lyon", code: "PLY", department: "75" },
-  findStationByName("Gare du Nord") || { name: "Gare du Nord", code: "PNO", department: "75" },
-  findStationByName("Gare Montparnasse") || { name: "Gare Montparnasse", code: "PMO", department: "75" },
-  findStationByName("Gare Saint-Lazare") || { name: "Gare Saint-Lazare", code: "PSL", department: "75" },
-  findStationByName("Gare d'Austerlitz") || { name: "Gare d'Austerlitz", code: "PAZ", department: "75" },
-  findStationByName("Gare de Bercy") || { name: "Gare de Bercy", code: "PBE", department: "75" },
-  findStationByName("Gare de l'Est") || { name: "Gare de l'Est", code: "PES", department: "75" },
-  
+  findStationByName("Gare de Lyon") || {
+    name: "Gare de Lyon",
+    code: "PLY",
+    department: "75",
+  },
+  findStationByName("Gare du Nord") || {
+    name: "Gare du Nord",
+    code: "PNO",
+    department: "75",
+  },
+  findStationByName("Gare Montparnasse") || {
+    name: "Gare Montparnasse",
+    code: "PMO",
+    department: "75",
+  },
+  findStationByName("Gare Saint-Lazare") || {
+    name: "Gare Saint-Lazare",
+    code: "PSL",
+    department: "75",
+  },
+  findStationByName("Gare d'Austerlitz") || {
+    name: "Gare d'Austerlitz",
+    code: "PAZ",
+    department: "75",
+  },
+  findStationByName("Gare de Bercy") || {
+    name: "Gare de Bercy",
+    code: "PBE",
+    department: "75",
+  },
+  findStationByName("Gare de l'Est") || {
+    name: "Gare de l'Est",
+    code: "PES",
+    department: "75",
+  },
+
   // Grandes villes
-  findStationByName("Lyon Part-Dieu") || { name: "Lyon Part-Dieu", code: "LPD", department: "69" },
-  findStationByName("Marseille Saint-Charles") || { name: "Marseille Saint-Charles", code: "MSC", department: "13" },
-  findStationByName("Bordeaux Saint-Jean") || { name: "Bordeaux Saint-Jean", code: "BSJ", department: "33" },
-  findStationByName("Lille Flandres") || { name: "Lille Flandres", code: "LFL", department: "59" },
-  findStationByName("Nantes") || { name: "Nantes", code: "NTS", department: "44" },
-  findStationByName("Rennes") || { name: "Rennes", code: "REN", department: "35" },
-  findStationByName("Toulouse Matabiau") || { name: "Toulouse Matabiau", code: "TOU", department: "31" },
-  findStationByName("Strasbourg") || { name: "Strasbourg", code: "STR", department: "67" },
+  findStationByName("Lyon Part-Dieu") || {
+    name: "Lyon Part-Dieu",
+    code: "LPD",
+    department: "69",
+  },
+  findStationByName("Marseille Saint-Charles") || {
+    name: "Marseille Saint-Charles",
+    code: "MSC",
+    department: "13",
+  },
+  findStationByName("Bordeaux Saint-Jean") || {
+    name: "Bordeaux Saint-Jean",
+    code: "BSJ",
+    department: "33",
+  },
+  findStationByName("Lille Flandres") || {
+    name: "Lille Flandres",
+    code: "LFL",
+    department: "59",
+  },
+  findStationByName("Nantes") || {
+    name: "Nantes",
+    code: "NTS",
+    department: "44",
+  },
+  findStationByName("Rennes") || {
+    name: "Rennes",
+    code: "REN",
+    department: "35",
+  },
+  findStationByName("Toulouse Matabiau") || {
+    name: "Toulouse Matabiau",
+    code: "TOU",
+    department: "31",
+  },
+  findStationByName("Strasbourg") || {
+    name: "Strasbourg",
+    code: "STR",
+    department: "67",
+  },
 ];
 
 // Cette fonction a été remplacée par findStationByName
-
 
 /**
  * Recherche des gares par nom ou code (libellecourt)
@@ -93,10 +154,10 @@ export function searchStations(query: string): Station[] {
     const otherMatches = stations
       .filter((station) => {
         // On exclut les stations déjà trouvées
-        if (results.some(s => s.code === station.code)) {
+        if (results.some((s) => s.code === station.code)) {
           return false;
         }
-        
+
         return (
           (station.name &&
             station.name.toLowerCase().includes(normalizedQuery)) ||
@@ -104,7 +165,7 @@ export function searchStations(query: string): Station[] {
         );
       })
       .slice(0, 15 - results.length); // On complète jusqu'à 15 résultats
-    
+
     results = [...results, ...otherMatches];
   }
 
@@ -129,19 +190,24 @@ export function getStationByCode(code: string): Station | undefined {
  */
 export function formatStation(
   station: Station,
-  maxLength: number = 26
+  maxLength: number = 30
 ): string {
   if (!station) return "";
 
   // Simplifier le nom de la gare
   const nameDisplay = station.name || "";
-  
+
   // Ajouter le département si disponible
-  const departmentDisplay = station.department ? ` (${station.department})` : "";
+  const departmentDisplay = station.department
+    ? ` (${station.department})`
+    : "";
   const fullDisplay = nameDisplay + departmentDisplay;
 
   // Raccourcir la chaîne si elle est trop longue
   return fullDisplay.length > maxLength
-    ? `${nameDisplay.substring(0, maxLength - departmentDisplay.length)}...${departmentDisplay}`
+    ? `${nameDisplay.substring(
+        0,
+        maxLength - departmentDisplay.length
+      )}...${departmentDisplay}`
     : fullDisplay;
 }

@@ -141,7 +141,7 @@
     justify-content: center !important;
     gap: 0.5mm !important; /* Gap minimal entre le drapeau et le nom */
   }
-  
+
   /* Style pour les drapeaux dans le QR code */
   body.print-grid .qrcode-name span.flex,
   body.print-grid .qrcode-airport-info span.flex {
@@ -173,7 +173,9 @@
     /* Ajuster la taille maximale en fonction du nombre de colonnes et de lignes */
     /* Réduction de la taille maximale pour laisser plus d'espace au texte */
     max-width: calc((200mm / var(--grid-cols)) - 8mm) !important;
-    max-height: calc((287mm / var(--grid-rows)) - 28mm) !important; /* Réduction de la hauteur pour laisser plus d'espace aux informations */
+    max-height: calc(
+      (287mm / var(--grid-rows)) - 28mm
+    ) !important; /* Réduction de la hauteur pour laisser plus d'espace aux informations */
     display: block !important;
     margin: 0 auto !important;
     background-color: white !important;
