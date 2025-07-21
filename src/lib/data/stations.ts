@@ -1,5 +1,8 @@
 import stationsFranceData from "@/assets/stations-france.json";
 import { z } from "zod";
+import type { Gare } from "../types/gare";
+
+const stationsData = stationsFranceData as unknown as Gare[];
 
 // Schéma pour valider la structure d'une gare SNCF
 export const StationSchema = z.object({
@@ -12,7 +15,7 @@ export const StationSchema = z.object({
 export type Station = z.infer<typeof StationSchema>;
 
 // Conversion des données du fichier JSON au format de notre application
-export const stations: Station[] = stationsFranceData.map((station: any) => ({
+export const stations: Station[] = stationsData.map((station: Gare) => ({
   name: station.nom,
   code: station.libellecourt,
   department: station.codeinsee.substring(0, 2),
