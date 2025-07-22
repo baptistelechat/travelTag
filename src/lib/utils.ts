@@ -7,6 +7,7 @@ import { twMerge } from "tailwind-merge";
 import { getAirportByIATA } from "./data/airports";
 import { getCityByCode } from "./data/cities";
 import { getStationByCode } from "./data/stations";
+import { getAllergyById } from "./data/allergies";
 import { useTravelTagStore } from "./store";
 import type { TravelInfo } from "./types";
 import { TransportModeEnum } from "./types";
@@ -216,7 +217,13 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
 
   // Ajouter les allergies si présentes
   if (travelInfo.allergies && travelInfo.allergies.length > 0) {
-    const allergiesText = travelInfo.allergies.map(normalizeString).join(", ");
+    // Convertir les IDs d'allergies en noms
+    const allergiesText = travelInfo.allergies
+      .map(id => {
+        const allergy = getAllergyById(id);
+        return allergy ? normalizeString(allergy.name) : id;
+      })
+      .join(", ");
     qrCodeData.push(`Allergies : ${allergiesText}`);
   }
 

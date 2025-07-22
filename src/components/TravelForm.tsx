@@ -9,7 +9,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { CountrySelect } from "@/components/ui/country/country-select";
 import {
   Form,
@@ -32,13 +31,14 @@ import type {
   Value as PhoneInputValue,
 } from "react-phone-number-input";
 import { AirportSelector } from "./ui/airport/airport-selector";
+import { AllergySelector } from "./ui/allergy/allergy-selector";
 import { CitySelector } from "./ui/city/city-selector";
 import { StationSelector } from "./ui/station/station-selector";
 
 export function TravelForm() {
   const { travelInfo, updateTravelInfo } = useTravelTagStore();
   const [accordionValue, setAccordionValue] = useState<string[]>([
-    "location-info",
+    "health-additional-info",
   ]);
 
   const form = useForm<TravelInfo>({
@@ -510,44 +510,26 @@ export function TravelForm() {
                   <div className="space-y-4 pt-2">
                     {/* Section Allergies */}
                     <div className="space-y-3">
-                      <h3 className="text-sm font-medium">Allergies</h3>
-                      <div className="grid grid-cols-2 gap-3">
-                        {[
-                          "Arachides",
-                          "Fruits à coque",
-                          "Gluten",
-                          "Lactose",
-                          "Œufs",
-                          "Poisson",
-                          "Crustacés",
-                          "Soja",
-                        ].map((allergy) => (
-                          <div
-                            key={allergy}
-                            className="flex flex-row items-start space-x-3 space-y-0"
-                          >
-                            <Checkbox
-                              checked={
-                                travelInfo.allergies?.includes(allergy) || false
-                              }
-                              onCheckedChange={(checked) => {
-                                const currentAllergies =
-                                  travelInfo.allergies || [];
-                                const newAllergies = checked
-                                  ? [...currentAllergies, allergy]
-                                  : currentAllergies.filter(
-                                      (a) => a !== allergy
-                                    );
-                                updateTravelInfo({ allergies: newAllergies });
-                                form.setValue("allergies", newAllergies);
-                              }}
-                            />
-                            <label className="text-sm font-normal cursor-pointer">
-                              {allergy}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
+                      <FormField
+                        control={form.control}
+                        name="allergies"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Allergies</FormLabel>
+                            <FormControl>
+                              <AllergySelector
+                                value={field.value || []}
+                                onChange={(value) => {
+                                  field.onChange(value);
+                                  updateTravelInfo({ allergies: value });
+                                }}
+                                placeholder="Sélectionner des allergies..."
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
                       <FormField
                         control={form.control}

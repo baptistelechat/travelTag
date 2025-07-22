@@ -47,6 +47,7 @@ export function searchCities(query: string): City[] {
         city.code_postal.includes(normalizedQuery) ||
         city.code_insee.includes(normalizedQuery)
     )
+    .sort((a, b) => a.name.localeCompare(b.name)) // Tri alphabétique par nom de ville
     .slice(0, 15); // Limiter à 15 résultats pour des raisons de performance
 }
 
