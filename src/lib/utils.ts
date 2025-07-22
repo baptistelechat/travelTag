@@ -8,6 +8,7 @@ import { getAirportByIATA } from "./data/airports";
 import { getCityByCode } from "./data/cities";
 import { getStationByCode } from "./data/stations";
 import { getAllergyById } from "./data/allergies";
+import { getBloodGroupById } from "./data/blood-groups";
 import { useTravelTagStore } from "./store";
 import type { TravelInfo } from "./types";
 import { TransportModeEnum } from "./types";
@@ -225,6 +226,12 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
       })
       .join(", ");
     qrCodeData.push(`Allergies : ${allergiesText}`);
+  }
+
+  // Ajouter le groupe sanguin s'il est présent
+  if (travelInfo.bloodGroup) {
+    const bloodGroup = getBloodGroupById(travelInfo.bloodGroup);
+    qrCodeData.push(`Groupe sanguin : ${bloodGroup ? bloodGroup.name : travelInfo.bloodGroup}`);
   }
 
   if (travelInfo.healthInfo) {

@@ -32,6 +32,7 @@ import type {
 } from "react-phone-number-input";
 import { AirportSelector } from "./ui/airport/airport-selector";
 import { AllergySelector } from "./ui/allergy/allergy-selector";
+import { BloodGroupSelector } from "./ui/blood-group/blood-group-selector";
 import { CitySelector } from "./ui/city/city-selector";
 import { StationSelector } from "./ui/station/station-selector";
 
@@ -530,8 +531,28 @@ export function TravelForm() {
                           </FormItem>
                         )}
                       />
-
                     </div>
+
+                    {/* Groupe sanguin */}
+                    <FormField
+                      control={form.control}
+                      name="bloodGroup"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Groupe sanguin</FormLabel>
+                          <FormControl>
+                            <BloodGroupSelector
+                              value={field.value || ""}
+                              onChange={(value) => {
+                                field.onChange(value);
+                                handleFieldChange("bloodGroup", value);
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
                     <FormField
                       control={form.control}

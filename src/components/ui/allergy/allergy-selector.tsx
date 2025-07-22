@@ -127,10 +127,7 @@ export function AllergySelector({
           <Button
             type="button"
             variant="outline"
-            className={cn(
-              "w-full justify-between px-3 text-left font-normal",
-              !selectedAllergies.length && "text-muted-foreground"
-            )}
+            className="flex w-full justify-between px-3 text-left font-normal"
             disabled={disabled}
           >
             {selectedAllergies.length > 0 ? (
@@ -187,9 +184,15 @@ export function AllergySelector({
                 }, 0);
               }}
               onKeyDown={(e) => {
-                if (e.key === "Enter" && searchValue && searchValue.trim() !== "") {
+                if (
+                  e.key === "Enter" &&
+                  searchValue &&
+                  searchValue.trim() !== ""
+                ) {
                   e.preventDefault();
-                  if (!(existingAllergy && value.includes(existingAllergy.id))) {
+                  if (
+                    !(existingAllergy && value.includes(existingAllergy.id))
+                  ) {
                     handleAddCustomAllergy();
                   }
                 }
