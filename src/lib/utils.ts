@@ -213,6 +213,18 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
 
   // Ajouter les informations optionnelles seulement si elles sont présentes
   // Utiliser la même logique que dans les composants originaux
+  
+  // Ajouter les allergies si présentes
+  if (travelInfo.allergies && travelInfo.allergies.length > 0) {
+    const allergiesText = travelInfo.allergies.map(normalizeString).join(", ");
+    qrCodeData.push(`Allergies : ${allergiesText}`);
+  }
+  
+  // Ajouter les autres allergies si présentes
+  if (travelInfo.otherAllergies) {
+    qrCodeData.push(`Autres allergies : ${normalizeString(travelInfo.otherAllergies)}`);
+  }
+  
   if (travelInfo.healthInfo) {
     qrCodeData.push(`Sante : ${normalizeString(travelInfo.healthInfo)}`);
   }

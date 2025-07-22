@@ -40,6 +40,8 @@ export const travelInfoSchema = z.object({
     .enum([TransportModeEnum.AIRPORT, TransportModeEnum.TRAIN, TransportModeEnum.CAR])
     .default(TransportModeEnum.AIRPORT),
   healthInfo: z.string().optional(),
+  allergies: z.array(z.string()).default([]),
+  otherAllergies: z.string().optional(),
   additionalInfo: z.string().optional(),
 });
 
@@ -63,5 +65,7 @@ export const initialTravelInfo: TravelInfo = {
   isRoundTrip: false,
   transportMode: TransportModeEnum.AIRPORT,
   healthInfo: "",
+  allergies: [],
+  otherAllergies: "",
   additionalInfo: "",
 };

@@ -9,6 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { CountrySelect } from "@/components/ui/country/country-select";
 import {
   Form,
@@ -507,6 +508,63 @@ export function TravelForm() {
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="space-y-4 pt-2">
+                    {/* Section Allergies */}
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-medium">Allergies</h3>
+                      <div className="grid grid-cols-2 gap-3">
+                        {[
+                          "Arachides",
+                          "Fruits à coque",
+                          "Gluten",
+                          "Lactose",
+                          "Œufs",
+                          "Poisson",
+                          "Crustacés",
+                          "Soja",
+                        ].map((allergy) => (
+                          <div key={allergy} className="flex flex-row items-start space-x-3 space-y-0">
+                            <Checkbox
+                              checked={travelInfo.allergies?.includes(allergy) || false}
+                              onCheckedChange={(checked) => {
+                                const currentAllergies = travelInfo.allergies || [];
+                                const newAllergies = checked
+                                  ? [...currentAllergies, allergy]
+                                  : currentAllergies.filter((a) => a !== allergy);
+                                updateTravelInfo({ allergies: newAllergies });
+                                form.setValue("allergies", newAllergies);
+                              }}
+                            />
+                            <label className="text-sm font-normal cursor-pointer">
+                              {allergy}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <FormField
+                        control={form.control}
+                        name="otherAllergies"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Autres allergies</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Autres allergies non listées..."
+                                {...field}
+                                onChange={(e) => {
+                                  field.onChange(e);
+                                  handleFieldChange("otherAllergies", e.target.value);
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <Separator className="my-4" />
+
                     <FormField
                       control={form.control}
                       name="healthInfo"
@@ -515,7 +573,7 @@ export function TravelForm() {
                           <FormLabel>Informations santé (optionnel)</FormLabel>
                           <FormControl>
                             <Textarea
-                              placeholder="Allergies, médicaments, etc."
+                              placeholder="Médicaments, conditions médicales, etc."
                               {...field}
                               onChange={(e) => {
                                 field.onChange(e);
