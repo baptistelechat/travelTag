@@ -239,9 +239,6 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
     qrCodeData.push(`Sante : ${normalizeString(travelInfo.healthInfo)}`);
   }
 
-  if (travelInfo.additionalInfo) {
-    qrCodeData.push(`Infos : ${normalizeString(travelInfo.additionalInfo)}`);
-  }
 
   // Ajouter les contacts de confiance s'ils sont présents
   if (travelInfo.trustContacts && travelInfo.trustContacts.length > 0) {

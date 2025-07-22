@@ -75,7 +75,6 @@ export const travelInfoSchema = z.object({
   allergies: z.array(z.string()).default([]),
   bloodGroup: z.string().optional(),
   healthInfo: z.string().optional(),
-  additionalInfo: z.string().optional(),
   trustContacts: z.array(trustContactSchema).default([]),
 });
 
@@ -101,6 +100,5 @@ export const initialTravelInfo: TravelInfo = {
   allergies: [],
   bloodGroup: "",
   healthInfo: "",
-  additionalInfo: "",
   trustContacts: [],
 };

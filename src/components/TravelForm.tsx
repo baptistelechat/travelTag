@@ -560,7 +560,7 @@ export function TravelForm() {
                       name="healthInfo"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Informations santé (optionnel)</FormLabel>
+                          <FormLabel>Informations complémentaires</FormLabel>
                           <FormControl>
                             <Textarea
                               placeholder="Médicaments, conditions médicales, etc."
@@ -576,31 +576,7 @@ export function TravelForm() {
                       )}
                     />
 
-                    <FormField
-                      control={form.control}
-                      name="additionalInfo"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            Informations complémentaires (optionnel)
-                          </FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="Contacter Marie en cas d'urgence..."
-                              {...field}
-                              onChange={(e) => {
-                                field.onChange(e);
-                                handleFieldChange(
-                                  "additionalInfo",
-                                  e.target.value
-                                );
-                              }}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+
                   </div>
                 </AccordionContent>
               </AccordionItem>
