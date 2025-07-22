@@ -531,32 +531,7 @@ export function TravelForm() {
                         )}
                       />
 
-                      <FormField
-                        control={form.control}
-                        name="otherAllergies"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Autres allergies</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Autres allergies non listées..."
-                                {...field}
-                                onChange={(e) => {
-                                  field.onChange(e);
-                                  handleFieldChange(
-                                    "otherAllergies",
-                                    e.target.value
-                                  );
-                                }}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
                     </div>
-
-                    <Separator className="my-4" />
 
                     <FormField
                       control={form.control}

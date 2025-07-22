@@ -5,9 +5,13 @@ export const AllergySchema = z.object({
   id: z.string(),
   name: z.string(),
   category: z.string().optional(),
+  isCustom: z.boolean().optional(),
 });
 
 export type Allergy = z.infer<typeof AllergySchema>;
+
+// Stockage local pour les allergies personnalisées
+const customAllergies: Allergy[] = [];
 
 // Liste des allergies courantes
 export const allergies: Allergy[] = [
@@ -55,11 +59,11 @@ export const popularAllergies = allergies
       "nuts",
       "gluten",
       "lactose",
-      
+
       // Allergies médicamenteuses populaires
       "penicillin",
       "aspirin",
-      
+
       // Allergies environnementales populaires
       "pollen",
       "dust",
@@ -76,19 +80,71 @@ export function searchAllergies(query: string): Allergy[] {
 
   const normalizedQuery = query.toLowerCase().trim();
 
-  return allergies.filter(
-    (allergy) =>
-      allergy.name.toLowerCase().includes(normalizedQuery) ||
-      (allergy.category &&
-        allergy.category.toLowerCase().includes(normalizedQuery))
-  ).sort((a, b) => a.name.localeCompare(b.name));
+  // Combiner les allergies prédéfinies et personnalisées
+  const allAllergies = [...allergies, ...customAllergies];
+
+  return allAllergies
+    .filter(
+      (allergy) =>
+        allergy.name.toLowerCase().includes(normalizedQuery) ||
+        (allergy.category &&
+          allergy.category.toLowerCase().includes(normalizedQuery))
+    )
+    .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 /**
  * Récupère une allergie par son ID
  */
 export function getAllergyById(id: string): Allergy | undefined {
-  return allergies.find((allergy) => allergy.id === id);
+  // Chercher d'abord dans les allergies prédéfinies
+  const predefinedAllergy = allergies.find((allergy) => allergy.id === id);
+  if (predefinedAllergy) return predefinedAllergy;
+
+  // Puis dans les allergies personnalisées
+  return customAllergies.find((allergy) => allergy.id === id);
+}
+
+/**
+ * Crée une nouvelle allergie personnalisée
+ */
+export function createCustomAllergy(name: string): Allergy {
+  // Générer un ID unique basé sur le nom et un timestamp
+  const id = `custom_${name.toLowerCase().replace(/\s+/g, "_")}_${Date.now()}`;
+
+  // Créer la nouvelle allergie avec la catégorie "Autre"
+  // Assurer que la première lettre n'est pas forcée en majuscule
+  const newAllergy: Allergy = {
+    id,
+    name: name.trim().slice(0, 1).toUpperCase() + name.trim().slice(1), // Utiliser le nom tel quel, sans modifier la casse
+
+    category: "Autre",
+    isCustom: true,
+  };
+
+  // Ajouter à la liste des allergies personnalisées
+  customAllergies.push(newAllergy);
+
+  return newAllergy;
+}
+
+/**
+ * Vérifie si une allergie avec le nom exact existe déjà
+ * @returns L'allergie existante ou undefined si elle n'existe pas
+ */
+export function allergyExistsByName(name: string): Allergy | undefined {
+  const normalizedName = name.toLowerCase().trim();
+
+  // Vérifier d'abord dans les allergies prédéfinies
+  const existingPredefined = allergies.find(
+    (allergy) => allergy.name.toLowerCase().trim() === normalizedName
+  );
+  if (existingPredefined) return existingPredefined;
+
+  // Puis dans les allergies personnalisées
+  return customAllergies.find(
+    (allergy) => allergy.name.toLowerCase().trim() === normalizedName
+  );
 }
 
 /**

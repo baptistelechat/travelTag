@@ -1,4 +1,4 @@
-import { Check, ChevronsUpDown, X } from "lucide-react";
+import { Check, ChevronsUpDown, Plus, X } from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
+  allergyExistsByName,
+  createCustomAllergy,
   getAllergyById,
   popularAllergies,
   searchAllergies,
@@ -55,6 +57,12 @@ export function AllergySelector({
     return searchAllergies(searchValue);
   }, [searchValue, isOpen]);
 
+  // Vérifier si la valeur recherchée existe déjà comme allergie
+  const existingAllergy = React.useMemo(() => {
+    if (!searchValue || searchValue.trim() === "") return undefined;
+    return allergyExistsByName(searchValue.trim());
+  }, [searchValue]);
+
   // Récupérer les allergies sélectionnées pour l'affichage
   const selectedAllergies = React.useMemo(() => {
     return value
@@ -73,6 +81,26 @@ export function AllergySelector({
       // Sélectionner
       onChange([...value, allergyId]);
     }
+  };
+
+  // Gérer l'ajout d'une nouvelle allergie personnalisée
+  const handleAddCustomAllergy = () => {
+    if (!searchValue || searchValue.trim() === "") return;
+
+    // Si l'allergie existe déjà, la réutiliser
+    if (existingAllergy) {
+      // Vérifier si elle n'est pas déjà sélectionnée
+      if (!value.includes(existingAllergy.id)) {
+        onChange([...value, existingAllergy.id]);
+      }
+    } else {
+      // Créer une nouvelle allergie
+      const newAllergy = createCustomAllergy(searchValue.trim());
+      onChange([...value, newAllergy.id]);
+    }
+
+    // Réinitialiser la recherche
+    setSearchValue("");
   };
 
   // Supprimer une allergie sélectionnée
@@ -158,13 +186,56 @@ export function AllergySelector({
                   }
                 }, 0);
               }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && searchValue && searchValue.trim() !== "") {
+                  e.preventDefault();
+                  if (!(existingAllergy && value.includes(existingAllergy.id))) {
+                    handleAddCustomAllergy();
+                  }
+                }
+              }}
               placeholder="Rechercher une allergie..."
               className="h-9"
               autoFocus
             />
             <CommandList>
               <ScrollArea ref={scrollAreaRef} className="h-[200px]">
-                <CommandEmpty>Aucune allergie trouvée.</CommandEmpty>
+                <CommandEmpty>
+                  {searchValue && searchValue.trim() !== "" ? (
+                    <div className="py-3 px-2 text-center text-sm">
+                      Aucune allergie trouvée.
+                      <Button
+                        onClick={handleAddCustomAllergy}
+                        disabled={
+                          existingAllergy && value.includes(existingAllergy.id)
+                        }
+                        variant="outline"
+                        className="w-full mt-3"
+                      >
+                        <Plus className="h-4 w-4" />
+                        {existingAllergy && !value.includes(existingAllergy.id)
+                          ? `Ajouter "${searchValue
+                              .trim()
+                              .slice(0, 1)
+                              .toUpperCase()}${searchValue.slice(1)}"`
+                          : existingAllergy &&
+                            value.includes(existingAllergy.id)
+                          ? `"${searchValue
+                              .trim()
+                              .slice(0, 1)
+                              .toUpperCase()}${searchValue.slice(
+                              1
+                            )}" est déjà sélectionné`
+                          : `Ajouter "${searchValue
+                              .trim()
+                              .slice(0, 1)
+                              .toUpperCase()}${searchValue.slice(1)}"`}
+                      </Button>
+                    </div>
+                  ) : (
+                    "Aucune allergie trouvée."
+                  )}
+                </CommandEmpty>
 
                 {/* Regrouper les allergies par catégorie */}
                 {filteredAllergies.length > 0 && (
