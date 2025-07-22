@@ -35,11 +35,12 @@ import { AllergySelector } from "./ui/allergy/allergy-selector";
 import { BloodGroupSelector } from "./ui/blood-group/blood-group-selector";
 import { CitySelector } from "./ui/city/city-selector";
 import { StationSelector } from "./ui/station/station-selector";
+import { TrustContactsList } from "./ui/trust-contact/trust-contacts-list";
 
 export function TravelForm() {
   const { travelInfo, updateTravelInfo } = useTravelTagStore();
   const [accordionValue, setAccordionValue] = useState<string[]>([
-    "health-additional-info",
+    "trust-contacts",
   ]);
 
   const form = useForm<TravelInfo>({
@@ -593,6 +594,39 @@ export function TravelForm() {
                                   "additionalInfo",
                                   e.target.value
                                 );
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Section 4: Contacts de confiance */}
+              <AccordionItem value="trust-contacts">
+                <AccordionTrigger className="flex items-center gap-2">
+                  <span className="flex items-center gap-2">
+                    <User className="h-4 w-4" />
+                    Contacts de confiance
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-4 pt-2">
+                    <FormField
+                      control={form.control}
+                      name="trustContacts"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Contacts de confiance</FormLabel>
+                          <FormControl>
+                            <TrustContactsList
+                              contacts={field.value || []}
+                              onChange={(value) => {
+                                field.onChange(value);
+                                updateTravelInfo({ trustContacts: value });
                               }}
                             />
                           </FormControl>

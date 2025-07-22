@@ -7,8 +7,37 @@ export const TransportModeEnum = {
   CAR: "car",
 } as const;
 
-export type TransportMode =
-  (typeof TransportModeEnum)[keyof typeof TransportModeEnum];
+
+// Enum pour les liens de parenté
+export const RelationshipTypeEnum = {
+  PARENT: "parent",
+  ENFANT: "enfant",
+  CONJOINT: "conjoint",
+  FRERE_SOEUR: "frere_soeur",
+  AMI: "ami",
+  AUTRE: "autre",
+} as const;
+
+export type RelationshipType =
+  (typeof RelationshipTypeEnum)[keyof typeof RelationshipTypeEnum];
+
+// Schéma pour un contact de confiance
+export const trustContactSchema = z.object({
+  id: z.string(),
+  firstName: z.string().min(1, { message: "Le prénom est requis" }),
+  lastName: z.string().min(1, { message: "Le nom est requis" }),
+  phone: z
+    .string()
+    .min(10, {
+      message: "Le numéro de téléphone doit contenir au moins 10 chiffres",
+    })
+    .regex(/^\+?[0-9\s]+$/, {
+      message: "Format de téléphone invalide",
+    }),
+  relationship: z.enum(Object.values(RelationshipTypeEnum)).default(RelationshipTypeEnum.AUTRE),
+});
+
+export type TrustContact = z.infer<typeof trustContactSchema>;
 
 // Schéma de validation pour les informations de voyage
 export const travelInfoSchema = z.object({
@@ -47,6 +76,7 @@ export const travelInfoSchema = z.object({
   bloodGroup: z.string().optional(),
   healthInfo: z.string().optional(),
   additionalInfo: z.string().optional(),
+  trustContacts: z.array(trustContactSchema).default([]),
 });
 
 // Type dérivé du schéma Zod
@@ -72,4 +102,5 @@ export const initialTravelInfo: TravelInfo = {
   bloodGroup: "",
   healthInfo: "",
   additionalInfo: "",
+  trustContacts: [],
 };

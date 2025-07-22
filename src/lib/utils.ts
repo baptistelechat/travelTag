@@ -9,6 +9,7 @@ import { getCityByCode } from "./data/cities";
 import { getStationByCode } from "./data/stations";
 import { getAllergyById } from "./data/allergies";
 import { getBloodGroupById } from "./data/blood-groups";
+import { getRelationshipLabel } from "./data/relationship-labels";
 import { useTravelTagStore } from "./store";
 import type { TravelInfo } from "./types";
 import { TransportModeEnum } from "./types";
@@ -240,6 +241,18 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
 
   if (travelInfo.additionalInfo) {
     qrCodeData.push(`Infos : ${normalizeString(travelInfo.additionalInfo)}`);
+  }
+
+  // Ajouter les contacts de confiance s'ils sont présents
+  if (travelInfo.trustContacts && travelInfo.trustContacts.length > 0) {
+    qrCodeData.push(`Contacts de confiance :`);
+    travelInfo.trustContacts.forEach((contact, index) => {
+      // Utilisation de la fonction getRelationshipLabel pour obtenir le libellé de la relation
+      const relationship = getRelationshipLabel(contact.relationship);
+      qrCodeData.push(
+        `  ${index + 1}. ${normalizeString(contact.firstName)} ${normalizeString(contact.lastName)} - ${normalizeString(contact.phone)} (${normalizeString(relationship)})`
+      );
+    });
   }
 
   return qrCodeData;
