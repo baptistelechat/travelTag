@@ -522,14 +522,22 @@ export function TravelForm() {
                           "Crustacés",
                           "Soja",
                         ].map((allergy) => (
-                          <div key={allergy} className="flex flex-row items-start space-x-3 space-y-0">
+                          <div
+                            key={allergy}
+                            className="flex flex-row items-start space-x-3 space-y-0"
+                          >
                             <Checkbox
-                              checked={travelInfo.allergies?.includes(allergy) || false}
+                              checked={
+                                travelInfo.allergies?.includes(allergy) || false
+                              }
                               onCheckedChange={(checked) => {
-                                const currentAllergies = travelInfo.allergies || [];
+                                const currentAllergies =
+                                  travelInfo.allergies || [];
                                 const newAllergies = checked
                                   ? [...currentAllergies, allergy]
-                                  : currentAllergies.filter((a) => a !== allergy);
+                                  : currentAllergies.filter(
+                                      (a) => a !== allergy
+                                    );
                                 updateTravelInfo({ allergies: newAllergies });
                                 form.setValue("allergies", newAllergies);
                               }}
@@ -540,7 +548,7 @@ export function TravelForm() {
                           </div>
                         ))}
                       </div>
-                      
+
                       <FormField
                         control={form.control}
                         name="otherAllergies"
@@ -553,7 +561,10 @@ export function TravelForm() {
                                 {...field}
                                 onChange={(e) => {
                                   field.onChange(e);
-                                  handleFieldChange("otherAllergies", e.target.value);
+                                  handleFieldChange(
+                                    "otherAllergies",
+                                    e.target.value
+                                  );
                                 }}
                               />
                             </FormControl>

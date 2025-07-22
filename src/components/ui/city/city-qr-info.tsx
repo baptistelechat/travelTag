@@ -18,15 +18,10 @@ const CityQRInfo = ({
   arrivalCityCode,
 }: CityQRInfoProps) => {
   const departureCity = getCityByCode(departureCityCode);
-  const arrivalCity = arrivalCityCode
-    ? getCityByCode(arrivalCityCode)
-    : null;
+  const arrivalCity = arrivalCityCode ? getCityByCode(arrivalCityCode) : null;
 
   // Fonction pour rendre une ville individuelle
-  const renderCity = (
-    code: string,
-    city: ReturnType<typeof getCityByCode>
-  ) => {
+  const renderCity = (code: string, city: ReturnType<typeof getCityByCode>) => {
     if (!city) {
       return <div>{normalizeString(code) || "-"}</div>;
     }

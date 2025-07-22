@@ -1,4 +1,5 @@
 import { AirportQRInfo } from "@/components/ui/airport/airport-qr-info";
+import { CityQRInfo } from "@/components/ui/city/city-qr-info";
 import { StationQRInfo } from "@/components/ui/station/station-qr-info";
 import FlagComponent from "@/components/ui/flag-component";
 import { useTravelTagStore } from "@/lib/store";
@@ -70,10 +71,15 @@ export function QRCodeGrid() {
                     departureIataCode={travelInfo.departureLocation}
                     arrivalIataCode={travelInfo.arrivalLocation}
                   />
-                ) : (
+                ) : travelInfo.transportMode === TransportModeEnum.TRAIN ? (
                   <StationQRInfo
                     departureStationCode={travelInfo.departureLocation}
                     arrivalStationCode={travelInfo.arrivalLocation}
+                  />
+                ) : (
+                  <CityQRInfo
+                    departureCityCode={travelInfo.departureLocation}
+                    arrivalCityCode={travelInfo.arrivalLocation}
                   />
                 )}
               </div>

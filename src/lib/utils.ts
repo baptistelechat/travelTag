@@ -5,7 +5,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import type { Country } from "react-phone-number-input";
 import { twMerge } from "tailwind-merge";
 import { getAirportByIATA } from "./data/airports";
-import { getCityByPostalCode } from "./data/cities";
+import { getCityByCode } from "./data/cities";
 import { getStationByCode } from "./data/stations";
 import { useTravelTagStore } from "./store";
 import type { TravelInfo } from "./types";
@@ -143,12 +143,12 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
       }
     } else if (travelInfo.transportMode === TransportModeEnum.CAR) {
       // Mode voiture/covoiturage
-      const departureCity = getCityByPostalCode(travelInfo.departureLocation);
+      const departureCity = getCityByCode(travelInfo.departureLocation);
       if (departureCity) {
         qrCodeData.push(
-          `Depart : ${normalizeString(departureCity.name)} - ${
-            departureCity.department
-          } (${departureCity.code_postal})`
+          `Depart : ${normalizeString(departureCity.name)} (${
+            departureCity.code_postal
+          })`
         );
       } else {
         qrCodeData.push(
@@ -194,12 +194,12 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
       }
     } else if (travelInfo.transportMode === TransportModeEnum.CAR) {
       // Mode voiture/covoiturage
-      const arrivalCity = getCityByPostalCode(travelInfo.arrivalLocation);
+      const arrivalCity = getCityByCode(travelInfo.arrivalLocation);
       if (arrivalCity) {
         qrCodeData.push(
-          `Arrivee : ${normalizeString(arrivalCity.name)} - ${
-            arrivalCity.department
-          } (${arrivalCity.code_postal})`
+          `Arrivee : ${normalizeString(arrivalCity.name)} (${
+            arrivalCity.code_postal
+          })`
         );
       } else {
         qrCodeData.push(
@@ -213,18 +213,20 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
 
   // Ajouter les informations optionnelles seulement si elles sont présentes
   // Utiliser la même logique que dans les composants originaux
-  
+
   // Ajouter les allergies si présentes
   if (travelInfo.allergies && travelInfo.allergies.length > 0) {
     const allergiesText = travelInfo.allergies.map(normalizeString).join(", ");
     qrCodeData.push(`Allergies : ${allergiesText}`);
   }
-  
+
   // Ajouter les autres allergies si présentes
   if (travelInfo.otherAllergies) {
-    qrCodeData.push(`Autres allergies : ${normalizeString(travelInfo.otherAllergies)}`);
+    qrCodeData.push(
+      `Autres allergies : ${normalizeString(travelInfo.otherAllergies)}`
+    );
   }
-  
+
   if (travelInfo.healthInfo) {
     qrCodeData.push(`Sante : ${normalizeString(travelInfo.healthInfo)}`);
   }
