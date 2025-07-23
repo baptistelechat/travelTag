@@ -38,7 +38,12 @@ export function TravelForm() {
       </CardHeader>
       <CardContent>
         <FormProvider {...form}>
-          <form className="space-y-4">
+          <form 
+            className="space-y-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
             <Accordion
               type="multiple"
               className="w-full"

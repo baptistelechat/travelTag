@@ -44,12 +44,24 @@ function AllergyBadge({ allergy, onRemove }: AllergyBadgeProps) {
     <Badge key={allergy.id} variant="secondary" className="mr-1 mb-1">
       {allergy.name}
       <button
+        type="button"
         className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
         onMouseDown={(e) => {
           e.preventDefault();
           e.stopPropagation();
         }}
-        onClick={(e) => onRemove(allergy.id, e)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            e.stopPropagation();
+            onRemove(allergy.id);
+          }
+        }}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          onRemove(allergy.id, e);
+        }}
       >
         <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
       </button>
@@ -255,13 +267,12 @@ export function AllergySelector({
                 }, 0);
               }}
               onKeyDown={(e) => {
-                if (
-                  e.key === "Enter" &&
-                  searchValue &&
-                  searchValue.trim() !== ""
-                ) {
+                if (e.key === "Enter") {
                   e.preventDefault();
+                  e.stopPropagation();
                   if (
+                    searchValue &&
+                    searchValue.trim() !== "" &&
                     !(existingAllergy && value.includes(existingAllergy.id))
                   ) {
                     handleAddCustomAllergy();
