@@ -16,9 +16,15 @@ export function usePrintHandler() {
       // Annuler l'événement d'impression par défaut
       event.preventDefault();
 
+      // Vérifier si le formulaire contient des données
+      if (!hasData(travelInfo)) {
+        console.log("Formulaire vide, impression annulée");
+        return;
+      }
+
       // Afficher l'overlay avec effet de flou
       const overlay = document.getElementById("print-overlay");
-      if (overlay && hasData(travelInfo)) {
+      if (overlay) {
         overlay.classList.add("print-overlay-visible");
       }
 

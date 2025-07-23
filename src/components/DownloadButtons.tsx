@@ -64,9 +64,15 @@ export function DownloadButtons() {
 
   // Fonction pour imprimer le QR code
   const printQRCode = () => {
+    // Vérifier si le formulaire contient des données
+    if (!hasData(travelInfo)) {
+      console.log("Formulaire vide, impression annulée");
+      return;
+    }
+    
     // Afficher l'overlay avec effet de flou
     const overlay = document.getElementById("print-overlay");
-    if (overlay && hasData(travelInfo)) {
+    if (overlay) {
       overlay.classList.add("print-overlay-visible");
     }
 
