@@ -9,13 +9,21 @@ import { getStationByCode } from "../data/stations";
 import { TransportModeEnum } from "../types/transport-mode.enum";
 import type { TravelInfo } from "../types/travel-info.schema";
 import { normalizeString } from "./string-utils";
+import { hasData } from "./travel-utils";
 
 /**
  * Formate les données de voyage pour le QR code
  * Cette fonction centralise la logique de formatage des données pour les QR codes
  * afin d'éviter la duplication de code et les incohérences
+ * 
+ * Easter egg : Si le formulaire est vide, retourne l'URL du Rickroll 🎵
  */
 export function formatQRCodeData(travelInfo: TravelInfo): string[] {
+  // Easter egg : Si aucune donnée n'est saisie, rediriger vers le Rickroll 🎵
+  if (!hasData(travelInfo)) {
+    return ["https://www.youtube.com/watch?v=dQw4w9WgXcQ"];
+  }
+
   // Création du contenu formaté pour le QR code sans accents dans les libellés
   const qrCodeData = [
     `Prenom : ${normalizeString(travelInfo.firstName) || "-"}`,
