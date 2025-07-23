@@ -6,40 +6,44 @@ TravelTag est une application web permettant de générer des QR codes contenant
 
 ## ✅ Objectif MVP (POC solide)
 
-### 1. 🎯 Formulaire d’informations
+### 1. 🎯 Formulaire d'informations
 
-- Nom, prénom
-- Numéro de téléphone
-- Aéroport/gare de départ
-- Aéroport/gare d’arrivée
-- Pathologie ou note santé
-- Texte libre (ex : "contacter Marie en cas d’urgence")
+- ✅ Nom, prénom
+- ✅ Adresse postale complète (rue, compléments, code postal, ville, pays)
+- ✅ Nationalité
+- ✅ Numéro de téléphone
+- ✅ Email
+- ✅ Aéroport/gare de départ
+- ✅ Aéroport/gare d'arrivée
+- ✅ Pathologie ou note santé
+- ✅ Texte libre (ex : "contacter Marie en cas d'urgence")
 
 ### 2. 🧠 Validation (Zod)
 
-- Contrôle de typage + valeurs requises
+- ✅ Contrôle de typage + valeurs requises
 
 ### 3. 📦 Génération du QR Code
 
-- QRCode au format texte ou JSON
-- Aperçu dynamique
+- ✅ QRCode au format texte
+- ✅ Aperçu dynamique
 - Formats exportables :
-  - PNG (via `html-to-image`)
+  - ✅ PNG (via `html-to-image`)
   - PDF (grille ou version simple)
 
 ### 4. 🖨️ Export
 
-- Mode impression (taille 1 ou grille de 3x3)
+- ✅ Mode impression (taille 1)
+- Grille de 3x3
 - Repères de découpe
-- Nom de l'app en petit footer
+- ✅ Nom de l'app en petit footer
 
 ### 5. ⚙️ Stack technique
 
-- Vite.js + React + TypeScript
-- Tailwind CSS v4 + Shadcn/UI
-- Zustand pour le state
-- Zod pour la validation
-- `react-qr-code` ou `qrcode.react`
+- ✅ Vite.js + React + TypeScript
+- ✅ Tailwind CSS + Shadcn/UI
+- ✅ Zustand pour le state
+- ✅ Zod pour la validation
+- ✅ `react-qr-code`
 
 ---
 
@@ -53,6 +57,7 @@ TravelTag est une application web permettant de générer des QR codes contenant
 ### 🌍 Multi-langue (FR / EN / ES)
 
 - Utilisation à l'international
+- ✅ Normalisation des caractères accentués pour compatibilité internationale
 
 ### 📱 PWA / Offline-first
 
@@ -69,7 +74,7 @@ TravelTag est une application web permettant de générer des QR codes contenant
 
 - Ajout contact parent
 - Groupe sanguin
-- Allergies
+- ✅ Allergies (via le champ informations santé)
 
 ---
 
@@ -88,7 +93,8 @@ TravelTag est une application web permettant de générer des QR codes contenant
 
 ### 🧠 Mode "fiche santé" autonome
 
-- Générer une fiche de santé d’urgence
+- Générer une fiche de santé d'urgence
+- ✅ Ajouter ses informations médicales (via le champ informations santé)
 - Ajouter son groupe sanguin, traitement, nom du médecin
 
 ### 🧳 Impression physique
@@ -106,8 +112,8 @@ TravelTag est une application web permettant de générer des QR codes contenant
 
 - Open Source (MIT ou GPL)
 - Hébergement gratuit (Vercel / Netlify)
-- Version 1 prévue pour usage perso offline, sans backend
+- ✅ Version 1 prévue pour usage perso offline, sans backend
 
 ---
 
-## 🏁 Objectif de la V1 : "Créer mon QR bagage en 30 secondes, sans compte et sans pub."
+## 🏁 Objectif de la V1 : ✅ "Créer mon QR bagage en 30 secondes, sans compte et sans pub."

@@ -73,7 +73,7 @@
     left: 0;
     width: 210mm; /* Largeur A4 */
     height: 297mm; /* Hauteur A4 */
-    padding: 3mm; /* Marge intérieure minimale pour maximiser l'espace de la grille */
+    padding: 2mm; /* Marge intérieure réduite pour maximiser l'espace de la grille */
     padding-top: 2mm; /* Padding minimal en haut */
     padding-bottom: 2mm; /* Padding minimal en bas */
     box-sizing: border-box;
@@ -88,7 +88,7 @@
   body.print-grid .grid-container {
     display: grid !important;
     /* Les colonnes et lignes sont définies dynamiquement par le style inline dans QRCodeGrid.tsx */
-    gap: 1mm !important; /* Espacement minimal entre les éléments pour maximiser l'espace disponible */
+    gap: 0.3mm !important; /* Espacement minimal entre les éléments pour maximiser l'espace disponible */
     width: 100% !important;
     height: 100% !important;
     background-color: white !important;
@@ -102,9 +102,9 @@
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 2mm !important; /* Réduction du padding pour donner plus d'espace au contenu */
-    padding-top: 5mm !important; /* Padding augmenté en haut pour éviter que le nom ne soit coupé */
-    padding-bottom: 5mm !important; /* Padding augmenté en bas pour éviter que l'URL ne soit coupée */
+    padding: 1mm !important; /* Padding minimal pour maximiser l'espace de contenu */
+    padding-top: 2mm !important; /* Padding réduit en haut */
+    padding-bottom: 2mm !important; /* Padding réduit en bas */
     background-color: white !important;
     visibility: visible !important;
     page-break-inside: avoid !important;
@@ -124,24 +124,34 @@
     height: 100% !important;
     background-color: white !important;
     visibility: visible !important;
+    gap: 1mm !important; /* Gap minimal pour tous les éléments enfants */
   }
 
   /* Nom au-dessus du QR code - taille adaptative selon la configuration de la grille */
   body.print-grid .qrcode-name {
     font-weight: 500 !important;
-    /* Marges adaptatives basées sur la configuration de la grille */
-    margin-top: calc(
-      2mm + (3mm - 2mm) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)
-    ) !important;
-    margin-bottom: calc(
-      2mm + (4mm - 2mm) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)
-    ) !important;
     text-align: center !important;
     color: black !important;
     /* Taille de police adaptative basée sur le nombre de colonnes et de lignes */
     font-size: calc(
-      8pt + (12pt - 8pt) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)
+      9pt + (12pt - 9pt) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)
     ) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5mm !important; /* Gap minimal entre le drapeau et le nom */
+  }
+
+  /* Style pour les drapeaux dans le QR code */
+  body.print-grid .qrcode-name span.flex,
+  body.print-grid .qrcode-airport-info span.flex {
+    height: 3mm !important;
+    width: 4.5mm !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    background-color: var(--color-gray-100) !important;
   }
 
   /* Conteneur du SVG du QR code */
@@ -163,7 +173,9 @@
     /* Ajuster la taille maximale en fonction du nombre de colonnes et de lignes */
     /* Réduction de la taille maximale pour laisser plus d'espace au texte */
     max-width: calc((200mm / var(--grid-cols)) - 8mm) !important;
-    max-height: calc((287mm / var(--grid-rows)) - 20mm) !important;
+    max-height: calc(
+      (287mm / var(--grid-rows)) - 28mm
+    ) !important; /* Réduction de la hauteur pour laisser plus d'espace aux informations */
     display: block !important;
     margin: 0 auto !important;
     background-color: white !important;
@@ -171,18 +183,29 @@
     visibility: visible !important;
   }
 
+  /* Informations d'aéroport avec drapeaux */
+  body.print-grid .qrcode-airport-info {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    /* Taille de police adaptative basée sur le nombre de colonnes et de lignes */
+    font-size: calc(
+      6pt + (8pt - 6pt) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)
+    ) !important;
+    text-align: center !important;
+    color: black !important;
+  }
+
   /* URL sous le QR code - taille adaptative selon la configuration de la grille */
   body.print-grid .qrcode-url {
     /* Taille de police adaptative basée sur le nombre de colonnes et de lignes */
     font-size: calc(
-      6pt + (9pt - 6pt) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)
+      7pt + (9pt - 7pt) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)
     ) !important;
     color: var(--color-gray-500) !important;
-    /* Marge adaptative basée sur la configuration de la grille */
-    margin-top: calc(
-      2mm + (4mm - 2mm) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)
-    ) !important;
-    margin-bottom: 2mm !important; /* Marge en bas augmentée pour éviter que le texte ne soit coupé */
+    margin-bottom: 0.5mm !important; /* Marge minimale en bas */
     text-align: center !important;
   }
 }

@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { initialTravelInfo, type TravelInfo } from "./types";
+import { initialTravelInfo } from "./types/initial-travel-info.const";
+import type { TravelInfo } from "./types/travel-info.schema";
 
 export interface GridConfig {
   rows: number;
