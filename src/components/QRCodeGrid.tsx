@@ -4,7 +4,7 @@ import { StationQRInfo } from "@/components/ui/station/station-qr-info";
 import FlagComponent from "@/components/ui/flag-component";
 import { useTravelTagStore } from "@/lib/store";
 import { TransportModeEnum } from "@/lib/types/transport-mode.enum";
-import { formatQRCodeData } from "@/lib/utils";
+import { formatQRCodeData } from "@/lib/utils/qrcode-utils";
 import { type Country } from "react-phone-number-input";
 import QRCode from "react-qr-code";
 

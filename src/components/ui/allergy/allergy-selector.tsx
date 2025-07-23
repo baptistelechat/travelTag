@@ -24,7 +24,7 @@ import {
   searchAllergies,
   type Allergy,
 } from "@/lib/data/allergies";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/ui-utils";
 import { Badge } from "../badge";
 
 export interface AllergySelectorProps {

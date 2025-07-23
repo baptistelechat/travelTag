@@ -1,7 +1,7 @@
 import { TravelForm } from "@/components/travel-form/TravelForm";
 import { QRCodeCard } from "./components/QRCodeCard";
 import { QRCodeGrid } from "./components/QRCodeGrid";
-import { usePrintHandler } from "./lib/utils";
+import { usePrintHandler } from "./hooks/usePrintHandler";
 
 function App() {
   // Utiliser le hook pour gérer l'impression via Ctrl+P

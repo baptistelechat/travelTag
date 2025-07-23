@@ -3,7 +3,7 @@ import { getCountries, type Country } from "react-phone-number-input";
 
 import { CountrySelector } from "@/components/ui/country/country-selector";
 import { getCountryName } from "@/components/ui/country/country-utils";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/ui-utils";
 
 type CountrySelectProps = Omit<
   React.ComponentProps<"div">,

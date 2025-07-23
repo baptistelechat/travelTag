@@ -25,7 +25,7 @@ import {
   stations,
   popularStations as importedPopularStations,
 } from "@/lib/data/stations";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/ui-utils";
 
 export interface StationSelectorProps {
   value?: string;

@@ -1,7 +1,7 @@
 import FlagComponent from "@/components/ui/flag-component";
 import { getAirportByIATA } from "@/lib/data/airports";
 import { useTravelTagStore } from "@/lib/store";
-import { normalizeString } from "@/lib/utils";
+import { normalizeString } from "@/lib/utils/string-utils";
 import { ArrowLeftRight, ArrowRight } from "lucide-react";
 
 interface AirportQRInfoProps {

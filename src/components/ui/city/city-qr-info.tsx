@@ -1,6 +1,6 @@
 import { getCityByCode } from "@/lib/data/cities";
 import { useTravelTagStore } from "@/lib/store";
-import { normalizeString } from "@/lib/utils";
+import { normalizeString } from "@/lib/utils/string-utils";
 import { ArrowLeftRight, ArrowRight } from "lucide-react";
 
 interface CityQRInfoProps {

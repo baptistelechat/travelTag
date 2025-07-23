@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useTravelTagStore } from "@/lib/store";
-import { hasData } from "@/lib/utils";
+import { hasData } from "@/lib/utils/travel-utils";
 import { toPng } from "html-to-image";
 import { Download, Minus, Plus, Printer } from "lucide-react";
 

@@ -19,7 +19,7 @@ import {
   popularCities,
   searchCities,
 } from "@/lib/data/cities";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/ui-utils";
 import { ChevronsUpDown, MapPin } from "lucide-react";
 import * as React from "react";
 
