@@ -34,6 +34,61 @@ export interface AllergySelectorProps {
   disabled?: boolean;
 }
 
+// Composant pour afficher un badge d'allergie avec bouton de suppression
+interface AllergyBadgeProps {
+  allergy: Allergy;
+  onRemove: (id: string, e?: React.MouseEvent) => void;
+}
+
+function AllergyBadge({ allergy, onRemove }: AllergyBadgeProps) {
+  return (
+    <Badge key={allergy.id} variant="secondary" className="mr-1 mb-1">
+      {allergy.name}
+      <button
+        className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+        onMouseDown={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+        onClick={(e) => onRemove(allergy.id, e)}
+      >
+        <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+      </button>
+    </Badge>
+  );
+}
+
+// Composant pour afficher un élément d'allergie dans la liste
+interface AllergyItemProps {
+  allergy: Allergy;
+  isSelected: boolean;
+  onSelect: (id: string) => void;
+}
+
+function AllergyItem({ allergy, isSelected, onSelect }: AllergyItemProps) {
+  return (
+    <CommandItem
+      key={allergy.id}
+      value={allergy.id}
+      onSelect={() => onSelect(allergy.id)}
+    >
+      <div className="flex items-center gap-2 w-full">
+        <div
+          className={cn(
+            "flex h-4 w-4 items-center justify-center rounded-xs border border-primary",
+            isSelected
+              ? "bg-primary text-primary-foreground"
+              : "opacity-50"
+          )}
+        >
+          {isSelected && <Check className="h-3 w-3 text-current" />}
+        </div>
+        <span>{allergy.name}</span>
+      </div>
+    </CommandItem>
+  );
+}
+
 /**
  * Composant pour sélectionner plusieurs allergies avec recherche
  */
@@ -73,14 +128,9 @@ export function AllergySelector({
   // Gérer la sélection/déselection d'une allergie
   const handleSelect = (allergyId: string) => {
     const isSelected = value.includes(allergyId);
-
-    if (isSelected) {
-      // Désélectionner
-      onChange(value.filter((id) => id !== allergyId));
-    } else {
-      // Sélectionner
-      onChange([...value, allergyId]);
-    }
+    onChange(isSelected 
+      ? value.filter((id) => id !== allergyId) 
+      : [...value, allergyId]);
   };
 
   // Gérer l'ajout d'une nouvelle allergie personnalisée
@@ -113,11 +163,45 @@ export function AllergySelector({
   // Gérer l'ouverture du popover
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
+    if (!open) setSearchValue("");
+  };
 
-    // Si on ferme le popover, réinitialiser la recherche
-    if (!open) {
-      setSearchValue("");
+  // Fonction pour afficher un groupe d'allergies par catégorie
+  const renderAllergyGroup = (category: string | null) => {
+    const allergiesInCategory = filteredAllergies.filter(
+      (allergy) => 
+        category === null 
+          ? !allergy.category 
+          : allergy.category === category
+    );
+    
+    if (allergiesInCategory.length === 0) return null;
+    
+    return (
+      <CommandGroup heading={category || "Autres"}>
+        {allergiesInCategory.map((allergy) => (
+          <AllergyItem 
+            key={allergy.id}
+            allergy={allergy} 
+            isSelected={value.includes(allergy.id)} 
+            onSelect={handleSelect} 
+          />
+        ))}
+      </CommandGroup>
+    );
+  };
+  
+  // Fonction pour formater le texte du bouton d'ajout d'allergie personnalisée
+  const getCustomAllergyButtonText = () => {
+    if (!searchValue || searchValue.trim() === "") return "";
+    
+    const formattedName = `${searchValue.trim().slice(0, 1).toUpperCase()}${searchValue.slice(1)}`;
+    
+    if (existingAllergy && value.includes(existingAllergy.id)) {
+      return `"${formattedName}" est déjà sélectionné`;
     }
+    
+    return `Ajouter "${formattedName}"`;
   };
 
   return (
@@ -135,23 +219,11 @@ export function AllergySelector({
                 {selectedAllergies.length <= 2 ? (
                   // Afficher les badges si peu d'allergies sélectionnées
                   selectedAllergies.map((allergy) => (
-                    <Badge
-                      key={allergy.id}
-                      variant="secondary"
-                      className="mr-1 mb-1"
-                    >
-                      {allergy.name}
-                      <button
-                        className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                        onMouseDown={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                        }}
-                        onClick={(e) => handleRemove(allergy.id, e)}
-                      >
-                        <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-                      </button>
-                    </Badge>
+                    <AllergyBadge 
+                      key={allergy.id} 
+                      allergy={allergy} 
+                      onRemove={handleRemove} 
+                    />
                   ))
                 ) : (
                   // Afficher le nombre d'allergies sélectionnées si nombreuses
@@ -216,23 +288,7 @@ export function AllergySelector({
                         className="w-full mt-3"
                       >
                         <Plus className="h-4 w-4" />
-                        {existingAllergy && !value.includes(existingAllergy.id)
-                          ? `Ajouter "${searchValue
-                              .trim()
-                              .slice(0, 1)
-                              .toUpperCase()}${searchValue.slice(1)}"`
-                          : existingAllergy &&
-                            value.includes(existingAllergy.id)
-                          ? `"${searchValue
-                              .trim()
-                              .slice(0, 1)
-                              .toUpperCase()}${searchValue.slice(
-                              1
-                            )}" est déjà sélectionné`
-                          : `Ajouter "${searchValue
-                              .trim()
-                              .slice(0, 1)
-                              .toUpperCase()}${searchValue.slice(1)}"`}
+                        {getCustomAllergyButtonText()}
                       </Button>
                     </div>
                   ) : (
@@ -243,153 +299,10 @@ export function AllergySelector({
                 {/* Regrouper les allergies par catégorie */}
                 {filteredAllergies.length > 0 && (
                   <>
-                    {/* Groupe Alimentaire */}
-                    {filteredAllergies.some(
-                      (allergy) => allergy.category === "Alimentaire"
-                    ) && (
-                      <CommandGroup heading="Alimentaire">
-                        {filteredAllergies
-                          .filter(
-                            (allergy) => allergy.category === "Alimentaire"
-                          )
-                          .map((allergy) => {
-                            const isSelected = value.includes(allergy.id);
-                            return (
-                              <CommandItem
-                                key={allergy.id}
-                                value={allergy.id}
-                                onSelect={() => handleSelect(allergy.id)}
-                              >
-                                <div className="flex items-center gap-2 w-full">
-                                  <div
-                                    className={cn(
-                                      "flex h-4 w-4 items-center justify-center rounded-xs border border-primary",
-                                      isSelected
-                                        ? "bg-primary text-primary-foreground"
-                                        : "opacity-50"
-                                    )}
-                                  >
-                                    {isSelected && (
-                                      <Check className="h-3 w-3 text-current" />
-                                    )}
-                                  </div>
-                                  <span>{allergy.name}</span>
-                                </div>
-                              </CommandItem>
-                            );
-                          })}
-                      </CommandGroup>
-                    )}
-
-                    {/* Groupe Médicament */}
-                    {filteredAllergies.some(
-                      (allergy) => allergy.category === "Médicament"
-                    ) && (
-                      <CommandGroup heading="Médicament">
-                        {filteredAllergies
-                          .filter(
-                            (allergy) => allergy.category === "Médicament"
-                          )
-                          .map((allergy) => {
-                            const isSelected = value.includes(allergy.id);
-                            return (
-                              <CommandItem
-                                key={allergy.id}
-                                value={allergy.id}
-                                onSelect={() => handleSelect(allergy.id)}
-                              >
-                                <div className="flex items-center gap-2 w-full">
-                                  <div
-                                    className={cn(
-                                      "flex h-4 w-4 items-center justify-center rounded-xs border border-primary",
-                                      isSelected
-                                        ? "bg-primary text-primary-foreground"
-                                        : "opacity-50"
-                                    )}
-                                  >
-                                    {isSelected && (
-                                      <Check className="h-3 w-3 text-current" />
-                                    )}
-                                  </div>
-                                  <span>{allergy.name}</span>
-                                </div>
-                              </CommandItem>
-                            );
-                          })}
-                      </CommandGroup>
-                    )}
-
-                    {/* Groupe Environnement */}
-                    {filteredAllergies.some(
-                      (allergy) => allergy.category === "Environnement"
-                    ) && (
-                      <CommandGroup heading="Environnement">
-                        {filteredAllergies
-                          .filter(
-                            (allergy) => allergy.category === "Environnement"
-                          )
-                          .map((allergy) => {
-                            const isSelected = value.includes(allergy.id);
-                            return (
-                              <CommandItem
-                                key={allergy.id}
-                                value={allergy.id}
-                                onSelect={() => handleSelect(allergy.id)}
-                              >
-                                <div className="flex items-center gap-2 w-full">
-                                  <div
-                                    className={cn(
-                                      "flex h-4 w-4 items-center justify-center rounded-xs border border-primary",
-                                      isSelected
-                                        ? "bg-primary text-primary-foreground"
-                                        : "opacity-50"
-                                    )}
-                                  >
-                                    {isSelected && (
-                                      <Check className="h-3 w-3 text-current" />
-                                    )}
-                                  </div>
-                                  <span>{allergy.name}</span>
-                                </div>
-                              </CommandItem>
-                            );
-                          })}
-                      </CommandGroup>
-                    )}
-
-                    {/* Groupe pour les allergies sans catégorie */}
-                    {filteredAllergies.some((allergy) => !allergy.category) && (
-                      <CommandGroup heading="Autres">
-                        {filteredAllergies
-                          .filter((allergy) => !allergy.category)
-                          .map((allergy) => {
-                            const isSelected = value.includes(allergy.id);
-                            return (
-                              <CommandItem
-                                key={allergy.id}
-                                value={allergy.id}
-                                onSelect={() => handleSelect(allergy.id)}
-                              >
-                                <div className="flex items-center gap-2 w-full">
-                                  <div
-                                    className={cn(
-                                      "flex h-4 w-4 items-center justify-center rounded-xs border border-primary",
-                                      isSelected
-                                        ? "bg-primary text-primary-foreground"
-                                        : "opacity-50"
-                                    )}
-                                  >
-                                    {isSelected && (
-                                      <Check className="h-3 w-3 text-current" />
-                                    )}
-                                  </div>
-                                  <span>{allergy.name}</span>
-                                </div>
-                              </CommandItem>
-                            );
-                          })}
-                      </CommandGroup>
-                    )}
+                    {renderAllergyGroup("Alimentaire")}
+                    {renderAllergyGroup("Médicament")}
+                    {renderAllergyGroup("Environnement")}
+                    {renderAllergyGroup(null)}
                   </>
                 )}
               </ScrollArea>
@@ -402,15 +315,11 @@ export function AllergySelector({
       {selectedAllergies.length > 2 && (
         <div className="flex flex-wrap gap-1 mt-1.5">
           {selectedAllergies.map((allergy) => (
-            <Badge key={allergy.id} variant="secondary" className="mb-1">
-              {allergy.name}
-              <button
-                className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                onClick={(e) => handleRemove(allergy.id, e)}
-              >
-                <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-              </button>
-            </Badge>
+            <AllergyBadge 
+              key={allergy.id} 
+              allergy={allergy} 
+              onRemove={handleRemove} 
+            />
           ))}
         </div>
       )}
