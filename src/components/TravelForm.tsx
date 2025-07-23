@@ -1,5 +1,10 @@
 import { useTravelTagStore } from "@/lib/store";
-import { type TravelInfo, TransportModeEnum } from "@/lib/types";
+import {
+  type AccordionValue,
+  type TravelInfo,
+  AccordionValueEnum,
+  TransportModeEnum,
+} from "@/lib/types";
 import { useForm } from "react-hook-form";
 
 import {
@@ -39,8 +44,8 @@ import { TrustContactsList } from "./ui/trust-contact/trust-contacts-list";
 
 export function TravelForm() {
   const { travelInfo, updateTravelInfo } = useTravelTagStore();
-  const [accordionValue, setAccordionValue] = useState<string[]>([
-    "trust-contacts",
+  const [accordionValue, setAccordionValue] = useState<AccordionValue[]>([
+    AccordionValueEnum.PERSONAL_INFO,
   ]);
 
   const form = useForm<TravelInfo>({
@@ -68,10 +73,18 @@ export function TravelForm() {
               type="multiple"
               className="w-full"
               value={accordionValue}
-              onValueChange={(value) => setAccordionValue(value)}
+              onValueChange={(value) => {
+                // Conversion des valeurs string[] en AccordionValue[]
+                const typedValues = value.filter((val): val is AccordionValue =>
+                  Object.values(AccordionValueEnum).includes(
+                    val as AccordionValue
+                  )
+                );
+                setAccordionValue(typedValues);
+              }}
             >
               {/* Section 1: Informations personnelles */}
-              <AccordionItem value="personal-info">
+              <AccordionItem value={AccordionValueEnum.PERSONAL_INFO}>
                 <AccordionTrigger className="flex items-center gap-2">
                   <span className="flex items-center gap-2">
                     <FileText className="h-4 w-4" />
@@ -326,7 +339,7 @@ export function TravelForm() {
               </AccordionItem>
 
               {/* Section 2: Lieux de départ et d'arrivée */}
-              <AccordionItem value="location-info">
+              <AccordionItem value={AccordionValueEnum.LOCATION_INFO}>
                 <AccordionTrigger className="flex items-center gap-2">
                   <span className="flex items-center gap-2">
                     <Map className="h-4 w-4" />
@@ -501,7 +514,7 @@ export function TravelForm() {
               </AccordionItem>
 
               {/* Section 3: Informations de santé et complémentaires */}
-              <AccordionItem value="health-additional-info">
+              <AccordionItem value={AccordionValueEnum.HEALTH_ADDITIONAL_INFO}>
                 <AccordionTrigger className="flex items-center gap-2">
                   <span className="flex items-center gap-2">
                     <Heart className="h-4 w-4" />
@@ -575,14 +588,12 @@ export function TravelForm() {
                         </FormItem>
                       )}
                     />
-
-
                   </div>
                 </AccordionContent>
               </AccordionItem>
 
               {/* Section 4: Contacts de confiance */}
-              <AccordionItem value="trust-contacts">
+              <AccordionItem value={AccordionValueEnum.TRUST_CONTACTS}>
                 <AccordionTrigger className="flex items-center gap-2">
                   <span className="flex items-center gap-2">
                     <User className="h-4 w-4" />
