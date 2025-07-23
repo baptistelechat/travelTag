@@ -11,8 +11,8 @@ import { getAllergyById } from "./data/allergies";
 import { getBloodGroupById } from "./data/blood-groups";
 import { getRelationshipLabel } from "./data/relationship-labels";
 import { useTravelTagStore } from "./store";
-import type { TravelInfo } from "./types";
-import { TransportModeEnum } from "./types";
+import type { TravelInfo } from "./types/travel-info.schema";
+import { TransportModeEnum } from "./types/transport-mode.enum";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

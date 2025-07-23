@@ -1,4 +1,4 @@
-import { RelationshipTypeEnum } from "@/lib/types";
+import { RelationshipTypeEnum } from "@/lib/types/relationship-type.enum";
 
 /**
  * Mapping des valeurs de l'enum RelationshipTypeEnum vers des libellés affichables

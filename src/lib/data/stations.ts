@@ -1,6 +1,6 @@
 import stationsFranceData from "@/assets/stations-france.json";
 import { z } from "zod";
-import type { Gare } from "../types/gare";
+import type { Gare } from "../types/gare.interface";
 
 const stationsData = stationsFranceData as unknown as Gare[];
 

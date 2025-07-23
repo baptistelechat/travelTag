@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RelationshipTypeEnum } from "@/lib/types";
+import { RelationshipTypeEnum } from "@/lib/types/relationship-type.enum";
 import { relationshipLabels } from "@/lib/data/relationship-labels";
 
 interface RelationshipSelectorProps {

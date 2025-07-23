@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { TrustContactItem } from "@/components/ui/trust-contact/trust-contact-item";
-import { type TrustContact, RelationshipTypeEnum } from "@/lib/types";
+import { type TrustContact } from "@/lib/types/trust-contact.schema";
+import { RelationshipTypeEnum } from "@/lib/types/relationship-type.enum";
 import { PlusCircle } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 

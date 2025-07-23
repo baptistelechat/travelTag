@@ -3,7 +3,7 @@ import { CityQRInfo } from "@/components/ui/city/city-qr-info";
 import FlagComponent from "@/components/ui/flag-component";
 import { StationQRInfo } from "@/components/ui/station/station-qr-info";
 import { useTravelTagStore } from "@/lib/store";
-import { TransportModeEnum } from "@/lib/types";
+import { TransportModeEnum } from "@/lib/types/transport-mode.enum";
 import { formatQRCodeData } from "@/lib/utils";
 import { useRef } from "react";
 import { type Country } from "react-phone-number-input";

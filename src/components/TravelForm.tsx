@@ -1,10 +1,7 @@
 import { useTravelTagStore } from "@/lib/store";
-import {
-  type AccordionValue,
-  type TravelInfo,
-  AccordionValueEnum,
-  TransportModeEnum,
-} from "@/lib/types";
+import { type AccordionValue, AccordionValueEnum } from "@/lib/types/accordion-value.enum";
+import { type TravelInfo } from "@/lib/types/travel-info.schema";
+import { TransportModeEnum } from "@/lib/types/transport-mode.enum";
 import { useForm } from "react-hook-form";
 
 import {

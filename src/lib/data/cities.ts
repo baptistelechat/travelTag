@@ -1,5 +1,5 @@
 import citiesFranceData from "@/assets/communes-france.json";
-import type { Commune } from "@/lib/types/commune";
+import type { Commune } from "@/lib/types/commune.interface";
 import { z } from "zod";
 
 // Extraction des données du fichier JSON qui a une structure avec metadata et data

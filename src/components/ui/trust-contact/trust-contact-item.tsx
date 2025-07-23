@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { RelationshipSelector } from "@/components/ui/trust-contact/relationship-selector";
-import { type TrustContact } from "@/lib/types";
+import { type TrustContact } from "@/lib/types/trust-contact.schema";
 import { Trash2 } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { type Value as PhoneInputValue } from "react-phone-number-input";
