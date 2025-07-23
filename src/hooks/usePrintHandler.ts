@@ -1,4 +1,5 @@
 import { useHotkeys } from "react-hotkeys-hook";
+import { toast } from "sonner";
 import { useTravelTagStore } from "../lib/store";
 import { hasData } from "../lib/utils/travel-utils";
 
@@ -19,6 +20,7 @@ export function usePrintHandler() {
       // Vérifier si le formulaire contient des données
       if (!hasData(travelInfo)) {
         console.log("Formulaire vide, impression annulée");
+        toast.error("Formulaire vide, impression annulée");
         return;
       }
 

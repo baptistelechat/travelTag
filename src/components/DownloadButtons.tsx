@@ -3,6 +3,7 @@ import { useTravelTagStore } from "@/lib/store";
 import { hasData } from "@/lib/utils/travel-utils";
 import { toPng } from "html-to-image";
 import { Download, Minus, Plus, Printer } from "lucide-react";
+import { toast } from "sonner";
 
 export function DownloadButtons() {
   const { travelInfo, gridConfig, setGridConfig } = useTravelTagStore();
@@ -67,9 +68,10 @@ export function DownloadButtons() {
     // Vérifier si le formulaire contient des données
     if (!hasData(travelInfo)) {
       console.log("Formulaire vide, impression annulée");
+      toast.error("Formulaire vide, impression annulée");
       return;
     }
-    
+
     // Afficher l'overlay avec effet de flou
     const overlay = document.getElementById("print-overlay");
     if (overlay) {
@@ -122,7 +124,7 @@ export function DownloadButtons() {
         // Supprimer les classes d'impression
         document.body.classList.remove("print-single", "print-grid");
         document.documentElement.classList.remove("print-mode");
-        
+
         // Masquer l'overlay avec effet de flou
         const overlay = document.getElementById("print-overlay");
         if (overlay) {
