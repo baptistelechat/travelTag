@@ -29,7 +29,7 @@ export function TravelForm() {
   });
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-md mx-auto md:mx-0">
       <CardHeader>
         <CardTitle className="text-xl font-bold flex items-center gap-2">
           <User className="h-5 w-5" />
@@ -38,7 +38,7 @@ export function TravelForm() {
       </CardHeader>
       <CardContent>
         <FormProvider {...form}>
-          <form 
+          <form
             className="space-y-4"
             onSubmit={(e) => {
               e.preventDefault();

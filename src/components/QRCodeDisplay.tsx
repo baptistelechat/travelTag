@@ -42,9 +42,9 @@ export function QRCodeDisplay() {
     <div
       ref={displayRef}
       id="qrcode-display"
-      className="bg-white p-4 rounded-lg border border-gray-200"
+      className="bg-white p-2 sm:p-4 rounded-lg border border-gray-200"
     >
-      <div className="p-6 flex flex-col items-center">
+      <div className="p-4 flex flex-col items-center">
         {(travelInfo.firstName || travelInfo.lastName) && (
           <div className="text-center mb-4 font-medium flex items-center justify-center gap-2">
             <div className="flex-shrink-0">
@@ -56,14 +56,16 @@ export function QRCodeDisplay() {
           </div>
         )}
 
-        <QRCode
-          value={qrCodeData}
-          size={300}
-          level="M"
-          className="mx-auto"
-          bgColor="#FFFFFF"
-          fgColor="#000000"
-        />
+        <div className="w-full max-w-[400px] mx-auto">
+          <QRCode
+            value={qrCodeData}
+            size={300}
+            level="M"
+            className="w-full h-auto max-w-full"
+            bgColor="#FFFFFF"
+            fgColor="#000000"
+          />
+        </div>
 
         {travelInfo.departureLocation || travelInfo.arrivalLocation ? (
           <div className="mt-4 text-center flex items-center justify-center gap-2">

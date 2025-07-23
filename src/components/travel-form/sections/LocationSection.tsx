@@ -66,22 +66,23 @@ export function LocationSection() {
                         value={TransportModeEnum.AIRPORT}
                         className="flex items-center gap-2"
                       >
-                        <Plane className="h-4 w-4" />
+                        <Plane className="h-4 w-4 hidden sm:block" />
                         Aéroport
                       </TabsTrigger>
                       <TabsTrigger
                         value={TransportModeEnum.TRAIN}
                         className="flex items-center gap-2"
                       >
-                        <Train className="h-4 w-4" />
+                        <Train className="h-4 w-4 hidden sm:block" />
                         Train
                       </TabsTrigger>
                       <TabsTrigger
                         value={TransportModeEnum.CAR}
                         className="flex items-center gap-2"
                       >
-                        <Car className="h-4 w-4" />
-                        Voiture / Bus
+                        <Car className="h-4 w-4 hidden sm:block" />
+                        <span className="sm:hidden">Route</span>
+                        <span className="hidden sm:inline">Voiture / Bus</span>
                       </TabsTrigger>
                     </TabsList>
                   </Tabs>
