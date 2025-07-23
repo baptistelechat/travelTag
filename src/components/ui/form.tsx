@@ -1,5 +1,5 @@
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils/ui-utils";
+import { cn } from "@/lib/utils";
 import * as LabelPrimitive from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
@@ -10,7 +10,6 @@ import {
   FormProvider,
   useFormContext,
 } from "react-hook-form";
-
 // Définir ControllerProps manuellement car il n'est pas exporté dans la version actuelle
 type ControllerProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -97,7 +96,11 @@ const FormItem = React.forwardRef<
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div ref={ref} className={cn("flex flex-col gap-1.5", className)} {...props} />
+      <div
+        ref={ref}
+        className={cn("flex flex-col gap-1.5", className)}
+        {...props}
+      />
     </FormItemContext.Provider>
   );
 });

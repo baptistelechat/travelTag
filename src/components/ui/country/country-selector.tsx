@@ -19,8 +19,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils/ui-utils";
-
+import { cn } from "@/lib/utils";
 export type CountryEntry = { label: string; value: Country | undefined };
 
 export type CountrySelectorProps = {

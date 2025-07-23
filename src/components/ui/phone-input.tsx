@@ -3,7 +3,7 @@ import * as RPNInput from "react-phone-number-input";
 import fr from "react-phone-number-input/locale/fr.json";
 
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils/ui-utils";
+import { cn } from "@/lib/utils";
 import { type CountryEntry, CountrySelector } from "./country/country-selector";
 import { FlagAdapter } from "./flag-component";
 

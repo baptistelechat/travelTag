@@ -21,12 +21,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   type Station,
   formatStation,
+  popularStations as importedPopularStations,
   searchStations,
   stations,
-  popularStations as importedPopularStations,
 } from "@/lib/data/stations";
-import { cn } from "@/lib/utils/ui-utils";
-
+import { cn } from "@/lib/utils";
 export interface StationSelectorProps {
   value?: string;
   onChange?: (value: string) => void;
@@ -57,14 +56,14 @@ export function StationSelector({
     if (allStations.length === 0) {
       return [];
     }
-    
+
     // Utiliser la liste des gares populaires définie dans stations.ts
     if (importedPopularStations && importedPopularStations.length > 0) {
       return importedPopularStations.sort((a: Station, b: Station) => {
         return a.code.localeCompare(b.code);
       });
     }
-    
+
     // Retourner un tableau vide par défaut
     return [];
   }, [allStations]);

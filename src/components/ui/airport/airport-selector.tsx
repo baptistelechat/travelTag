@@ -23,8 +23,7 @@ import {
   searchAirports,
   type Airport,
 } from "@/lib/data/airports";
-import { cn } from "@/lib/utils/ui-utils";
-
+import { cn } from "@/lib/utils";
 export interface AirportSelectorProps {
   value?: string;
   onChange?: (value: string) => void;

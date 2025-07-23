@@ -24,9 +24,8 @@ import {
   searchAllergies,
   type Allergy,
 } from "@/lib/data/allergies";
-import { cn } from "@/lib/utils/ui-utils";
+import { cn } from "@/lib/utils";
 import { Badge } from "../badge";
-
 export interface AllergySelectorProps {
   value: string[];
   onChange: (value: string[]) => void;
@@ -76,9 +75,7 @@ function AllergyItem({ allergy, isSelected, onSelect }: AllergyItemProps) {
         <div
           className={cn(
             "flex h-4 w-4 items-center justify-center rounded-xs border border-primary",
-            isSelected
-              ? "bg-primary text-primary-foreground"
-              : "opacity-50"
+            isSelected ? "bg-primary text-primary-foreground" : "opacity-50"
           )}
         >
           {isSelected && <Check className="h-3 w-3 text-current" />}
@@ -128,9 +125,11 @@ export function AllergySelector({
   // Gérer la sélection/déselection d'une allergie
   const handleSelect = (allergyId: string) => {
     const isSelected = value.includes(allergyId);
-    onChange(isSelected 
-      ? value.filter((id) => id !== allergyId) 
-      : [...value, allergyId]);
+    onChange(
+      isSelected
+        ? value.filter((id) => id !== allergyId)
+        : [...value, allergyId]
+    );
   };
 
   // Gérer l'ajout d'une nouvelle allergie personnalisée
@@ -168,39 +167,39 @@ export function AllergySelector({
 
   // Fonction pour afficher un groupe d'allergies par catégorie
   const renderAllergyGroup = (category: string | null) => {
-    const allergiesInCategory = filteredAllergies.filter(
-      (allergy) => 
-        category === null 
-          ? !allergy.category 
-          : allergy.category === category
+    const allergiesInCategory = filteredAllergies.filter((allergy) =>
+      category === null ? !allergy.category : allergy.category === category
     );
-    
+
     if (allergiesInCategory.length === 0) return null;
-    
+
     return (
       <CommandGroup heading={category || "Autres"}>
         {allergiesInCategory.map((allergy) => (
-          <AllergyItem 
+          <AllergyItem
             key={allergy.id}
-            allergy={allergy} 
-            isSelected={value.includes(allergy.id)} 
-            onSelect={handleSelect} 
+            allergy={allergy}
+            isSelected={value.includes(allergy.id)}
+            onSelect={handleSelect}
           />
         ))}
       </CommandGroup>
     );
   };
-  
+
   // Fonction pour formater le texte du bouton d'ajout d'allergie personnalisée
   const getCustomAllergyButtonText = () => {
     if (!searchValue || searchValue.trim() === "") return "";
-    
-    const formattedName = `${searchValue.trim().slice(0, 1).toUpperCase()}${searchValue.slice(1)}`;
-    
+
+    const formattedName = `${searchValue
+      .trim()
+      .slice(0, 1)
+      .toUpperCase()}${searchValue.slice(1)}`;
+
     if (existingAllergy && value.includes(existingAllergy.id)) {
       return `"${formattedName}" est déjà sélectionné`;
     }
-    
+
     return `Ajouter "${formattedName}"`;
   };
 
@@ -219,10 +218,10 @@ export function AllergySelector({
                 {selectedAllergies.length <= 2 ? (
                   // Afficher les badges si peu d'allergies sélectionnées
                   selectedAllergies.map((allergy) => (
-                    <AllergyBadge 
-                      key={allergy.id} 
-                      allergy={allergy} 
-                      onRemove={handleRemove} 
+                    <AllergyBadge
+                      key={allergy.id}
+                      allergy={allergy}
+                      onRemove={handleRemove}
                     />
                   ))
                 ) : (
@@ -315,10 +314,10 @@ export function AllergySelector({
       {selectedAllergies.length > 2 && (
         <div className="flex flex-wrap gap-1 mt-1.5">
           {selectedAllergies.map((allergy) => (
-            <AllergyBadge 
-              key={allergy.id} 
-              allergy={allergy} 
-              onRemove={handleRemove} 
+            <AllergyBadge
+              key={allergy.id}
+              allergy={allergy}
+              onRemove={handleRemove}
             />
           ))}
         </div>
