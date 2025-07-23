@@ -1,4 +1,4 @@
-import { TravelForm } from "@/components/TravelForm";
+import { TravelForm } from "@/components/travel-form/TravelForm";
 import { QRCodeCard } from "./components/QRCodeCard";
 import { QRCodeGrid } from "./components/QRCodeGrid";
 import { usePrintHandler } from "./lib/utils";
