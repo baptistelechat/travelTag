@@ -1,0 +1,211 @@
+/* Overlay avec effet de flou pour l'impression */
+.print-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.print-overlay-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Styles spécifiques pour l'impression */
+@media print {
+  /* Masquer tous les éléments par défaut */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Configuration de base de la page A4 */
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  /* Styles généraux pour le mode impression */
+  html.print-mode {
+    height: 100%;
+    overflow: visible;
+  }
+
+  html.print-mode body {
+    height: 100%;
+    overflow: visible;
+  }
+
+  /* Styles pour l'affichage en grille de QR codes */
+  /* Par défaut, la grille est cachée */
+  #qrcode-grid,
+  #print-grid-container,
+  .print-grid-container {
+    visibility: hidden;
+    display: none;
+  }
+
+  /* La grille est visible en mode d'impression */
+  body.print-grid #qrcode-grid,
+  body.print-grid #print-grid-container,
+  body.print-grid .print-grid-container {
+    visibility: visible !important;
+    display: block !important;
+  }
+
+  body.print-grid #qrcode-grid *,
+  body.print-grid #print-grid-container *,
+  body.print-grid .print-grid-container * {
+    visibility: visible !important;
+  }
+
+  /* Conteneur principal de la grille */
+  body.print-grid #qrcode-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 210mm; /* Largeur A4 */
+    height: 297mm; /* Hauteur A4 */
+    padding: 2mm; /* Marge intérieure réduite pour maximiser l'espace de la grille */
+    padding-top: 2mm; /* Padding minimal en haut */
+    padding-bottom: 2mm; /* Padding minimal en bas */
+    box-sizing: border-box;
+    background-color: white !important;
+    z-index: 9999 !important;
+    visibility: visible !important;
+    display: block !important;
+    overflow: hidden !important;
+  }
+
+  /* Conteneur de la grille */
+  body.print-grid .grid-container {
+    display: grid !important;
+    /* Les colonnes et lignes sont définies dynamiquement par le style inline dans QRCodeGrid.tsx */
+    gap: 0.3mm !important; /* Espacement minimal entre les éléments pour maximiser l'espace disponible */
+    width: 100% !important;
+    height: 100% !important;
+    background-color: white !important;
+    visibility: visible !important;
+    margin: 0 auto !important; /* Centre la grille */
+  }
+
+  /* Élément individuel de la grille */
+  body.print-grid .qrcode-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 1mm !important; /* Padding minimal pour maximiser l'espace de contenu */
+    padding-top: 2mm !important; /* Padding réduit en haut */
+    padding-bottom: 2mm !important; /* Padding réduit en bas */
+    background-color: white !important;
+    visibility: visible !important;
+    page-break-inside: avoid !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* Contenu du QR code */
+  body.print-grid .qrcode-content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: white !important;
+    visibility: visible !important;
+    gap: 1mm !important; /* Gap minimal pour tous les éléments enfants */
+  }
+
+  /* Nom au-dessus du QR code - taille adaptative selon la configuration de la grille */
+  body.print-grid .qrcode-name {
+    font-weight: 500 !important;
+    text-align: center !important;
+    color: black !important;
+    /* Taille de police adaptative basée sur le nombre de colonnes et de lignes */
+    font-size: calc(
+      9pt + (12pt - 9pt) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)
+    ) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5mm !important; /* Gap minimal entre le drapeau et le nom */
+  }
+
+  /* Style pour les drapeaux dans le QR code */
+  body.print-grid .qrcode-name span.flex,
+  body.print-grid .qrcode-airport-info span.flex {
+    height: 3mm !important;
+    width: 4.5mm !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    background-color: var(--color-gray-100) !important;
+  }
+
+  /* Conteneur du SVG du QR code */
+  body.print-grid .qrcode-svg-container {
+    width: 100% !important;
+    height: auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 auto !important;
+    background-color: white !important;
+    visibility: visible !important;
+  }
+
+  /* SVG du QR code */
+  body.print-grid .qrcode-svg-container svg {
+    width: 100% !important;
+    height: auto !important;
+    /* Ajuster la taille maximale en fonction du nombre de colonnes et de lignes */
+    /* Réduction de la taille maximale pour laisser plus d'espace au texte */
+    max-width: calc((200mm / var(--grid-cols)) - 8mm) !important;
+    max-height: calc(
+      (287mm / var(--grid-rows)) - 28mm
+    ) !important; /* Réduction de la hauteur pour laisser plus d'espace aux informations */
+    display: block !important;
+    margin: 0 auto !important;
+    background-color: white !important;
+    color: black !important;
+    visibility: visible !important;
+  }
+
+  /* Informations d'aéroport avec drapeaux */
+  body.print-grid .qrcode-airport-info {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    /* Taille de police adaptative basée sur le nombre de colonnes et de lignes */
+    font-size: calc(
+      6pt + (8pt - 6pt) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)
+    ) !important;
+    text-align: center !important;
+    color: black !important;
+  }
+
+  /* URL sous le QR code - taille adaptative selon la configuration de la grille */
+  body.print-grid .qrcode-url {
+    /* Taille de police adaptative basée sur le nombre de colonnes et de lignes */
+    font-size: calc(
+      7pt + (9pt - 7pt) * (1 - (var(--grid-cols) * var(--grid-rows)) / 24)
+    ) !important;
+    color: var(--color-gray-500) !important;
+    margin-bottom: 0.5mm !important; /* Marge minimale en bas */
+    text-align: center !important;
+  }
+}

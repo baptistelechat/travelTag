@@ -2,27 +2,46 @@
 
 TravelTag est une application web permettant de générer des QR codes contenant des informations personnelles à imprimer et coller sur des bagages, sacs à dos, affaires d'enfants, etc. Pensé pour un usage personnel, il vise à devenir un outil public simple, offline et rassurant.
 
+✨ **Version 1.0** : Application complète avec gestion des transports, informations de santé et contacts de confiance.
+
 ## 🚀 Fonctionnalités
 
-- Formulaire d'informations personnelles avec validation
+### 📝 Informations personnelles
+- Nom, prénom et nationalité
+- Adresse postale complète (rue, compléments, code postal, ville, pays)
+- Numéro de téléphone et email
+
+### 🚗 Transport et voyage
+- Modes de transport multiples (avion, train, voiture, bus, bateau)
+- Aéroports, gares et villes avec autocomplétion
+- Gestion des lieux de départ et d'arrivée
+
+### 🏥 Santé et sécurité
+- Groupe sanguin
+- Allergies et informations médicales
+- Contacts de confiance avec nom et téléphone
+
+### 💻 Fonctionnalités techniques
 - Génération de QR code en temps réel
-- Export en PNG et PDF (format simple ou grille 3x3)
+- Export en PNG (format simple ou grille)
 - Application 100% offline - vos données restent sur votre appareil
 - Interface responsive et intuitive
+- Validation complète des formulaires
 
 ## 🔧 Technologies utilisées
 
-- Vite + React + TypeScript
-- Tailwind CSS v4
-- Zustand pour la gestion d'état
-- Zod pour la validation des formulaires
-- react-qr-code pour la génération des QR codes
-- @react-pdf/renderer pour l'export PDF
-- html-to-image pour l'export PNG
+- **Frontend** : Vite + React 18 + TypeScript
+- **Styling** : Tailwind CSS v4 + shadcn/ui
+- **State Management** : Zustand
+- **Validation** : Zod avec schémas TypeScript
+- **QR Code** : react-qr-code
+- **Export** : html-to-image pour PNG
+- **Data** : Fichiers JSON pour aéroports, gares et pays
+- **Hooks** : Hooks personnalisés pour la logique métier
 
 ## 🏁 Objectif
 
-"Créer mon QR bagage en 30 secondes, sans compte et sans pub."
+"Créer mon QR bagage en 1 minute, sans compte et sans pub."
 
 ## 📋 Roadmap
 
