@@ -1,14 +1,18 @@
 import { TravelForm } from "@/components/travel-form/TravelForm";
 import { QRCodeCard } from "./components/QRCodeCard";
 import { QRCodeGrid } from "./components/QRCodeGrid";
+import { UmamiNotice } from "./components/UmamiNotice";
+import { UmamiScript } from "./components/UmamiScript";
 import { usePrintHandler } from "./hooks/usePrintHandler";
 
 function App() {
   // Utiliser le hook pour gérer l'impression via Ctrl+P
   usePrintHandler();
-  
+
   return (
     <div className="min-h-svh bg-gray-50 py-8 px-4">
+      {/* Script Umami Analytics */}
+      <UmamiScript />
       {/* Overlay avec effet de flou pour l'impression */}
       <div id="print-overlay" className="print-overlay"></div>
       <header className="max-w-5xl mx-auto mb-8 text-center">
@@ -43,9 +47,10 @@ function App() {
       </main>
 
       <footer className="max-w-5xl mx-auto mt-12 text-center text-sm text-gray-500">
+        <UmamiNotice />
         <p>
-          © TravelTag - Fonctionne 100% en local, aucune donnée n'est envoyée
-          sur Internet.
+          © TravelTag - Fonctionne 100% en local, aucune donnée personnelle
+          n'est envoyée sur Internet.
         </p>
       </footer>
     </div>
