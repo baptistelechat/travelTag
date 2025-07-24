@@ -3,8 +3,9 @@ import { analytics } from "@/lib/analytics";
 import { useTravelTagStore } from "@/lib/store";
 import { hasData } from "@/lib/utils/travel-utils";
 import { toPng } from "html-to-image";
-import { Download, Minus, Plus, Printer } from "lucide-react";
+import { Download, Minus, Plus, Printer, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export function DownloadButtons() {
   const { travelInfo, gridConfig, setGridConfig } = useTravelTagStore();
@@ -228,6 +229,14 @@ export function DownloadButtons() {
             </div>
           </div>
         </div>
+        
+        {/* Alerte de responsabilité */}
+        <Alert className="mt-2">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription className="text-xs">
+            <strong>Responsabilité :</strong> Vous partagez des données personnelles qui peuvent être lues par un grand nombre de personnes. Vous êtes le seul responsable des données que vous partagez.
+          </AlertDescription>
+        </Alert>
       </div>
     </div>
   );
