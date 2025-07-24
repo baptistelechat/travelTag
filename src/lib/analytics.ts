@@ -6,7 +6,8 @@ const umamiSrc = import.meta.env.VITE_UMAMI_SRC;
 export const getUmamiConfig = () => ({
   websiteId: umamiWebsiteId,
   src: umamiSrc,
-  isEnabled: (import.meta.env.PROD || import.meta.env.VITE_DEBUG) && !!umamiWebsiteId && !!umamiSrc
+  isEnabled: (import.meta.env.PROD || import.meta.env.VITE_DEBUG) && !!umamiWebsiteId && !!umamiSrc,
+  hasConsent: hasUserConsent()
 });
 
 // Fonction pour vérifier si Umami est activé (rétrocompatibilité)
@@ -14,10 +15,18 @@ export const isUmamiEnabled = (): boolean => {
   return getUmamiConfig().isEnabled;
 };
 
+// Vérifier le consentement utilisateur
+const hasUserConsent = (): boolean => {
+  if (typeof window === "undefined") return false;
+  const consent = localStorage.getItem("umami-consent");
+  return consent === "accepted";
+};
+
 // Vérifier si Umami est configuré et prêt à être utilisé
 const isUmamiReady = () => {
   return (
     isUmamiEnabled() &&
+    hasUserConsent() &&
     typeof window !== "undefined" &&
     window.umami
   );

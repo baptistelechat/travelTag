@@ -1,7 +1,39 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUmamiConfig } from "../lib/analytics";
 
 export const UmamiScript = () => {
+  const [consentStatus, setConsentStatus] = useState<string | null>(null);
+
+  // Écouter les changements de consentement
+  useEffect(() => {
+    const checkConsent = () => {
+      const consent = localStorage.getItem("umami-consent");
+      setConsentStatus(consent);
+    };
+
+    // Vérifier le consentement initial
+    checkConsent();
+
+    // Écouter les changements dans le localStorage
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "umami-consent") {
+        checkConsent();
+      }
+    };
+
+    // Écouter l'événement personnalisé de changement de consentement
+    const handleConsentChange = () => {
+      checkConsent();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("umami-consent-changed", handleConsentChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("umami-consent-changed", handleConsentChange);
+    };
+  }, []);
+
   useEffect(() => {
     const config = getUmamiConfig();
 
@@ -11,10 +43,27 @@ export const UmamiScript = () => {
     //   hasWebsiteId: !!config.websiteId,
     //   hasSrc: !!config.src,
     //   shouldLoad: config.isEnabled,
+    //   hasConsent: config.hasConsent,
     // });
 
-    if (!config.isEnabled) {
-      console.log("[TravelTag] ❌ Umami script not loaded");
+    // Supprimer le script existant s'il y en a un
+    const existingScript = document.querySelector('script[data-website-id]');
+    if (existingScript) {
+      existingScript.remove();
+      console.log("[TravelTag] 🗑️ Existing Umami script removed");
+    }
+
+    // Si le consentement est refusé, supprimer umami du window et arrêter
+    if (consentStatus === "refused") {
+      if (window.umami) {
+        delete window.umami;
+        console.log("[TravelTag] 🚫 Umami tracking disabled - consent refused");
+      }
+      return;
+    }
+
+    if (!config.isEnabled || !config.hasConsent) {
+      console.log("[TravelTag] ❌ Umami script not loaded - missing config or consent");
       return;
     }
 
@@ -47,7 +96,7 @@ export const UmamiScript = () => {
         document.head.removeChild(existingScript);
       }
     };
-  }, []);
+  }, [consentStatus]); // Dépendance sur le statut de consentement
 
   return null; // Ce composant ne rend rien visuellement
 };
