@@ -1,65 +1,65 @@
 # 🧳 TravelTag
 
-TravelTag est une application web permettant de générer des QR codes contenant des informations personnelles à imprimer et coller sur des bagages, sacs à dos, affaires d'enfants, etc. Pensé pour un usage personnel, il vise à devenir un outil public simple, offline et rassurant.
+TravelTag is a web application for generating QR codes containing personal information to print and stick on luggage, backpacks, children's belongings, etc. Designed for personal use, it aims to become a simple, offline, and reassuring public tool.
 
-✨ **Version 1.0** : Application complète avec gestion des transports, informations de santé et contacts de confiance.
+✨ **Version 1.0**: Complete application with transport management, health information, and emergency contacts.
 
-## 🚀 Fonctionnalités
+## 🚀 Features
 
-### 📝 Informations personnelles
-- Nom, prénom et nationalité
-- Adresse postale complète (rue, compléments, code postal, ville, pays)
-- Numéro de téléphone et email
+### 📝 Personal Information
+- First name, last name, and nationality
+- Complete postal address (street, additional info, postal code, city, country)
+- Phone number and email
 
-### 🚗 Transport et voyage
-- Modes de transport multiples (avion, train, voiture, bus, bateau)
-- Aéroports, gares et villes avec autocomplétion
-- Gestion des lieux de départ et d'arrivée
+### 🚗 Transport and Travel
+- Multiple transport modes (plane, train, car, bus, boat)
+- Airports, stations, and cities with autocomplete
+- Departure and arrival location management
 
-### 🏥 Santé et sécurité
-- Groupe sanguin
-- Allergies et informations médicales
-- Contacts de confiance avec nom et téléphone
+### 🏥 Health and Safety
+- Blood type
+- Allergies and medical information
+- Emergency contacts with name and phone
 
-### 💻 Fonctionnalités techniques
-- Génération de QR code en temps réel
-- Export en PNG (format simple ou grille)
-- Application 100% offline - vos données restent sur votre appareil
-- Interface responsive et intuitive
-- Validation complète des formulaires
+### 💻 Technical Features
+- Real-time QR code generation
+- PNG export (simple format or grid)
+- 100% offline application - your data stays on your device
+- Responsive and intuitive interface
+- Complete form validation
 
-## 🔧 Technologies utilisées
+## 🔧 Technologies Used
 
-- **Frontend** : Vite + React 18 + TypeScript
-- **Styling** : Tailwind CSS v4 + shadcn/ui
-- **State Management** : Zustand
-- **Validation** : Zod avec schémas TypeScript
-- **QR Code** : react-qr-code
-- **Export** : html-to-image pour PNG
-- **Data** : Fichiers JSON pour aéroports, gares et pays
-- **Hooks** : Hooks personnalisés pour la logique métier
+- **Frontend**: Vite + React 18 + TypeScript
+- **Styling**: Tailwind CSS v4 + shadcn/ui
+- **State Management**: Zustand
+- **Validation**: Zod with TypeScript schemas
+- **QR Code**: react-qr-code
+- **Export**: html-to-image for PNG
+- **Data**: JSON files for airports, stations, and countries
+- **Hooks**: Custom hooks for business logic
 
-## 🏁 Objectif
+## 🏁 Objective
 
-"Créer mon QR bagage en 1 minute, sans compte et sans pub."
+"Create my luggage QR code in 1 minute, without account and without ads."
 
 ## 📋 Roadmap
 
-Consultez le fichier [ROADMAP.md](./ROADMAP.md) pour découvrir les fonctionnalités prévues pour les prochaines versions.
+Check the [ROADMAP.md](./ROADMAP.md) file to discover the features planned for upcoming versions.
 
-## 🚀 Installation et démarrage
+## 🚀 Installation and Setup
 
 ```bash
-# Installation des dépendances
+# Install dependencies
 pnpm install
 
-# Démarrage du serveur de développement
+# Start development server
 pnpm dev
 
-# Construction pour la production
+# Build for production
 pnpm build
 ```
 
-## 📝 Licence
+## 📝 License
 
-Ce projet est sous licence MIT.
+This project is under MIT license.

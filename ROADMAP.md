@@ -1,144 +1,144 @@
 # 🧳 TravelTag – Roadmap
 
-TravelTag est une application web permettant de générer des QR codes contenant des informations personnelles à imprimer et coller sur des bagages, sacs à dos, affaires d'enfants, etc. Pensé pour un usage personnel, il vise à devenir un outil public simple, offline et rassurant.
+TravelTag is a web application for generating QR codes containing personal information to print and stick on luggage, backpacks, children's belongings, etc. Designed for personal use, it aims to become a simple, offline, and reassuring public tool.
 
 ---
 
-## ✅ Objectif MVP (POC solide)
+## ✅ MVP Objective (Solid POC)
 
-### 1. 🎯 Formulaire d'informations
+### 1. 🎯 Information Form
 
-- ✅ Nom, prénom
-- ✅ Adresse postale complète (rue, compléments, code postal, ville, pays)
-- ✅ Nationalité
-- ✅ Numéro de téléphone
+- ✅ First name, last name
+- ✅ Complete postal address (street, additional info, postal code, city, country)
+- ✅ Nationality
+- ✅ Phone number
 - ✅ Email
-- ✅ Modes de transport multiples (avion, train, voiture, bus, bateau)
-- ✅ Aéroport/gare/station de départ avec autocomplétion
-- ✅ Aéroport/gare/station d'arrivée avec autocomplétion
-- ✅ Groupe sanguin
-- ✅ Allergies et informations médicales
-- ✅ Contacts de confiance (nom + téléphone)
+- ✅ Multiple transport modes (plane, train, car, bus, boat)
+- ✅ Departure airport/station with autocomplete
+- ✅ Arrival airport/station with autocomplete
+- ✅ Blood type
+- ✅ Allergies and medical information
+- ✅ Emergency contacts (name + phone)
 
 ### 2. 🧠 Validation (Zod)
 
-- ✅ Contrôle de typage + valeurs requises
+- ✅ Type checking + required values
 
-### 3. 📦 Génération du QR Code
+### 3. 📦 QR Code Generation
 
-- ✅ QRCode au format texte
-- ✅ Aperçu dynamique
-- Formats exportables :
+- ✅ Text format QR Code
+- ✅ Dynamic preview
+- Exportable formats:
   - ✅ PNG (via `html-to-image`)
-  - PDF (grille ou version simple)
+  - PDF (grid or simple version)
 
 ### 4. 🖨️ Export
 
-- ✅ Mode impression (taille 1)
-- ✅ Grille
-- ✅ Export PNG haute qualité
-- ✅ Styles d'impression optimisés
-- ✅ Nom de l'app en petit footer
+- ✅ Print mode (size 1)
+- ✅ Grid
+- ✅ High-quality PNG export
+- ✅ Optimized print styles
+- ✅ App name in small footer
 
-### 5. ⚙️ Stack technique
+### 5. ⚙️ Technical Stack
 
 - ✅ Vite.js + React 18 + TypeScript
 - ✅ Tailwind CSS v4 + Shadcn/UI
-- ✅ Zustand pour le state management
-- ✅ Zod pour la validation avec schémas TypeScript
-- ✅ `react-qr-code` pour la génération des QR codes
-- ✅ `html-to-image` pour l'export PNG
-- ✅ Hooks personnalisés pour la logique métier
+- ✅ Zustand for state management
+- ✅ Zod for validation with TypeScript schemas
+- ✅ `react-qr-code` for QR code generation
+- ✅ `html-to-image` for PNG export
+- ✅ Custom hooks for business logic
 
-### 6. 🎉 Fonctionnalités bonus
+### 6. 🎉 Bonus Features
 
-- ✅ **Easter egg** : Intégration d'un Easter egg caché 🤫🐣
-- ✅ **Autocomplétion** : Base de données d'aéroports, gares et pays
-- ✅ **Architecture modulaire** : Composants réutilisables et typés
-- ✅ **Validation avancée** : Schémas Zod pour tous les formulaires
-- ✅ **UI/UX optimisée** : Accordéons, notifications toast, responsive design
+- ✅ **Easter egg**: Hidden Easter egg integration 🤫🐣
+- ✅ **Autocomplete**: Database of airports, stations, and countries
+- ✅ **Modular architecture**: Reusable and typed components
+- ✅ **Advanced validation**: Zod schemas for all forms
+- ✅ **Optimized UI/UX**: Accordions, toast notifications, responsive design
 
 ---
 
-## 💡 Idées "next steps" à court/moyen terme
+## 💡 "Next Steps" Ideas for Short/Medium Term
 
-### 🔐 Mode confidentiel
+### 🔐 Confidential Mode
 
-- Masquer certaines infos en clair
-- QR contenant les infos, mais aperçu imprimé limité
+- Hide certain information in plain text
+- QR containing info, but limited printed preview
 
-### 🌍 Multi-langue (FR / EN / ES)
+### 🌍 Multi-language (FR / EN / ES)
 
-- Utilisation à l'international
-- ✅ Normalisation des caractères accentués pour compatibilité internationale
+- International usage
+- ✅ Accented character normalization for international compatibility
 
 ### 📱 PWA / Offline-first
 
-- Tout fonctionne hors ligne
-- Ajout possible à l’écran d’accueil
+- Everything works offline
+- Possible addition to home screen
 
-### 🎨 Personnalisation visuelle
+### 🎨 Visual Customization
 
-- Thèmes (ex : enfant, senior, randonneur)
-- Couleurs du QR, image/logo au centre
-- ⌛Logo et nom de l'utilisateur dans l’aperçu
+- Themes (e.g.: child, senior, hiker)
+- QR colors, image/logo in center
+- ⌛User logo and name in preview
 
-### 🧑‍🍼 Mode enfant
+### 🧑‍🍼 Child Mode
 
-- ✅ Contacts de confiance (parents/tuteurs)
-- ✅ Groupe sanguin
-- ✅ Allergies et informations médicales
-
----
-
-## 🤯 Idées farfelues (mais possibles si le projet décolle)
-
-### ☁️ Synchronisation facultative
-
-- Liens courts (ex : traveltag.app/BP7A)
-- Code QR dynamique (optionnelle)
-- Édition des données après impression
-
-### 📍 QR géolocalisé
-
-- Possibilité de recevoir une position approximative du scan
-- "Dernier scan : Gare de Lyon - Paris"
-
-### 🧠 Mode "fiche santé" autonome
-
-- ✅ Générer une fiche de santé d'urgence
-- ✅ Ajouter ses informations médicales et allergies
-- ✅ Ajouter son groupe sanguin
-- ✅ Contacts de confiance pour urgences médicales
-- ⌛ Ajouter traitement, nom du médecin (à venir)
-
-### 🧳 Impression physique
-
-- Intégration avec un service d'impression (type Stickermule ou Canva)
-- Envoi de planche d'étiquettes à domicile
-
-### 🤝 API publique
-
-- Permettre à des ONG, établissements ou collectivités d’intégrer le service
+- ✅ Emergency contacts (parents/guardians)
+- ✅ Blood type
+- ✅ Allergies and medical information
 
 ---
 
-## 🔓 Licence & publication
+## 🤯 Wild Ideas (but possible if the project takes off)
 
-- Open Source (MIT ou GPL)
-- ✅ Hébergement gratuit (Vercel / Netlify)
-- ✅ Version 1 prévue pour usage perso offline, sans backend
+### ☁️ Optional Synchronization
+
+- Short links (e.g.: traveltag.app/BP7A)
+- Dynamic QR code (optional)
+- Data editing after printing
+
+### 📍 Geolocated QR
+
+- Possibility to receive approximate scan position
+- "Last scan: Gare de Lyon - Paris"
+
+### 🧠 Standalone "Health Card" Mode
+
+- ✅ Generate emergency health card
+- ✅ Add medical information and allergies
+- ✅ Add blood type
+- ✅ Emergency contacts for medical emergencies
+- ⌛ Add treatment, doctor's name (coming soon)
+
+### 🧳 Physical Printing
+
+- Integration with printing service (like Stickermule or Canva)
+- Home delivery of label sheets
+
+### 🤝 Public API
+
+- Allow NGOs, institutions, or communities to integrate the service
 
 ---
 
-## 🏁 Objectif de la V1 : ✅ "Créer mon QR bagage en 1 minute, sans compte et sans pub."
+## 🔓 License & Publication
 
-**🎉 MISSION ACCOMPLIE !** La version 1.0 de TravelTag est maintenant complète avec :
-- ✅ Formulaire complet (transport, santé, contacts)
-- ✅ Génération QR code instantanée
-- ✅ Export PNG haute qualité
-- ✅ Application 100% offline
-- ✅ Interface intuitive et responsive
-- ✅ Easter egg pour les curieux !
+- Open Source (MIT or GPL)
+- ✅ Free hosting (Vercel / Netlify)
+- ✅ Version 1 planned for personal offline use, without backend
 
-**Prochaine étape** : Déploiement public et collecte de retours utilisateurs pour la V2.
+---
+
+## 🏁 V1 Objective: ✅ "Create my luggage QR code in 1 minute, without account and without ads."
+
+**🎉 MISSION ACCOMPLISHED!** TravelTag version 1.0 is now complete with:
+- ✅ Complete form (transport, health, contacts)
+- ✅ Instant QR code generation
+- ✅ High-quality PNG export
+- ✅ 100% offline application
+- ✅ Intuitive and responsive interface
+- ✅ Easter egg for the curious!
+
+**Next step**: Public deployment and user feedback collection for V2.
