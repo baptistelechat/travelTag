@@ -1,6 +1,7 @@
 import { TravelForm } from "@/components/travel-form/TravelForm";
 import { QRCodeCard } from "./components/QRCodeCard";
 import { QRCodeGrid } from "./components/QRCodeGrid";
+import { UmamiScript } from "./components/UmamiScript";
 import { usePrintHandler } from "./hooks/usePrintHandler";
 
 function App() {
@@ -9,6 +10,8 @@ function App() {
   
   return (
     <div className="min-h-svh bg-gray-50 py-8 px-4">
+      {/* Script Umami Analytics */}
+      <UmamiScript />
       {/* Overlay avec effet de flou pour l'impression */}
       <div id="print-overlay" className="print-overlay"></div>
       <header className="max-w-5xl mx-auto mb-8 text-center">

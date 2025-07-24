@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { analytics } from "@/lib/analytics";
 import { useTravelTagStore } from "@/lib/store";
 import { hasData } from "@/lib/utils/travel-utils";
 import { toPng } from "html-to-image";
@@ -50,6 +51,9 @@ export function DownloadButtons() {
           link.download = fileName;
           link.href = dataUrl;
           link.click();
+
+          // Tracker le téléchargement PNG
+          analytics.trackPNGDownload();
         })
         .catch((err) => {
           console.error("Erreur lors de la génération du PNG:", err);
@@ -104,6 +108,10 @@ export function DownloadButtons() {
     // Lancer l'impression après un court délai pour s'assurer que les styles sont appliqués
     setTimeout(() => {
       window.print();
+
+      // Tracker l'impression avec la taille de la grille
+      const gridSize = `${gridConfig.cols}x${gridConfig.rows}`;
+      analytics.trackPrint(gridSize);
 
       // Nettoyer après l'impression
       setTimeout(() => {
