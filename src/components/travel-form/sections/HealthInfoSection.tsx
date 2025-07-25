@@ -17,9 +17,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { useTranslation } from "@/lib/i18n";
 import { Heart } from "lucide-react";
 
 export function HealthInfoSection() {
+  const { t } = useTranslation();
   const { updateTravelInfo } = useTravelTagStore();
   const { form, handleFieldChange } = useTravelFormField();
 
@@ -28,7 +30,7 @@ export function HealthInfoSection() {
       <AccordionTrigger className="flex items-center gap-2">
         <span className="flex items-center gap-2">
           <Heart className="h-4 w-4" />
-          Informations de santé et complémentaires
+          {t('form.health.title')}
         </span>
       </AccordionTrigger>
       <AccordionContent>
@@ -40,7 +42,7 @@ export function HealthInfoSection() {
               name="allergies"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Allergies</FormLabel>
+                  <FormLabel>{t('form.health.allergies')}</FormLabel>
                   <FormControl>
                     <AllergySelector
                       value={field.value || []}
@@ -48,7 +50,7 @@ export function HealthInfoSection() {
                         field.onChange(value);
                         updateTravelInfo({ allergies: value });
                       }}
-                      placeholder="Sélectionner des allergies..."
+                      placeholder={t('form.health.placeholders.allergies')}
                     />
                   </FormControl>
                   <FormMessage />
@@ -63,7 +65,7 @@ export function HealthInfoSection() {
             name="bloodGroup"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Groupe sanguin</FormLabel>
+                <FormLabel>{t('form.health.bloodGroup')}</FormLabel>
                 <FormControl>
                   <BloodGroupSelector
                     value={field.value || ""}
@@ -83,10 +85,10 @@ export function HealthInfoSection() {
             name="healthInfo"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Informations complémentaires</FormLabel>
+                <FormLabel>{t('form.health.healthInfo')}</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Médicaments, conditions médicales, etc."
+                    placeholder={t('form.health.placeholders.healthInfo')}
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);

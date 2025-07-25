@@ -1,13 +1,15 @@
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { analytics } from "@/lib/analytics";
+import { useTranslation } from "@/lib/i18n";
 import { useTravelTagStore } from "@/lib/store";
 import { hasData } from "@/lib/utils/travel-utils";
 import { toPng } from "html-to-image";
-import { Download, Minus, Plus, Printer, AlertTriangle } from "lucide-react";
+import { AlertTriangle, Download, Minus, Plus, Printer } from "lucide-react";
 import { toast } from "sonner";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export function DownloadButtons() {
+  const { t } = useTranslation();
   const { travelInfo, gridConfig, setGridConfig } = useTravelTagStore();
 
   // Fonction pour ajuster le nombre de lignes et colonnes
@@ -58,13 +60,11 @@ export function DownloadButtons() {
         })
         .catch((err) => {
           console.error("Erreur lors de la génération du PNG:", err);
-          alert("Erreur lors de la génération du PNG. Veuillez réessayer.");
+          alert(t("messages.errors.pngGeneration"));
         });
     } else {
       console.error("Élément QRCodeDisplay non trouvé");
-      alert(
-        "Impossible de trouver l'élément à télécharger. Veuillez réessayer."
-      );
+      alert(t("messages.errors.elementNotFound"));
     }
   };
 
@@ -73,7 +73,7 @@ export function DownloadButtons() {
     // Vérifier si le formulaire contient des données
     if (!hasData(travelInfo)) {
       console.log("Formulaire vide, impression annulée");
-      toast.error("Formulaire vide, impression annulée");
+      toast.error(t("messages.errors.emptyForm"));
       return;
     }
 
@@ -156,7 +156,7 @@ export function DownloadButtons() {
           disabled={!hasDataValue}
         >
           <Printer className="mr-2 h-4 w-4" />
-          Imprimer
+          {t("actions.print")}
         </Button>
 
         <Button
@@ -166,7 +166,7 @@ export function DownloadButtons() {
           disabled={!hasDataValue}
         >
           <Download className="mr-2 h-4 w-4" />
-          Télécharger PNG
+          {t("actions.downloadPng")}
         </Button>
       </div>
 
@@ -174,12 +174,12 @@ export function DownloadButtons() {
         {/* Contrôles de configuration de la grille */}
         <div className="flex flex-col gap-2 p-2 border border-dashed rounded-md">
           <div className="text-xs text-gray-500 mb-1">
-            Configuration de la grille d'impression:
+            {t("actions.gridConfig")}
           </div>
 
           {/* Contrôle du nombre de colonnes */}
           <div className="flex items-center justify-between">
-            <span className="text-xs">Colonnes:</span>
+            <span className="text-xs">{t("actions.columns")}</span>
             <div className="flex items-center gap-1">
               <Button
                 variant="outline"
@@ -205,7 +205,7 @@ export function DownloadButtons() {
 
           {/* Contrôle du nombre de lignes */}
           <div className="flex items-center justify-between">
-            <span className="text-xs">Lignes:</span>
+            <span className="text-xs">{t("actions.rows")}</span>
             <div className="flex items-center gap-1">
               <Button
                 variant="outline"
@@ -229,12 +229,14 @@ export function DownloadButtons() {
             </div>
           </div>
         </div>
-        
+
         {/* Alerte de responsabilité */}
         <Alert className="mt-2">
           <AlertTriangle className="h-4 w-4" />
           <AlertDescription className="text-xs">
-            <strong>Responsabilité :</strong> Vous partagez des données personnelles qui peuvent être lues par un grand nombre de personnes. Vous êtes le seul responsable des données que vous partagez.
+            <strong>Responsabilité :</strong> Vous partagez des données
+            personnelles qui peuvent être lues par un grand nombre de personnes.
+            Vous êtes le seul responsable des données que vous partagez.
           </AlertDescription>
         </Alert>
       </div>
