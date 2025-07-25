@@ -32,6 +32,7 @@ export const en: TranslationKeys = {
         city: "Paris",
         email: "example@email.com",
         phone: "06 12 34 56 78",
+        country: "Search for a country...",
       },
     },
 
@@ -99,5 +100,49 @@ export const en: TranslationKeys = {
     title: "Travel Information",
     preview: "QR Code Preview",
     noData: "Fill out the form to see the QR code",
+  },
+  allergies: {
+    categories: {
+      food: "Food",
+      medication: "Medication",
+      environment: "Environment",
+      other: "Other",
+    },
+    items: {
+      // Food allergies
+      peanuts: "Peanuts",
+      nuts: "Tree nuts",
+      gluten: "Gluten",
+      lactose: "Lactose",
+      eggs: "Eggs",
+      fish: "Fish",
+      shellfish: "Shellfish",
+      soy: "Soy",
+      sesame: "Sesame",
+      celery: "Celery",
+      mustard: "Mustard",
+      sulphites: "Sulphites",
+      lupin: "Lupin",
+      molluscs: "Molluscs",
+      // Medication allergies
+      penicillin: "Penicillin",
+      aspirin: "Aspirin",
+      ibuprofen: "Ibuprofen",
+      sulfa: "Sulfa drugs",
+      // Environmental allergies
+      pollen: "Pollen",
+      dust: "Dust mites",
+      mold: "Mold",
+      animal_dander: "Animal dander",
+      insect_stings: "Insect stings",
+      latex: "Latex",
+    },
+    selector: {
+      noAllergyFound: "No allergy found.",
+      addCustom: "Add",
+      alreadySelected: "is already selected",
+      selectedCount: "allergies selected",
+      others: "Others",
+    },
   },
 };

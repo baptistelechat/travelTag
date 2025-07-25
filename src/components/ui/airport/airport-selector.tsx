@@ -197,7 +197,7 @@ export function AirportSelector({
                 }
               }, 0);
             }}
-            placeholder="Rechercher un aéroport..."
+            placeholder={placeholder}
             autoFocus
           />
           <CommandList>

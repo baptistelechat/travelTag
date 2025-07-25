@@ -96,7 +96,7 @@ export function CitySelector({
       <PopoverContent className="p-0" align="start" sideOffset={5}>
         <Command shouldFilter={false}>
           <CommandInput
-            placeholder="Rechercher une ville..."
+            placeholder={placeholder}
             value={searchQuery}
             onValueChange={(value) => {
               setSearchQuery(value);

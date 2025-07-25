@@ -1,4 +1,4 @@
-export type Language = 'fr' | 'en';
+export type Language = "fr" | "en";
 
 export interface TranslationKeys {
   // App
@@ -32,6 +32,7 @@ export interface TranslationKeys {
         city: string;
         email: string;
         phone: string;
+        country: string;
       };
     };
 
@@ -102,6 +103,47 @@ export interface TranslationKeys {
     title: string;
     preview: string;
     noData: string;
+  };
+  allergies: {
+    categories: {
+      food: string;
+      medication: string;
+      environment: string;
+      other: string;
+    };
+    items: {
+      peanuts: string;
+      nuts: string;
+      gluten: string;
+      lactose: string;
+      eggs: string;
+      fish: string;
+      shellfish: string;
+      soy: string;
+      sesame: string;
+      celery: string;
+      mustard: string;
+      sulphites: string;
+      lupin: string;
+      molluscs: string;
+      penicillin: string;
+      aspirin: string;
+      ibuprofen: string;
+      sulfa: string;
+      pollen: string;
+      dust: string;
+      mold: string;
+      animal_dander: string;
+      insect_stings: string;
+      latex: string;
+    };
+    selector: {
+      noAllergyFound: string;
+      addCustom: string;
+      alreadySelected: string;
+      selectedCount: string;
+      others: string;
+    };
   };
 }
 

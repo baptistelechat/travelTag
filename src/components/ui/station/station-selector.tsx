@@ -160,7 +160,7 @@ export function StationSelector({
                 }
               }, 0);
             }}
-            placeholder="Rechercher une gare..."
+            placeholder={placeholder}
             autoFocus
           />
           <CommandList>

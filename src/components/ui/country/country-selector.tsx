@@ -19,6 +19,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useTranslation } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 export type CountryEntry = { label: string; value: Country | undefined };
 
@@ -43,6 +44,7 @@ export const CountrySelector = ({
   buttonClassName,
   showCallingCode = true,
 }: CountrySelectorProps) => {
+  const { t } = useTranslation();
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
   const [searchValue, setSearchValue] = React.useState("");
   const [isOpen, setIsOpen] = React.useState(false);
@@ -90,7 +92,7 @@ export const CountrySelector = ({
                 }
               }, 0);
             }}
-            placeholder="Rechercher un pays..."
+            placeholder={t("form.personal.placeholders.country")}
           />
           <CommandList>
             <ScrollArea ref={scrollAreaRef} className="h-72">

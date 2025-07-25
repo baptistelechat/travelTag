@@ -1,3 +1,4 @@
+import { useTranslation } from "@/lib/i18n";
 import { z } from "zod";
 
 // Schéma pour les allergies
@@ -13,7 +14,94 @@ export type Allergy = z.infer<typeof AllergySchema>;
 // Stockage local pour les allergies personnalisées
 const customAllergies: Allergy[] = [];
 
-// Liste des allergies courantes
+// IDs des allergies courantes
+const allergyIds = [
+  // Allergies alimentaires
+  "peanuts",
+  "nuts",
+  "gluten",
+  "lactose",
+  "eggs",
+  "fish",
+  "shellfish",
+  "soy",
+  "sesame",
+  "celery",
+  "mustard",
+  "sulphites",
+  "lupin",
+  "molluscs",
+  // Allergies médicamenteuses
+  "penicillin",
+  "aspirin",
+  "ibuprofen",
+  "sulfa",
+  // Allergies environnementales
+  "pollen",
+  "dust",
+  "mold",
+  "animal_dander",
+  "insect_stings",
+  "latex",
+] as const;
+
+// Mapping des catégories
+const categoryMapping: Record<string, "food" | "medication" | "environment"> = {
+  peanuts: "food",
+  nuts: "food",
+  gluten: "food",
+  lactose: "food",
+  eggs: "food",
+  fish: "food",
+  shellfish: "food",
+  soy: "food",
+  sesame: "food",
+  celery: "food",
+  mustard: "food",
+  sulphites: "food",
+  lupin: "food",
+  molluscs: "food",
+  penicillin: "medication",
+  aspirin: "medication",
+  ibuprofen: "medication",
+  sulfa: "medication",
+  pollen: "environment",
+  dust: "environment",
+  mold: "environment",
+  animal_dander: "environment",
+  insect_stings: "environment",
+  latex: "environment",
+};
+
+/**
+ * Génère la liste des allergies avec traductions
+ */
+export const useAllergies = () => {
+  const { t } = useTranslation();
+
+  return allergyIds.map((id) => ({
+    id,
+    name: t(`allergies.items.${id}` as any),
+    category: t(`allergies.categories.${categoryMapping[id]}` as any),
+  }));
+};
+
+/**
+ * Génère la liste des allergies populaires avec traductions
+ */
+export const usePopularAllergies = () => {
+  const { t } = useTranslation();
+
+  return popularAllergyIds
+    .map((id) => ({
+      id,
+      name: t(`allergies.items.${id}` as any),
+      category: t(`allergies.categories.${categoryMapping[id]}` as any),
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+};
+
+// Liste statique pour la compatibilité (sera dépréciée)
 export const allergies: Allergy[] = [
   // Allergies alimentaires
   { id: "peanuts", name: "Arachides", category: "Alimentaire" },
@@ -50,26 +138,22 @@ export const allergies: Allergy[] = [
   { id: "latex", name: "Latex", category: "Environnement" },
 ];
 
-// Allergies populaires à afficher par défaut (incluant des exemples de chaque catégorie)
+// IDs des allergies populaires
+const popularAllergyIds = [
+  "peanuts",
+  "nuts",
+  "gluten",
+  "lactose", // Alimentaires
+  "penicillin",
+  "aspirin", // Médicamenteuses
+  "pollen",
+  "dust",
+  "latex", // Environnementales
+];
+
+// Liste statique pour la compatibilité (sera dépréciée)
 export const popularAllergies = allergies
-  .filter((allergy) =>
-    [
-      // Allergies alimentaires populaires
-      "peanuts",
-      "nuts",
-      "gluten",
-      "lactose",
-
-      // Allergies médicamenteuses populaires
-      "penicillin",
-      "aspirin",
-
-      // Allergies environnementales populaires
-      "pollen",
-      "dust",
-      "latex",
-    ].includes(allergy.id)
-  )
+  .filter((allergy) => popularAllergyIds.includes(allergy.id))
   .sort((a, b) => a.name.localeCompare(b.name));
 
 /**
@@ -108,17 +192,18 @@ export function getAllergyById(id: string): Allergy | undefined {
 /**
  * Crée une nouvelle allergie personnalisée
  */
-export function createCustomAllergy(name: string): Allergy {
+export function createCustomAllergy(
+  name: string,
+  t?: (key: string) => string
+): Allergy {
   // Générer un ID unique basé sur le nom et un timestamp
   const id = `custom_${name.toLowerCase().replace(/\s+/g, "_")}_${Date.now()}`;
 
   // Créer la nouvelle allergie avec la catégorie "Autre"
-  // Assurer que la première lettre n'est pas forcée en majuscule
   const newAllergy: Allergy = {
     id,
-    name: name.trim().slice(0, 1).toUpperCase() + name.trim().slice(1), // Utiliser le nom tel quel, sans modifier la casse
-
-    category: "Autre",
+    name: name.trim().slice(0, 1).toUpperCase() + name.trim().slice(1),
+    category: t ? t("allergies.categories.other") : "Autre",
     isCustom: true,
   };
 
