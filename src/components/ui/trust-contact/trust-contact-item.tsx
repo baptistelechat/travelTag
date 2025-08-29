@@ -14,6 +14,7 @@ import { Trash2 } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { type Value as PhoneInputValue } from "react-phone-number-input";
 import { useTranslation } from "@/lib/i18n/useTranslation";
+import { useDefaultCountry } from "@/hooks/useDefaultCountry";
 
 interface TrustContactItemProps {
   contact: TrustContact;
@@ -29,6 +30,7 @@ export function TrustContactItem({
 }: TrustContactItemProps) {
   const form = useFormContext();
   const { t } = useTranslation();
+  const defaultCountry = useDefaultCountry();
 
   const handleChange = (field: keyof TrustContact, value: string) => {
     onUpdate(index, { [field]: value });
@@ -90,7 +92,7 @@ export function TrustContactItem({
             <FormControl>
               <PhoneInput
                 placeholder={t("form.trustContacts.placeholders.phone")}
-                defaultCountry="FR"
+                defaultCountry={defaultCountry}
                 international={false}
                 value={field.value as PhoneInputValue}
                 onChange={(value) => {

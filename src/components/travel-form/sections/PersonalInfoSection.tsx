@@ -1,5 +1,7 @@
+import { useDefaultCountry } from "@/hooks/useDefaultCountry";
 import { useTravelFormField } from "@/hooks/useTravelFormField";
 import { AccordionValueEnum } from "@/lib/types/accordion-value.enum";
+import * as React from "react";
 import type {
   Country,
   Value as PhoneInputValue,
@@ -10,7 +12,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useTranslation } from "@/lib/i18n";
 import { CountrySelect } from "@/components/ui/country/country-select";
 import {
   FormControl,
@@ -22,11 +23,29 @@ import {
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
+import { useTranslation } from "@/lib/i18n";
 import { FileText } from "lucide-react";
 
 export function PersonalInfoSection() {
   const { t } = useTranslation();
   const { form, handleFieldChange } = useTravelFormField();
+  const defaultCountry = useDefaultCountry();
+
+  // Réinitialiser les champs de pays quand la langue change
+  React.useEffect(() => {
+    // Réinitialiser la nationalité si elle n'a pas été modifiée manuellement
+    if (
+      !form.getValues("nationality") ||
+      form.getValues("nationality") === "FR"
+    ) {
+      form.setValue("nationality", defaultCountry);
+    }
+
+    // Réinitialiser le pays de l'adresse si il n'a pas été modifié manuellement
+    if (!form.getValues("country") || form.getValues("country") === "FR") {
+      form.setValue("country", defaultCountry);
+    }
+  }, [defaultCountry, form]);
 
   return (
     <AccordionItem value={AccordionValueEnum.PERSONAL_INFO}>
@@ -89,13 +108,13 @@ export function PersonalInfoSection() {
                 <FormLabel>{t("form.personal.nationality")}</FormLabel>
                 <FormControl>
                   <CountrySelect
-                    defaultCountry="FR"
+                    defaultCountry={defaultCountry}
                     value={field.value as Country}
                     onChange={(value) => {
                       field.onChange(value);
                       handleFieldChange(
                         "nationality",
-                        value?.toString() || "FR"
+                        value?.toString() || defaultCountry
                       );
                     }}
                   />
@@ -207,11 +226,14 @@ export function PersonalInfoSection() {
                 <FormLabel>{t("form.personal.country")}</FormLabel>
                 <FormControl>
                   <CountrySelect
-                    defaultCountry="FR"
+                    defaultCountry={defaultCountry}
                     value={field.value as Country}
                     onChange={(value) => {
                       field.onChange(value);
-                      handleFieldChange("country", value?.toString() || "FR");
+                      handleFieldChange(
+                        "country",
+                        value?.toString() || defaultCountry
+                      );
                     }}
                   />
                 </FormControl>
@@ -231,7 +253,7 @@ export function PersonalInfoSection() {
                 <FormControl>
                   <PhoneInput
                     placeholder={t("form.personal.placeholders.phone")}
-                    defaultCountry="FR"
+                    defaultCountry={defaultCountry}
                     international={false}
                     value={field.value as PhoneInputValue}
                     onChange={(value) => {

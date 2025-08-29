@@ -26,6 +26,13 @@ const CountrySelect: React.ForwardRefExoticComponent<CountrySelectProps> =
         }
       }, [value]);
 
+      // Mettre à jour le pays sélectionné quand defaultCountry change
+      React.useEffect(() => {
+        if (!value && defaultCountry) {
+          setSelectedCountry(defaultCountry);
+        }
+      }, [defaultCountry, value]);
+
       const handleCountryChange = (country: Country) => {
         setSelectedCountry(country);
         onChange?.(country);
