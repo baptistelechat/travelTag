@@ -11,7 +11,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { CountrySelectOption } from "@/components/ui/country/country-select-option";
-import { getCountryName } from "@/components/ui/country/country-utils";
+import { useCountryName } from "@/components/ui/country/country-utils";
 import FlagComponent from "@/components/ui/flag-component";
 import {
   Popover,
@@ -61,10 +61,10 @@ export const CountrySelector = ({
           <div className="flex items-center gap-2">
             <FlagComponent
               country={selectedCountry}
-              countryName={getCountryName(selectedCountry)}
+              countryName={useCountryName(selectedCountry)}
             />
             {showCallingCode && (
-              <span className="text-sm">{getCountryName(selectedCountry)}</span>
+              <span className="text-sm">{useCountryName(selectedCountry)}</span>
             )}
           </div>
           <ChevronsUpDown
