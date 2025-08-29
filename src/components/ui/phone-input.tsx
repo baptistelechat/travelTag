@@ -1,22 +1,18 @@
+import { useLanguage } from "@/lib/i18n";
 import * as React from "react";
 import * as RPNInput from "react-phone-number-input";
-import { useLanguage } from "@/lib/i18n";
-import { getCountryName } from "./country/country-utils";
 
 // Import des fichiers de localisation pour toutes les langues supportées
-import fr from "react-phone-number-input/locale/fr.json";
-import en from "react-phone-number-input/locale/en.json";
-import zh from "react-phone-number-input/locale/zh.json";
-import ja from "react-phone-number-input/locale/ja.json";
-import it from "react-phone-number-input/locale/it.json";
-import es from "react-phone-number-input/locale/es.json";
-import pt from "react-phone-number-input/locale/pt.json";
 import ar from "react-phone-number-input/locale/ar.json";
 import de from "react-phone-number-input/locale/de.json";
+import en from "react-phone-number-input/locale/en.json";
+import es from "react-phone-number-input/locale/es.json";
+import fr from "react-phone-number-input/locale/fr.json";
+import it from "react-phone-number-input/locale/it.json";
+import ja from "react-phone-number-input/locale/ja.json";
+import pt from "react-phone-number-input/locale/pt.json";
 import ru from "react-phone-number-input/locale/ru.json";
-
-import type { Language } from "@/lib/i18n/types";
-
+import zh from "react-phone-number-input/locale/zh.json";
 // Mapping des langues vers les fichiers de localisation
 const localeMap = {
   fr,
@@ -35,7 +31,6 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { type CountryEntry, CountrySelector } from "./country/country-selector";
 import { FlagAdapter } from "./flag-component";
-
 type PhoneInputProps = Omit<
   React.ComponentProps<"input">,
   "onChange" | "value" | "ref"
