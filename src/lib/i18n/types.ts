@@ -1,4 +1,4 @@
-export type Language = "fr" | "en";
+export type Language = "fr" | "en" | "zh" | "ja" | "it" | "es" | "pt" | "ar" | "de" | "ru";
 
 export interface TranslationKeys {
   // App
