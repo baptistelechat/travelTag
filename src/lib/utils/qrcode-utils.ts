@@ -1,5 +1,6 @@
 import { getCountryName } from "@/components/ui/country/country-utils";
 import type { Country } from "react-phone-number-input";
+import type { Language } from "@/lib/i18n/types";
 import { getAirportByIATA } from "../data/airports";
 import { getAllergyById } from "../data/allergies";
 import { getBloodGroupById } from "../data/blood-groups";
@@ -18,7 +19,7 @@ import { hasData } from "./travel-utils";
  * 
  * Easter egg : Si le formulaire est vide, retourne l'URL du Rickroll 🎵
  */
-export function formatQRCodeData(travelInfo: TravelInfo): string[] {
+export function formatQRCodeData(travelInfo: TravelInfo, language: Language = 'fr'): string[] {
   // Easter egg : Si aucune donnée n'est saisie, rediriger vers le Rickroll 🎵
   if (!hasData(travelInfo)) {
     return ["https://www.youtube.com/watch?v=dQw4w9WgXcQ"];
@@ -31,7 +32,7 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
     `Nationalite : ${
       travelInfo.nationality
         ? `${normalizeString(
-            getCountryName(travelInfo.nationality as Country)
+            getCountryName(travelInfo.nationality as Country, language)
           )} (${travelInfo.nationality})`
         : "-"
     }`,
@@ -59,7 +60,7 @@ export function formatQRCodeData(travelInfo: TravelInfo): string[] {
     }
     if (travelInfo.country && travelInfo.country !== travelInfo.nationality) {
       addressParts.push(
-        normalizeString(getCountryName(travelInfo.country as Country))
+        normalizeString(getCountryName(travelInfo.country as Country, language))
       );
     }
     qrCodeData.push(`Adresse : ${addressParts.join(", ") || "-"}`);

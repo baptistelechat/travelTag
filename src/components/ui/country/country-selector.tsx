@@ -11,7 +11,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { CountrySelectOption } from "@/components/ui/country/country-select-option";
-import { getCountryName } from "@/components/ui/country/country-utils";
+import { useCountryName } from "@/components/ui/country/country-utils";
 import FlagComponent from "@/components/ui/flag-component";
 import {
   Popover,
@@ -19,6 +19,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useTranslation } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 export type CountryEntry = { label: string; value: Country | undefined };
 
@@ -43,6 +44,7 @@ export const CountrySelector = ({
   buttonClassName,
   showCallingCode = true,
 }: CountrySelectorProps) => {
+  const { t } = useTranslation();
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
   const [searchValue, setSearchValue] = React.useState("");
   const [isOpen, setIsOpen] = React.useState(false);
@@ -59,10 +61,10 @@ export const CountrySelector = ({
           <div className="flex items-center gap-2">
             <FlagComponent
               country={selectedCountry}
-              countryName={getCountryName(selectedCountry)}
+              countryName={useCountryName(selectedCountry)}
             />
             {showCallingCode && (
-              <span className="text-sm">{getCountryName(selectedCountry)}</span>
+              <span className="text-sm">{useCountryName(selectedCountry)}</span>
             )}
           </div>
           <ChevronsUpDown
@@ -90,11 +92,11 @@ export const CountrySelector = ({
                 }
               }, 0);
             }}
-            placeholder="Rechercher un pays..."
+            placeholder={t("form.personal.placeholders.country")}
           />
           <CommandList>
             <ScrollArea ref={scrollAreaRef} className="h-72">
-              <CommandEmpty>Aucun pays trouvé.</CommandEmpty>
+              <CommandEmpty>{t("common.noCountryFound")}</CommandEmpty>
               <CommandGroup>
                 {countryList.map(({ value, label }) =>
                   value ? (

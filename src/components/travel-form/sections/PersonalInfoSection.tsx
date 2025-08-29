@@ -1,5 +1,7 @@
+import { useDefaultCountry } from "@/hooks/useDefaultCountry";
 import { useTravelFormField } from "@/hooks/useTravelFormField";
 import { AccordionValueEnum } from "@/lib/types/accordion-value.enum";
+import * as React from "react";
 import type {
   Country,
   Value as PhoneInputValue,
@@ -21,17 +23,36 @@ import {
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
+import { useTranslation } from "@/lib/i18n";
 import { FileText } from "lucide-react";
 
 export function PersonalInfoSection() {
+  const { t } = useTranslation();
   const { form, handleFieldChange } = useTravelFormField();
+  const defaultCountry = useDefaultCountry();
+
+  // Réinitialiser les champs de pays quand la langue change
+  React.useEffect(() => {
+    // Réinitialiser la nationalité si elle n'a pas été modifiée manuellement
+    if (
+      !form.getValues("nationality") ||
+      form.getValues("nationality") === "FR"
+    ) {
+      form.setValue("nationality", defaultCountry);
+    }
+
+    // Réinitialiser le pays de l'adresse si il n'a pas été modifié manuellement
+    if (!form.getValues("country") || form.getValues("country") === "FR") {
+      form.setValue("country", defaultCountry);
+    }
+  }, [defaultCountry, form]);
 
   return (
     <AccordionItem value={AccordionValueEnum.PERSONAL_INFO}>
       <AccordionTrigger className="flex items-center gap-2">
         <span className="flex items-center gap-2">
           <FileText className="h-4 w-4" />
-          Informations personnelles
+          {t("form.personal.title")}
         </span>
       </AccordionTrigger>
       <AccordionContent>
@@ -42,10 +63,10 @@ export function PersonalInfoSection() {
               name="firstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Prénom</FormLabel>
+                  <FormLabel>{t("form.personal.firstName")}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Prénom"
+                      placeholder={t("form.personal.placeholders.firstName")}
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
@@ -62,10 +83,10 @@ export function PersonalInfoSection() {
               name="lastName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nom</FormLabel>
+                  <FormLabel>{t("form.personal.lastName")}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Nom"
+                      placeholder={t("form.personal.placeholders.lastName")}
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
@@ -84,16 +105,16 @@ export function PersonalInfoSection() {
             name="nationality"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nationalité</FormLabel>
+                <FormLabel>{t("form.personal.nationality")}</FormLabel>
                 <FormControl>
                   <CountrySelect
-                    defaultCountry="FR"
+                    defaultCountry={defaultCountry}
                     value={field.value as Country}
                     onChange={(value) => {
                       field.onChange(value);
                       handleFieldChange(
                         "nationality",
-                        value?.toString() || "FR"
+                        value?.toString() || defaultCountry
                       );
                     }}
                   />
@@ -107,7 +128,9 @@ export function PersonalInfoSection() {
 
           {/* Adresse postale */}
           <div className="pt-2 pb-1">
-            <h3 className="text-sm font-medium">Adresse postale</h3>
+            <h3 className="text-sm font-medium">
+              {t("form.personal.postalAddress")}
+            </h3>
           </div>
 
           <FormField
@@ -115,10 +138,10 @@ export function PersonalInfoSection() {
             name="street"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Rue</FormLabel>
+                <FormLabel>{t("form.personal.street")}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="123 rue de la Paix"
+                    placeholder={t("form.personal.placeholders.street")}
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);
@@ -136,10 +159,10 @@ export function PersonalInfoSection() {
             name="addressDetails"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Compléments d'adresse</FormLabel>
+                <FormLabel>{t("form.personal.addressDetails")}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Bâtiment A, Étage 3, Appartement 42"
+                    placeholder={t("form.personal.placeholders.addressDetails")}
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);
@@ -158,10 +181,10 @@ export function PersonalInfoSection() {
               name="postalCode"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Code postal</FormLabel>
+                  <FormLabel>{t("form.personal.postalCode")}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="75000"
+                      placeholder={t("form.personal.placeholders.postalCode")}
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
@@ -178,10 +201,10 @@ export function PersonalInfoSection() {
               name="city"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Ville</FormLabel>
+                  <FormLabel>{t("form.personal.city")}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Paris"
+                      placeholder={t("form.personal.placeholders.city")}
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
@@ -200,14 +223,17 @@ export function PersonalInfoSection() {
             name="country"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Pays</FormLabel>
+                <FormLabel>{t("form.personal.country")}</FormLabel>
                 <FormControl>
                   <CountrySelect
-                    defaultCountry="FR"
+                    defaultCountry={defaultCountry}
                     value={field.value as Country}
                     onChange={(value) => {
                       field.onChange(value);
-                      handleFieldChange("country", value?.toString() || "FR");
+                      handleFieldChange(
+                        "country",
+                        value?.toString() || defaultCountry
+                      );
                     }}
                   />
                 </FormControl>
@@ -223,11 +249,11 @@ export function PersonalInfoSection() {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Téléphone</FormLabel>
+                <FormLabel>{t("form.personal.phone")}</FormLabel>
                 <FormControl>
                   <PhoneInput
-                    placeholder="06 12 34 56 78"
-                    defaultCountry="FR"
+                    placeholder={t("form.personal.placeholders.phone")}
+                    defaultCountry={defaultCountry}
                     international={false}
                     value={field.value as PhoneInputValue}
                     onChange={(value) => {
@@ -246,11 +272,11 @@ export function PersonalInfoSection() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t("form.personal.email")}</FormLabel>
                 <FormControl>
                   <Input
                     type="email"
-                    placeholder="exemple@email.com"
+                    placeholder={t("form.personal.placeholders.email")}
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);

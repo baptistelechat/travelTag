@@ -20,10 +20,11 @@ import {
   allergyExistsByName,
   createCustomAllergy,
   getAllergyById,
-  popularAllergies,
   searchAllergies,
+  usePopularAllergies,
   type Allergy,
 } from "@/lib/data/allergies";
+import { useTranslation } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { Badge } from "../badge";
 export interface AllergySelectorProps {
@@ -104,12 +105,19 @@ function AllergyItem({ allergy, isSelected, onSelect }: AllergyItemProps) {
 export function AllergySelector({
   value = [],
   onChange,
-  placeholder = "Sélectionner des allergies...",
+  placeholder,
   disabled,
 }: AllergySelectorProps) {
+  const { t } = useTranslation();
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
   const [searchValue, setSearchValue] = React.useState("");
   const [isOpen, setIsOpen] = React.useState(false);
+
+  // Utiliser les hooks pour obtenir les allergies traduites
+  const popularAllergies = usePopularAllergies();
+
+  // Placeholder par défaut traduit
+  const defaultPlaceholder = placeholder || t("allergies.selector.placeholder");
 
   // Liste des allergies à afficher
   const filteredAllergies = React.useMemo(() => {
@@ -119,7 +127,7 @@ export function AllergySelector({
     }
 
     return searchAllergies(searchValue);
-  }, [searchValue, isOpen]);
+  }, [searchValue, isOpen, popularAllergies]);
 
   // Vérifier si la valeur recherchée existe déjà comme allergie
   const existingAllergy = React.useMemo(() => {
@@ -156,7 +164,7 @@ export function AllergySelector({
       }
     } else {
       // Créer une nouvelle allergie
-      const newAllergy = createCustomAllergy(searchValue.trim());
+      const newAllergy = createCustomAllergy(searchValue.trim(), t);
       onChange([...value, newAllergy.id]);
     }
 
@@ -178,15 +186,20 @@ export function AllergySelector({
   };
 
   // Fonction pour afficher un groupe d'allergies par catégorie
-  const renderAllergyGroup = (category: string | null) => {
+  const renderAllergyGroup = (categoryKey: string | null) => {
+    const categoryName = categoryKey
+      ? t(`allergies.categories.${categoryKey}` as any)
+      : t("allergies.selector.others");
     const allergiesInCategory = filteredAllergies.filter((allergy) =>
-      category === null ? !allergy.category : allergy.category === category
+      categoryKey === null
+        ? !allergy.category
+        : allergy.category === categoryName
     );
 
     if (allergiesInCategory.length === 0) return null;
 
     return (
-      <CommandGroup heading={category || "Autres"}>
+      <CommandGroup heading={categoryName}>
         {allergiesInCategory.map((allergy) => (
           <AllergyItem
             key={allergy.id}
@@ -209,10 +222,10 @@ export function AllergySelector({
       .toUpperCase()}${searchValue.slice(1)}`;
 
     if (existingAllergy && value.includes(existingAllergy.id)) {
-      return `"${formattedName}" est déjà sélectionné`;
+      return `"${formattedName}" ${t("allergies.selector.alreadySelected")}`;
     }
 
-    return `Ajouter "${formattedName}"`;
+    return `${t("allergies.selector.addCustom")} "${formattedName}"`;
   };
 
   return (
@@ -239,12 +252,13 @@ export function AllergySelector({
                 ) : (
                   // Afficher le nombre d'allergies sélectionnées si nombreuses
                   <span>
-                    {selectedAllergies.length} allergies sélectionnées
+                    {selectedAllergies.length}{" "}
+                    {t("allergies.selector.selectedCount")}
                   </span>
                 )}
               </div>
             ) : (
-              placeholder
+              defaultPlaceholder
             )}
             <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -279,7 +293,7 @@ export function AllergySelector({
                   }
                 }
               }}
-              placeholder="Rechercher une allergie..."
+              placeholder={defaultPlaceholder}
               className="h-9"
               autoFocus
             />
@@ -288,7 +302,7 @@ export function AllergySelector({
                 <CommandEmpty>
                   {searchValue && searchValue.trim() !== "" ? (
                     <div className="py-3 px-2 text-center text-sm">
-                      Aucune allergie trouvée.
+                      {t("allergies.selector.noAllergyFound")}
                       <Button
                         onClick={handleAddCustomAllergy}
                         disabled={
@@ -302,16 +316,16 @@ export function AllergySelector({
                       </Button>
                     </div>
                   ) : (
-                    "Aucune allergie trouvée."
+                    t("allergies.selector.noAllergyFound")
                   )}
                 </CommandEmpty>
 
                 {/* Regrouper les allergies par catégorie */}
                 {filteredAllergies.length > 0 && (
                   <>
-                    {renderAllergyGroup("Alimentaire")}
-                    {renderAllergyGroup("Médicament")}
-                    {renderAllergyGroup("Environnement")}
+                    {renderAllergyGroup("food")}
+                    {renderAllergyGroup("medication")}
+                    {renderAllergyGroup("environment")}
                     {renderAllergyGroup(null)}
                   </>
                 )}

@@ -6,15 +6,17 @@ import { useTravelTagStore } from "@/lib/store";
 import { TransportModeEnum } from "@/lib/types/transport-mode.enum";
 import { formatQRCodeData } from "@/lib/utils/qrcode-utils";
 import { useRef } from "react";
+import { useLanguage } from "@/lib/i18n";
 import { type Country } from "react-phone-number-input";
 import QRCode from "react-qr-code";
 
 export function QRCodeDisplay() {
   const { travelInfo } = useTravelTagStore();
+  const { language } = useLanguage();
   const displayRef = useRef<HTMLDivElement>(null);
 
   // Utilisation de la fonction utilitaire pour formater les données du QR code
-  const qrCodeData = formatQRCodeData(travelInfo).filter(Boolean).join("\n");
+  const qrCodeData = formatQRCodeData(travelInfo, language).filter(Boolean).join("\n");
 
   // Informations pour l'affichage visuel (avec drapeaux)
   const qrCodeVisual = (

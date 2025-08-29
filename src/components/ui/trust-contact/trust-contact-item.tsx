@@ -13,6 +13,8 @@ import { type TrustContact } from "@/lib/types/trust-contact.schema";
 import { Trash2 } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { type Value as PhoneInputValue } from "react-phone-number-input";
+import { useTranslation } from "@/lib/i18n/useTranslation";
+import { useDefaultCountry } from "@/hooks/useDefaultCountry";
 
 interface TrustContactItemProps {
   contact: TrustContact;
@@ -27,6 +29,8 @@ export function TrustContactItem({
   onUpdate,
 }: TrustContactItemProps) {
   const form = useFormContext();
+  const { t } = useTranslation();
+  const defaultCountry = useDefaultCountry();
 
   const handleChange = (field: keyof TrustContact, value: string) => {
     onUpdate(index, { [field]: value });
@@ -41,10 +45,10 @@ export function TrustContactItem({
           name={`trustContacts.${index}.firstName`}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Prénom</FormLabel>
+              <FormLabel>{t("form.trustContacts.firstName")}</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Prénom"
+                  placeholder={t("form.trustContacts.placeholders.firstName")}
                   {...field}
                   onChange={(e) => {
                     field.onChange(e);
@@ -62,10 +66,10 @@ export function TrustContactItem({
           name={`trustContacts.${index}.lastName`}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nom</FormLabel>
+              <FormLabel>{t("form.trustContacts.lastName")}</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Nom"
+                  placeholder={t("form.trustContacts.placeholders.lastName")}
                   {...field}
                   onChange={(e) => {
                     field.onChange(e);
@@ -84,11 +88,11 @@ export function TrustContactItem({
         name={`trustContacts.${index}.phone`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Téléphone</FormLabel>
+            <FormLabel>{t("form.trustContacts.phone")}</FormLabel>
             <FormControl>
               <PhoneInput
-                placeholder="06 12 34 56 78"
-                defaultCountry="FR"
+                placeholder={t("form.trustContacts.placeholders.phone")}
+                defaultCountry={defaultCountry}
                 international={false}
                 value={field.value as PhoneInputValue}
                 onChange={(value) => {
@@ -107,7 +111,7 @@ export function TrustContactItem({
         name={`trustContacts.${index}.relationship`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Lien de parenté</FormLabel>
+            <FormLabel>{t("form.trustContacts.relationship")}</FormLabel>
             <FormControl>
               <RelationshipSelector
                 value={field.value}
@@ -130,7 +134,7 @@ export function TrustContactItem({
         onClick={onRemove}
       >
         <Trash2 className="h-4 w-4 mr-2" />
-        Supprimer ce contact
+        {t("form.trustContacts.removeContact")}
       </Button>
     </div>
   );

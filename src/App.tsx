@@ -3,11 +3,16 @@ import { QRCodeCard } from "./components/QRCodeCard";
 import { QRCodeGrid } from "./components/QRCodeGrid";
 import { UmamiNotice } from "./components/UmamiNotice";
 import { UmamiScript } from "./components/UmamiScript";
+import { LanguageSelector } from "@/components/ui/language/LanguageSelector";
+import { useTranslation } from "@/lib/i18n";
 import { usePrintHandler } from "./hooks/usePrintHandler";
 
 function App() {
   // Utiliser le hook pour gérer l'impression via Ctrl+P
   usePrintHandler();
+  
+  // Hook de traduction
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-svh bg-gray-50 py-8 px-4">
@@ -15,12 +20,19 @@ function App() {
       <UmamiScript />
       {/* Overlay avec effet de flou pour l'impression */}
       <div id="print-overlay" className="print-overlay"></div>
-      <header className="max-w-5xl mx-auto mb-8 text-center">
-        <h1 className="text-3xl font-bold mb-2">🧳 TravelTag</h1>
-        <p className="text-gray-600 mx-auto">
-          Générez des QR codes pour vos bagages, sacs à dos, ou affaires
-          d'enfants. Simple, rapide et sécurisé.
-        </p>
+      <header className="max-w-5xl mx-auto mb-8">
+        <div className="flex justify-between items-start mb-4">
+          <div className="flex-1"></div>
+          <div className="text-center flex-1">
+            <h1 className="text-3xl font-bold mb-2">{t('app.title')}</h1>
+            <p className="text-gray-600 mx-auto">
+              {t('app.description')}
+            </p>
+          </div>
+          <div className="flex-1 flex justify-end">
+            <LanguageSelector />
+          </div>
+        </div>
       </header>
 
       <main className="max-w-5xl mx-auto">
@@ -49,8 +61,7 @@ function App() {
       <footer className="max-w-5xl mx-auto mt-12 text-center text-sm text-gray-500">
         <UmamiNotice />
         <p>
-          © TravelTag - Fonctionne 100% en local, aucune donnée personnelle
-          n'est envoyée sur Internet.
+          {t('app.footer')}
         </p>
       </footer>
     </div>

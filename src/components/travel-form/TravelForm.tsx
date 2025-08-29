@@ -8,6 +8,7 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { Accordion } from "@/components/ui/accordion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/lib/i18n";
 import { User } from "lucide-react";
 import { useState } from "react";
 
@@ -19,6 +20,7 @@ import {
 } from "./sections";
 
 export function TravelForm() {
+  const { t } = useTranslation();
   const { travelInfo } = useTravelTagStore();
   const [accordionValue, setAccordionValue] = useState<AccordionValue[]>([
     AccordionValueEnum.PERSONAL_INFO,
@@ -33,7 +35,7 @@ export function TravelForm() {
       <CardHeader>
         <CardTitle className="text-xl font-bold flex items-center gap-2">
           <User className="h-5 w-5" />
-          Informations de voyage
+          {t('qrCode.title')}
         </CardTitle>
       </CardHeader>
       <CardContent>

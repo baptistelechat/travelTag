@@ -15,18 +15,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { TrustContactsList } from "@/components/ui/trust-contact/trust-contacts-list";
+import { useTranslation } from "@/lib/i18n";
 import { User } from "lucide-react";
 
 export function TrustContactsSection() {
   const { updateTravelInfo } = useTravelTagStore();
   const { form } = useTravelFormField();
+  const { t } = useTranslation();
 
   return (
     <AccordionItem value={AccordionValueEnum.TRUST_CONTACTS}>
       <AccordionTrigger className="flex items-center gap-2">
         <span className="flex items-center gap-2">
           <User className="h-4 w-4" />
-          Contacts de confiance
+          {t('form.trustContacts.title')}
         </span>
       </AccordionTrigger>
       <AccordionContent>
@@ -36,7 +38,7 @@ export function TrustContactsSection() {
             name="trustContacts"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Contacts de confiance</FormLabel>
+                <FormLabel>{t('form.trustContacts.title')}</FormLabel>
                 <FormControl>
                   <TrustContactsList
                     contacts={field.value || []}

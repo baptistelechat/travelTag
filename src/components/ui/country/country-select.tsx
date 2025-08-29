@@ -3,6 +3,7 @@ import { getCountries, type Country } from "react-phone-number-input";
 
 import { CountrySelector } from "@/components/ui/country/country-selector";
 import { getCountryName } from "@/components/ui/country/country-utils";
+import { useLanguage } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 type CountrySelectProps = Omit<
   React.ComponentProps<"div">,
@@ -26,18 +27,27 @@ const CountrySelect: React.ForwardRefExoticComponent<CountrySelectProps> =
         }
       }, [value]);
 
+      // Mettre à jour le pays sélectionné quand defaultCountry change
+      React.useEffect(() => {
+        if (!value && defaultCountry) {
+          setSelectedCountry(defaultCountry);
+        }
+      }, [defaultCountry, value]);
+
       const handleCountryChange = (country: Country) => {
         setSelectedCountry(country);
         onChange?.(country);
       };
 
-      // Générer la liste des pays
+      const { language } = useLanguage();
+
+      // Générer la liste des pays avec traduction selon la langue courante
       const countryList = React.useMemo(() => {
         return getCountries().map((country) => ({
           value: country,
-          label: getCountryName(country),
+          label: getCountryName(country, language),
         }));
-      }, []);
+      }, [language]);
 
       return (
         <div ref={ref} className={cn("flex", className)} {...props}>

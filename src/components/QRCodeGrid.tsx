@@ -5,6 +5,7 @@ import FlagComponent from "@/components/ui/flag-component";
 import { useTravelTagStore } from "@/lib/store";
 import { TransportModeEnum } from "@/lib/types/transport-mode.enum";
 import { formatQRCodeData } from "@/lib/utils/qrcode-utils";
+import { useLanguage } from "@/lib/i18n";
 import { type Country } from "react-phone-number-input";
 import QRCode from "react-qr-code";
 
@@ -19,9 +20,10 @@ import QRCode from "react-qr-code";
  */
 export function QRCodeGrid() {
   const { travelInfo, gridConfig } = useTravelTagStore();
+  const { language } = useLanguage();
 
   // Utilisation de la fonction utilitaire pour formater les données du QR code
-  const qrCodeData = formatQRCodeData(travelInfo).filter(Boolean).join("\n");
+  const qrCodeData = formatQRCodeData(travelInfo, language).filter(Boolean).join("\n");
 
   // Créer un tableau de QR codes basé sur la configuration de la grille
   const totalQRCodes = gridConfig.rows * gridConfig.cols;

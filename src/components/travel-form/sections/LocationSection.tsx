@@ -1,4 +1,5 @@
 import { useTravelFormField } from "@/hooks/useTravelFormField";
+import { useTranslation } from "@/lib/i18n";
 import { useTravelTagStore } from "@/lib/store";
 import { AccordionValueEnum } from "@/lib/types/accordion-value.enum";
 import { TransportModeEnum } from "@/lib/types/transport-mode.enum";
@@ -23,6 +24,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Car, Map, Plane, Train } from "lucide-react";
 
 export function LocationSection() {
+  const { t } = useTranslation();
   const { updateTravelInfo } = useTravelTagStore();
   const { form, handleFieldChange } = useTravelFormField();
 
@@ -31,7 +33,7 @@ export function LocationSection() {
       <AccordionTrigger className="flex items-center gap-2">
         <span className="flex items-center gap-2">
           <Map className="h-4 w-4" />
-          Lieux de départ et d'arrivée
+          {t("form.location.title")}
         </span>
       </AccordionTrigger>
       <AccordionContent>
@@ -41,7 +43,7 @@ export function LocationSection() {
             name="transportMode"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Mode de transport</FormLabel>
+                <FormLabel>{t("form.location.transportMode")}</FormLabel>
                 <FormControl>
                   <Tabs
                     value={field.value}
@@ -67,22 +69,26 @@ export function LocationSection() {
                         className="flex items-center gap-2"
                       >
                         <Plane className="h-4 w-4 hidden sm:block" />
-                        Aéroport
+                        {t("form.location.modes.airport")}
                       </TabsTrigger>
                       <TabsTrigger
                         value={TransportModeEnum.TRAIN}
                         className="flex items-center gap-2"
                       >
                         <Train className="h-4 w-4 hidden sm:block" />
-                        Train
+                        {t("form.location.modes.train")}
                       </TabsTrigger>
                       <TabsTrigger
                         value={TransportModeEnum.CAR}
                         className="flex items-center gap-2"
                       >
                         <Car className="h-4 w-4 hidden sm:block" />
-                        <span className="sm:hidden">Route</span>
-                        <span className="hidden sm:inline">Voiture / Bus</span>
+                        <span className="sm:hidden">
+                          {t("form.location.modes.road")}
+                        </span>
+                        <span className="hidden sm:inline">
+                          {t("form.location.modes.carBus")}
+                        </span>
                       </TabsTrigger>
                     </TabsList>
                   </Tabs>
@@ -97,11 +103,13 @@ export function LocationSection() {
             name="departureLocation"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Lieu de départ</FormLabel>
+                <FormLabel>{t("form.location.departureLocation")}</FormLabel>
                 <FormControl>
                   {form.watch("transportMode") === TransportModeEnum.AIRPORT ? (
                     <AirportSelector
-                      placeholder="Rechercher un aéroport de départ..."
+                      placeholder={t(
+                        "form.location.placeholders.departureAirport"
+                      )}
                       value={field.value}
                       onChange={(value) => {
                         field.onChange(value);
@@ -111,7 +119,9 @@ export function LocationSection() {
                   ) : form.watch("transportMode") ===
                     TransportModeEnum.TRAIN ? (
                     <StationSelector
-                      placeholder="Rechercher une gare de départ..."
+                      placeholder={t(
+                        "form.location.placeholders.departureStation"
+                      )}
                       value={field.value}
                       onChange={(value) => {
                         field.onChange(value);
@@ -120,7 +130,9 @@ export function LocationSection() {
                     />
                   ) : (
                     <CitySelector
-                      placeholder="Rechercher une ville de départ..."
+                      placeholder={t(
+                        "form.location.placeholders.departureCity"
+                      )}
                       value={field.value}
                       onChange={(value) => {
                         field.onChange(value);
@@ -139,11 +151,13 @@ export function LocationSection() {
             name="arrivalLocation"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Lieu d'arrivée</FormLabel>
+                <FormLabel>{t("form.location.arrivalLocation")}</FormLabel>
                 <FormControl>
                   {form.watch("transportMode") === TransportModeEnum.AIRPORT ? (
                     <AirportSelector
-                      placeholder="Rechercher un aéroport d'arrivée..."
+                      placeholder={t(
+                        "form.location.placeholders.arrivalAirport"
+                      )}
                       value={field.value}
                       onChange={(value) => {
                         field.onChange(value);
@@ -153,7 +167,9 @@ export function LocationSection() {
                   ) : form.watch("transportMode") ===
                     TransportModeEnum.TRAIN ? (
                     <StationSelector
-                      placeholder="Rechercher une gare d'arrivée..."
+                      placeholder={t(
+                        "form.location.placeholders.arrivalStation"
+                      )}
                       value={field.value}
                       onChange={(value) => {
                         field.onChange(value);
@@ -162,7 +178,7 @@ export function LocationSection() {
                     />
                   ) : (
                     <CitySelector
-                      placeholder="Rechercher une ville d'arrivée..."
+                      placeholder={t("form.location.placeholders.arrivalCity")}
                       value={field.value}
                       onChange={(value) => {
                         field.onChange(value);
@@ -182,7 +198,7 @@ export function LocationSection() {
             render={({ field }) => (
               <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
                 <div>
-                  <FormLabel>Aller-retour ?</FormLabel>
+                  <FormLabel>{t("form.location.isRoundTrip")}</FormLabel>
                 </div>
                 <FormControl>
                   <Switch
