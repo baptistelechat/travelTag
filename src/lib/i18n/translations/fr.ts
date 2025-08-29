@@ -73,6 +73,27 @@ export const fr: TranslationKeys = {
     trustContacts: {
       title: "Contacts de confiance",
       contacts: "Contacts de confiance",
+      noContactsAdded: "Aucun contact de confiance ajouté",
+      addContact: "Ajouter un contact de confiance",
+      firstName: "Prénom",
+      lastName: "Nom",
+      phone: "Téléphone",
+      relationship: "Lien de parenté",
+      removeContact: "Supprimer ce contact",
+      selectRelationship: "Sélectionner une relation",
+      placeholders: {
+        firstName: "Prénom",
+        lastName: "Nom",
+        phone: "06 12 34 56 78",
+      },
+      relationships: {
+        parent: "Parent",
+        child: "Enfant",
+        spouse: "Conjoint(e)",
+        sibling: "Frère/Sœur",
+        friend: "Ami(e)",
+        other: "Autre",
+      },
     },
   },
 
@@ -145,5 +166,11 @@ export const fr: TranslationKeys = {
       selectedCount: "allergies sélectionnées",
       others: "Autres",
     },
+  },
+
+  common: {
+    noCountryFound: "Aucun pays trouvé.",
+    responsibility: "Responsabilité :",
+    responsibilityText: "Vous partagez des données personnelles qui peuvent être lues par un grand nombre de personnes. Vous êtes le seul responsable des données que vous partagez.",
   },
 };

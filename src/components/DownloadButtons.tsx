@@ -234,9 +234,7 @@ export function DownloadButtons() {
         <Alert className="mt-2">
           <AlertTriangle className="h-4 w-4" />
           <AlertDescription className="text-xs">
-            <strong>Responsabilité :</strong> Vous partagez des données
-            personnelles qui peuvent être lues par un grand nombre de personnes.
-            Vous êtes le seul responsable des données que vous partagez.
+            <strong>{t("common.responsibility")}</strong> {t("common.responsibilityText")}
           </AlertDescription>
         </Alert>
       </div>

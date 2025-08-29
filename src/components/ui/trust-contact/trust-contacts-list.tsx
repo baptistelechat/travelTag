@@ -4,6 +4,7 @@ import { type TrustContact } from "@/lib/types/trust-contact.schema";
 import { RelationshipTypeEnum } from "@/lib/types/relationship-type.enum";
 import { PlusCircle } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
+import { useTranslation } from "@/lib/i18n/useTranslation";
 
 interface TrustContactsListProps {
   contacts: TrustContact[];
@@ -14,6 +15,7 @@ export function TrustContactsList({
   contacts,
   onChange,
 }: TrustContactsListProps) {
+  const { t } = useTranslation();
   // Ajouter un nouveau contact
   const addContact = () => {
     const newContact: TrustContact = {
@@ -51,7 +53,7 @@ export function TrustContactsList({
       {contacts.length === 0 ? (
         <div className="text-center p-4 border border-dashed rounded-md">
           <p className="text-muted-foreground">
-            Aucun contact de confiance ajouté
+            {t("form.trustContacts.noContactsAdded")}
           </p>
         </div>
       ) : (
@@ -73,7 +75,7 @@ export function TrustContactsList({
         onClick={addContact}
       >
         <PlusCircle className="mr-2 h-4 w-4" />
-        Ajouter un contact de confiance
+        {t("form.trustContacts.addContact")}
       </Button>
     </div>
   );

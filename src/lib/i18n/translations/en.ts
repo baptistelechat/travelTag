@@ -73,6 +73,27 @@ export const en: TranslationKeys = {
     trustContacts: {
       title: "Emergency Contacts",
       contacts: "Emergency Contacts",
+      noContactsAdded: "No emergency contacts added",
+      addContact: "Add emergency contact",
+      firstName: "First Name",
+      lastName: "Last Name",
+      phone: "Phone",
+      relationship: "Relationship",
+      removeContact: "Remove this contact",
+      selectRelationship: "Select a relationship",
+      placeholders: {
+        firstName: "First Name",
+        lastName: "Last Name",
+        phone: "06 12 34 56 78",
+      },
+      relationships: {
+        parent: "Parent",
+        child: "Child",
+        spouse: "Spouse",
+        sibling: "Sibling",
+        friend: "Friend",
+        other: "Other",
+      },
     },
   },
 
@@ -144,5 +165,11 @@ export const en: TranslationKeys = {
       selectedCount: "allergies selected",
       others: "Others",
     },
+  },
+
+  common: {
+    noCountryFound: "No country found.",
+    responsibility: "Responsibility:",
+    responsibilityText: "You are sharing personal data that can be read by a large number of people. You are solely responsible for the data you share.",
   },
 };

@@ -73,6 +73,27 @@ export interface TranslationKeys {
     trustContacts: {
       title: string;
       contacts: string;
+      noContactsAdded: string;
+      addContact: string;
+      firstName: string;
+      lastName: string;
+      phone: string;
+      relationship: string;
+      removeContact: string;
+      selectRelationship: string;
+      placeholders: {
+        firstName: string;
+        lastName: string;
+        phone: string;
+      };
+      relationships: {
+        parent: string;
+        child: string;
+        spouse: string;
+        sibling: string;
+        friend: string;
+        other: string;
+      };
     };
   };
 
@@ -144,6 +165,13 @@ export interface TranslationKeys {
       selectedCount: string;
       others: string;
     };
+  };
+
+  // Common translations
+  common: {
+    noCountryFound: string;
+    responsibility: string;
+    responsibilityText: string;
   };
 }
 

@@ -96,7 +96,7 @@ export const CountrySelector = ({
           />
           <CommandList>
             <ScrollArea ref={scrollAreaRef} className="h-72">
-              <CommandEmpty>Aucun pays trouvé.</CommandEmpty>
+              <CommandEmpty>{t("common.noCountryFound")}</CommandEmpty>
               <CommandGroup>
                 {countryList.map(({ value, label }) =>
                   value ? (
